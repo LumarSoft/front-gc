@@ -6,6 +6,17 @@
 - Separate logic from rendering: extract business logic into custom hooks
 - No business logic inside a component's JSX — the component should only render
 
+## Size and responsibility
+
+- **One component, one responsibility.** Pages and "view" components only compose smaller pieces.
+- **Around 150 lines is a signal to split**: extract sections into their own components and logic into a hook.
+- **No god components.** If a component holds state for several unrelated things, split it or move the state to a
+  hook that returns exactly what the UI needs (e.g. `useSelectedVariant`).
+- **Extract on the second repetition**: the same JSX block twice (a form field, a card, a breadcrumb) becomes a
+  component. Generic ones go to `src/components/ui/` (`FormField`, `CheckboxField`, `Breadcrumbs`, `PageSection`),
+  domain ones to `src/features/<domain>/components/`.
+- Small private sub-components may live in the same file only when nothing else could reuse them.
+
 ## Server and Client Components
 
 - **Server Components by default.** Add `'use client'` only when the component needs state, effects, event

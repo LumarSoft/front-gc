@@ -1,11 +1,13 @@
 import type { Metadata } from 'next'
-import Link from 'next/link'
 import { notFound } from 'next/navigation'
+import { Breadcrumbs } from '@/src/components/ui/breadcrumbs'
+import { PageSection } from '@/src/components/ui/page-section'
 import { SessionRefresh } from '@/src/features/auth/components/session-refresh'
-import { ProductCard } from '@/src/features/catalog/components/product-card'
+import { ProductGrid } from '@/src/features/catalog/components/product-grid'
+import { CompatibleWithList } from '@/src/features/catalog/components/product/compatible-with-list'
 import { ProductHero } from '@/src/features/catalog/components/product/product-hero'
+import { ProductJsonLd } from '@/src/features/catalog/components/product/product-json-ld'
 import { ProductSpecifications } from '@/src/features/catalog/components/product/product-specifications'
-import { buildProductJsonLd } from '@/src/features/catalog/lib/product-json-ld'
 import { ApiError } from '@/src/lib/api-client'
 import { getProduct } from '@/src/services/catalog.service'
 
@@ -29,86 +31,41 @@ export async function generateMetadata({ params }: PageProps<'/productos/[slug]'
 }
 
 export default async function ProductPage({ params }: PageProps<'/productos/[slug]'>) {
-  const { slug } = await params
-  const { data: product, sessionExpired } = await loadProduct(slug)
-  const jsonLd = buildProductJsonLd(product, `/productos/${product.slug}`)
-  const breadcrumbs = [product.parentCategory, product.category].filter(crumb => crumb !== null)
+  const { data: product, sessionExpired } = await loadProduct((await params).slug)
+  const breadcrumbs = [product.parentCategory, product.category]
+    .filter(crumb => crumb !== null)
+    .map(crumb => ({ label: crumb.name, href: `/categorias/${crumb.slug}` }))
 
   return (
     <div className="mx-auto max-w-7xl px-4 pt-6 pb-28 sm:px-6 lg:pt-10 lg:pb-20">
       <SessionRefresh when={sessionExpired} />
-      <script
-        type="application/ld+json"
-        // JSON-LD must be inline. `<` is escaped so product text can never close the script tag.
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }}
-      />
-
-      <nav aria-label="Ruta de navegación" className="mb-6 text-sm text-muted-foreground">
-        <ol className="flex flex-wrap items-center gap-1.5">
-          <li>
-            <Link href="/" className="hover:text-foreground">
-              Inicio
-            </Link>
-          </li>
-          {breadcrumbs.map(crumb => (
-            <li key={crumb.slug} className="flex items-center gap-1.5">
-              <span aria-hidden>/</span>
-              <Link href={`/categorias/${crumb.slug}`} className="hover:text-foreground">
-                {crumb.name}
-              </Link>
-            </li>
-          ))}
-        </ol>
-      </nav>
+      <ProductJsonLd product={product} />
+      <Breadcrumbs items={breadcrumbs} className="mb-6" />
 
       <ProductHero product={product} />
 
       {product.compatibleConsumables.length > 0 && (
-        <section className="mt-16">
-          <h2 className="text-2xl font-extrabold tracking-tight">Tintas y consumibles compatibles</h2>
-          <p className="mt-1 text-sm text-muted-foreground">Originales, pensados para este equipo.</p>
-          <ul className="mt-6 grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-4">
-            {product.compatibleConsumables.map(consumable => (
-              <li key={consumable.id}>
-                <ProductCard product={consumable} />
-              </li>
-            ))}
-          </ul>
-        </section>
+        <PageSection title="Tintas y consumibles compatibles" description="Originales, pensados para este equipo.">
+          <ProductGrid products={product.compatibleConsumables} className="md:grid-cols-4 xl:grid-cols-4" />
+        </PageSection>
       )}
 
       {product.compatibleWith.length > 0 && (
-        <section className="mt-16">
-          <h2 className="text-2xl font-extrabold tracking-tight">Compatible con</h2>
-          <ul className="mt-4 flex flex-wrap gap-2">
-            {product.compatibleWith.map(machine => (
-              <li key={machine.id}>
-                <Link
-                  href={`/productos/${machine.slug}`}
-                  className="inline-flex rounded-full border px-4 py-2 text-sm font-medium transition-colors hover:border-primary hover:text-primary"
-                >
-                  {machine.name}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </section>
+        <PageSection title="Compatible con">
+          <CompatibleWithList machines={product.compatibleWith} />
+        </PageSection>
       )}
 
       {product.description && (
-        <section className="mt-16 max-w-3xl">
-          <h2 className="text-2xl font-extrabold tracking-tight">Descripción</h2>
-          <p className="mt-4 leading-relaxed whitespace-pre-line text-muted-foreground">{product.description}</p>
-        </section>
+        <PageSection title="Descripción" className="max-w-3xl">
+          <p className="leading-relaxed whitespace-pre-line text-muted-foreground">{product.description}</p>
+        </PageSection>
       )}
 
       {product.specifications.length > 0 && (
-        <section className="mt-16">
-          <h2 className="text-2xl font-extrabold tracking-tight">Especificaciones</h2>
-          <div className="mt-6">
-            <ProductSpecifications groups={product.specifications} />
-          </div>
-        </section>
+        <PageSection title="Especificaciones">
+          <ProductSpecifications groups={product.specifications} />
+        </PageSection>
       )}
     </div>
   )

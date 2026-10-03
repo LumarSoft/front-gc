@@ -4,7 +4,8 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Field, FieldError, FieldGroup, FieldLabel } from '@/src/components/ui/field'
+import { FieldGroup } from '@/src/components/ui/field'
+import { FormField } from '@/src/components/ui/form-field'
 import { Input } from '@/src/components/ui/input'
 import { AuthHeading } from '@/src/features/auth/components/auth-heading'
 import { FormAlert } from '@/src/features/auth/components/form-alert'
@@ -48,8 +49,7 @@ export function LoginForm({ redirectTo }: LoginFormProps) {
         <FieldGroup className="gap-5">
           {loginMutation.isError && <FormAlert>{getAuthErrorMessage(loginMutation.error, 'login')}</FormAlert>}
 
-          <Field data-invalid={!!errors.email}>
-            <FieldLabel htmlFor="login-email">Email</FieldLabel>
+          <FormField id="login-email" label="Email" error={errors.email}>
             <Input
               id="login-email"
               type="email"
@@ -59,16 +59,18 @@ export function LoginForm({ redirectTo }: LoginFormProps) {
               className={AUTH_INPUT_CLASS}
               {...form.register('email')}
             />
-            <FieldError errors={[errors.email]} />
-          </Field>
+          </FormField>
 
-          <Field data-invalid={!!errors.password}>
-            <div className="flex items-center justify-between">
-              <FieldLabel htmlFor="login-password">Contraseña</FieldLabel>
+          <FormField
+            id="login-password"
+            label="Contraseña"
+            error={errors.password}
+            labelAction={
               <Link href="/recuperar-contrasena" className="text-sm font-medium text-primary hover:underline">
                 ¿La olvidaste?
               </Link>
-            </div>
+            }
+          >
             <PasswordInput
               id="login-password"
               autoComplete="current-password"
@@ -76,8 +78,7 @@ export function LoginForm({ redirectTo }: LoginFormProps) {
               className={AUTH_INPUT_CLASS}
               {...form.register('password')}
             />
-            <FieldError errors={[errors.password]} />
-          </Field>
+          </FormField>
 
           <SubmitButton isPending={loginMutation.isPending} pendingLabel="Ingresando…">
             Ingresar

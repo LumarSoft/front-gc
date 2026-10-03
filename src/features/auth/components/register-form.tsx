@@ -4,13 +4,15 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Checkbox } from '@/src/components/ui/checkbox'
-import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from '@/src/components/ui/field'
+import { CheckboxField } from '@/src/components/ui/checkbox-field'
+import { FieldGroup } from '@/src/components/ui/field'
+import { FormField } from '@/src/components/ui/form-field'
 import { Input } from '@/src/components/ui/input'
 import { AuthHeading } from '@/src/features/auth/components/auth-heading'
 import { FormAlert } from '@/src/features/auth/components/form-alert'
 import { PasswordInput } from '@/src/features/auth/components/password-input'
 import { SubmitButton } from '@/src/features/auth/components/submit-button'
+import { TermsNotice } from '@/src/features/auth/components/terms-notice'
 import { useRegister } from '@/src/features/auth/hooks/use-auth-mutations'
 import { getAuthErrorMessage } from '@/src/features/auth/lib/auth-error-message'
 import { registerSchema, type RegisterValues } from '@/src/features/auth/lib/auth-schemas'
@@ -53,8 +55,7 @@ export function RegisterForm({ redirectTo }: RegisterFormProps) {
           {registerMutation.isError && <FormAlert>{getAuthErrorMessage(registerMutation.error, 'register')}</FormAlert>}
 
           <div className="grid gap-5 sm:grid-cols-2">
-            <Field data-invalid={!!errors.firstName}>
-              <FieldLabel htmlFor="register-first-name">Nombre</FieldLabel>
+            <FormField id="register-first-name" label="Nombre" error={errors.firstName}>
               <Input
                 id="register-first-name"
                 autoComplete="given-name"
@@ -62,10 +63,8 @@ export function RegisterForm({ redirectTo }: RegisterFormProps) {
                 className={AUTH_INPUT_CLASS}
                 {...form.register('firstName')}
               />
-              <FieldError errors={[errors.firstName]} />
-            </Field>
-            <Field data-invalid={!!errors.lastName}>
-              <FieldLabel htmlFor="register-last-name">Apellido</FieldLabel>
+            </FormField>
+            <FormField id="register-last-name" label="Apellido" error={errors.lastName}>
               <Input
                 id="register-last-name"
                 autoComplete="family-name"
@@ -73,12 +72,10 @@ export function RegisterForm({ redirectTo }: RegisterFormProps) {
                 className={AUTH_INPUT_CLASS}
                 {...form.register('lastName')}
               />
-              <FieldError errors={[errors.lastName]} />
-            </Field>
+            </FormField>
           </div>
 
-          <Field data-invalid={!!errors.email}>
-            <FieldLabel htmlFor="register-email">Email</FieldLabel>
+          <FormField id="register-email" label="Email" error={errors.email}>
             <Input
               id="register-email"
               type="email"
@@ -88,13 +85,18 @@ export function RegisterForm({ redirectTo }: RegisterFormProps) {
               className={AUTH_INPUT_CLASS}
               {...form.register('email')}
             />
-            <FieldError errors={[errors.email]} />
-          </Field>
+          </FormField>
 
-          <Field data-invalid={!!errors.phone}>
-            <FieldLabel htmlFor="register-phone">
-              Teléfono <span className="font-normal text-muted-foreground">(opcional)</span>
-            </FieldLabel>
+          <FormField
+            id="register-phone"
+            label={
+              <>
+                Teléfono <span className="font-normal text-muted-foreground">(opcional)</span>
+              </>
+            }
+            error={errors.phone}
+            description="Lo usamos solo para coordinar envíos y retiros."
+          >
             <Input
               id="register-phone"
               type="tel"
@@ -104,12 +106,14 @@ export function RegisterForm({ redirectTo }: RegisterFormProps) {
               className={AUTH_INPUT_CLASS}
               {...form.register('phone')}
             />
-            <FieldDescription>Lo usamos solo para coordinar envíos y retiros.</FieldDescription>
-            <FieldError errors={[errors.phone]} />
-          </Field>
+          </FormField>
 
-          <Field data-invalid={!!errors.password}>
-            <FieldLabel htmlFor="register-password">Contraseña</FieldLabel>
+          <FormField
+            id="register-password"
+            label="Contraseña"
+            error={errors.password}
+            description="Mínimo 8 caracteres, con al menos una letra y un número."
+          >
             <PasswordInput
               id="register-password"
               autoComplete="new-password"
@@ -117,24 +121,18 @@ export function RegisterForm({ redirectTo }: RegisterFormProps) {
               className={AUTH_INPUT_CLASS}
               {...form.register('password')}
             />
-            <FieldDescription>Mínimo 8 caracteres, con al menos una letra y un número.</FieldDescription>
-            <FieldError errors={[errors.password]} />
-          </Field>
+          </FormField>
 
           <Controller
             control={form.control}
             name="marketingOptIn"
             render={({ field }) => (
-              <Field orientation="horizontal">
-                <Checkbox
-                  id="register-marketing"
-                  checked={field.value}
-                  onCheckedChange={checked => field.onChange(checked === true)}
-                />
-                <FieldLabel htmlFor="register-marketing" className="font-normal">
-                  Quiero recibir ofertas y novedades por email
-                </FieldLabel>
-              </Field>
+              <CheckboxField
+                id="register-marketing"
+                label="Quiero recibir ofertas y novedades por email"
+                checked={field.value}
+                onCheckedChange={field.onChange}
+              />
             )}
           />
 
@@ -142,18 +140,7 @@ export function RegisterForm({ redirectTo }: RegisterFormProps) {
             Crear cuenta
           </SubmitButton>
 
-          {/* TODO(legal): these pages do not exist yet; their text must come from the client. */}
-          <p className="text-center text-xs text-muted-foreground">
-            Al crear tu cuenta aceptás los{' '}
-            <Link href="/legales/terminos" className="underline">
-              Términos y condiciones
-            </Link>{' '}
-            y la{' '}
-            <Link href="/legales/privacidad" className="underline">
-              Política de privacidad
-            </Link>
-            .
-          </p>
+          <TermsNotice />
         </FieldGroup>
       </form>
     </>
