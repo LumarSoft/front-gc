@@ -35,9 +35,10 @@ What the front will have:
   configurator** ("build your setup", basic / PRO mode) that asks questions and recommends the right product.
 - **Admin panel**: products, prices, stock, wholesalers, orders, CRM and stats.
 
-**Visual identity**: clean, minimal and warm — inspired by Epson's visual clarity **without copying its brand**
-(no logos, no exact palette). Less corporate, more human and creative. Mobile first: a lot of traffic will come from
-phones and Instagram. Details in @docs/rules/ui-and-styling.md.
+**Visual identity**: clean, minimal and warm, with a modern, dynamic touch. Main reference: **epson.com.ar** (then
+eco3 and Agfa). The client is an **official Epson distributor**, so Epson images, logos and assets can be used; the
+store's own identity stays Comunicaciones Gráficas. Less corporate, more human and creative. Mobile first: a lot of
+traffic will come from phones and Instagram. Details in @docs/rules/ui-and-styling.md.
 
 ## Commands
 
@@ -78,7 +79,8 @@ src/
 
 Path alias `@/*` resolves to the repo root (`@/src/components/ui/button`).
 
-Current state: **empty on purpose** — only the default Next.js page. Create folders as they are needed, following
+Current state: the home page (`app/(shop)/page.tsx`) is built with **sample data** (`src/features/catalog/lib/
+sample-products.ts`, `src/lib/site-config.ts`) until the API exists. Create folders as they are needed, following
 this structure.
 
 ## Code conventions
