@@ -14,6 +14,15 @@ Guidance for AI coding agents (Claude Code, Cursor, Codex, Copilot…) and human
 **Read this file and every file in `docs/rules/` before writing code.** The block above is managed by Next.js — do
 not edit or remove it.
 
+## Start of every session (humans and AI agents)
+
+1. Run `npm run doctor`. It checks Node, dependencies, `.env.local` and that the API answers, and prints the exact
+   command to fix each problem. (Claude Code runs it automatically on session start through `.claude/settings.json`.)
+2. If it reports problems, fix them **before** any other work, using `docs/upgrade-notes.md` for context. The API has
+   its own doctor: if the API is the problem, run it in `../api-gc`.
+3. When your change requires a manual step from the other developers, add an entry at the top of
+   `docs/upgrade-notes.md` and a check in `scripts/doctor.mjs` in the same PR.
+
 ## Project
 
 E-commerce for **Comunicaciones Gráficas SRL**, a print shop in Rosario (Argentina) and official Epson reseller. Today
