@@ -21,7 +21,7 @@ const API_URL = (process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3001').rep
 let refreshInFlight: Promise<boolean> | null = null
 
 /** One refresh at a time: concurrent 401s wait for the same request instead of rotating the token twice. */
-function refreshSession(): Promise<boolean> {
+export function refreshSession(): Promise<boolean> {
   refreshInFlight ??= fetch(`${API_URL}/auth/refresh`, { method: 'POST', credentials: 'include' })
     .then(response => response.ok)
     .catch(() => false)
