@@ -3,7 +3,6 @@ import { AssistantTeaser } from '@/src/features/home/components/assistant-teaser
 import { CategoryGrid } from '@/src/features/home/components/category-grid'
 import { FeaturedProducts } from '@/src/features/home/components/featured-products'
 import { HomeHero } from '@/src/features/home/components/home-hero'
-import { InkFinder } from '@/src/features/home/components/ink-finder'
 import { PromoTiles } from '@/src/features/home/components/promo-tiles'
 import { TrustBar } from '@/src/features/home/components/trust-bar'
 import { UseCasePicker } from '@/src/features/home/components/use-case-picker'
@@ -25,7 +24,6 @@ export default async function HomePage() {
       <CategoryGrid />
       <FeaturedProducts products={featured?.data.items ?? null} />
       <UseCasePicker />
-      <InkFinder />
       <PromoTiles />
       <AssistantTeaser />
       <WhyUs />
