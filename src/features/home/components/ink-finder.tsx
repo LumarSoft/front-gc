@@ -31,8 +31,7 @@ export function InkFinder() {
           <p className="mt-4 text-navy-foreground/75">
             Escribí el modelo de tu impresora y te mostramos las tintas, papeles y repuestos compatibles.
           </p>
-          <form action="/buscar" className="mt-6 flex flex-col gap-3 sm:flex-row">
-            <input type="hidden" name="tipo" value="compatibles" />
+          <form action="/productos" className="mt-6 flex flex-col gap-3 sm:flex-row">
             <label htmlFor="ink-finder" className="sr-only">
               Modelo de tu impresora
             </label>

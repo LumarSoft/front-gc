@@ -22,7 +22,7 @@ export function CategoryGrid() {
         eyebrow="Categorías"
         title="Todo para imprimir, en un solo lugar"
         description="Desde la impresora de tu casa hasta el equipamiento de tu imprenta."
-        action={{ label: 'Ver todo el catálogo', href: '/categorias' }}
+        action={{ label: 'Ver todo el catálogo', href: '/productos' }}
       />
       <ul className="mt-10 grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-4">
         {CATEGORIES.map(category => (

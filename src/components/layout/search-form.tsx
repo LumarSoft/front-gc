@@ -9,7 +9,7 @@ type SearchFormProps = {
 /** Plain GET form: works without JavaScript and keeps the query in the URL. */
 export function SearchForm({ className }: SearchFormProps) {
   return (
-    <form action="/buscar" role="search" className={cn('relative', className)}>
+    <form action="/productos" role="search" className={cn('relative', className)}>
       <label htmlFor="site-search" className="sr-only">
         Buscar productos
       </label>
