@@ -3,7 +3,8 @@
 import Link from 'next/link'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Field, FieldError, FieldGroup, FieldLabel } from '@/src/components/ui/field'
+import { FieldGroup } from '@/src/components/ui/field'
+import { FormField } from '@/src/components/ui/form-field'
 import { Input } from '@/src/components/ui/input'
 import { AuthHeading } from '@/src/features/auth/components/auth-heading'
 import { FormAlert } from '@/src/features/auth/components/form-alert'
@@ -55,8 +56,7 @@ export function ForgotPasswordForm() {
       <form onSubmit={onSubmit} noValidate>
         <FieldGroup className="gap-5">
           {forgotMutation.isError && <FormAlert>{getAuthErrorMessage(forgotMutation.error)}</FormAlert>}
-          <Field data-invalid={!!errors.email}>
-            <FieldLabel htmlFor="forgot-email">Email</FieldLabel>
+          <FormField id="forgot-email" label="Email" error={errors.email}>
             <Input
               id="forgot-email"
               type="email"
@@ -66,8 +66,7 @@ export function ForgotPasswordForm() {
               className={AUTH_INPUT_CLASS}
               {...form.register('email')}
             />
-            <FieldError errors={[errors.email]} />
-          </Field>
+          </FormField>
           <SubmitButton isPending={forgotMutation.isPending} pendingLabel="Enviando…">
             Enviar enlace
           </SubmitButton>
