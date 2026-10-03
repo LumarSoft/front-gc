@@ -4,6 +4,7 @@
 
 - Clean, minimal, warm and human, with a modern, dynamic touch. Less "suit and tie", more creative.
 - Generous whitespace, strong product photography, few colors, clear typography hierarchy.
+- The site must look great on a phone first — a lot of traffic comes from Instagram.
 
 ## Visual references
 
@@ -22,8 +23,6 @@ Animations below.
 Comunicaciones Gráficas is an **official Epson distributor** and has the right to use Epson's material: product
 images, logos, banners and other brand assets can be taken from Epson's sites. The store's own identity (logo,
 name) is still Comunicaciones Gráficas — Epson branding is used as the brand it sells, not as the store's.
-
-- The site must look great on a phone first — a lot of traffic comes from Instagram.
 
 ## Design tokens
 
