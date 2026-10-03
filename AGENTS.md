@@ -88,12 +88,13 @@ src/
 
 Path alias `@/*` resolves to the repo root (`@/src/components/ui/button`).
 
-Current state: the home page (`app/(shop)/page.tsx`) uses **sample data** (`src/features/catalog/lib/
-sample-products.ts`, `src/lib/site-config.ts`) until the catalog API exists. **Auth is live** against the API:
-`app/(auth)/` (login, register, password reset, email verification), `/mi-cuenta`, and the header account menu.
-Sessions are httpOnly cookies set by the API — the front never stores tokens. Call the API through `apiRequest`
-(`src/lib/api-client.ts`), which sends the cookies and refreshes the session once on a 401. Read the user with
-`useCurrentUser()`. Create folders as they are needed, following this structure.
+Current state: the store reads the **real catalog** from the API: home featured products, `/productos` (all products +
+search `?q=`), `/categorias/[slug]` and `/productos/[slug]`. Catalog data is fetched on the server through
+`src/services/catalog.service.ts` → `serverApiRequest` (`src/lib/server-api.ts`), which forwards the visitor's
+session so prices match their buyer profile; render `<SessionRefresh when={sessionExpired} />` on pages that use it.
+Filters live in the URL (`src/features/catalog/lib/catalog-params.ts`). **Auth is live**: `app/(auth)/`,
+`/mi-cuenta`, the header account menu; browser calls go through `apiRequest` (`src/lib/api-client.ts`). The cart is
+not built yet ("Agregar al carrito" is disabled). Create folders as they are needed, following this structure.
 
 ## Code conventions
 

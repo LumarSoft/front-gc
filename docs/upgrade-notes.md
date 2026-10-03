@@ -16,6 +16,12 @@ The store needs the API running: keep `api-gc` up to date too (its own `npm run 
 
 ---
 
+## 2026-10-04 — Store connected to the catalog (LumarSoft/front-gc#4)
+
+1. Needs `api-gc` up to date with the catalog (LumarSoft/api-gc#3) **and its seed loaded**
+   (`npm run db:seed` in `api-gc`), otherwise the store shows no products.
+2. Restart `npm run dev` after pulling: `next.config.ts` changed (product images come from the API).
+
 ## 2026-10-03 — Setup doctor (LumarSoft/front-gc#3)
 
 1. Create `.env.local` if you do not have it: `cp .env.example .env.local`.
