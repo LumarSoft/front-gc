@@ -48,6 +48,17 @@ npm run start     # Start production server
 npm run lint      # Run ESLint
 ```
 
+## Local setup
+
+When asked to set up or run the project locally, follow the **Installation** section of `README.md`:
+
+1. `npm install` (also installs the Husky hook).
+2. `npm run dev` and verify `http://localhost:3000` shows the page.
+3. If the task needs the API, it must be running from the sibling repo `../api-gc` (see its `AGENTS.md` → Local
+   setup). Do not mock or hardcode API responses to work around a missing backend unless the user asks for it.
+
+If a step fails, check the **Troubleshooting** table in `README.md` before trying anything else.
+
 ## Stack
 
 - **Framework**: Next.js 16 App Router, React 19
