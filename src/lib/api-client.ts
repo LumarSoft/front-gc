@@ -47,7 +47,7 @@ async function readErrorMessage(response: Response): Promise<string> {
 
 /**
  * Browser-side fetch to the API. Session cookies travel automatically (`credentials: 'include'`).
- * On a 401 it refreshes the session once and retries the request.
+ * On a 401 it tries to refresh the session once and retries the request.
  */
 export async function apiRequest<T>(path: string, options: ApiRequestOptions = {}): Promise<T> {
   const { method = 'GET', body, skipRefresh = false } = options
@@ -63,7 +63,9 @@ export async function apiRequest<T>(path: string, options: ApiRequestOptions = {
   let response: Response
   try {
     response = await send()
-    if (response.status === 401 && !skipRefresh && (await refreshSession())) {
+    if (response.status === 401 && !skipRefresh) {
+      // Retry even if this refresh lost a race with another tab: that tab already stored the new session cookies.
+      await refreshSession()
       response = await send()
     }
   } catch {
