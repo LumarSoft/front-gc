@@ -79,9 +79,12 @@ src/
 
 Path alias `@/*` resolves to the repo root (`@/src/components/ui/button`).
 
-Current state: the home page (`app/(shop)/page.tsx`) is built with **sample data** (`src/features/catalog/lib/
-sample-products.ts`, `src/lib/site-config.ts`) until the API exists. Create folders as they are needed, following
-this structure.
+Current state: the home page (`app/(shop)/page.tsx`) uses **sample data** (`src/features/catalog/lib/
+sample-products.ts`, `src/lib/site-config.ts`) until the catalog API exists. **Auth is live** against the API:
+`app/(auth)/` (login, register, password reset, email verification), `/mi-cuenta`, and the header account menu.
+Sessions are httpOnly cookies set by the API — the front never stores tokens. Call the API through `apiRequest`
+(`src/lib/api-client.ts`), which sends the cookies and refreshes the session once on a 401. Read the user with
+`useCurrentUser()`. Create folders as they are needed, following this structure.
 
 ## Code conventions
 

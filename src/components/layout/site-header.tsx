@@ -1,10 +1,11 @@
 import Link from 'next/link'
-import { HandbagIcon, HeartIcon, UserIcon } from '@phosphor-icons/react/dist/ssr'
+import { HandbagIcon, HeartIcon } from '@phosphor-icons/react/dist/ssr'
 import { Button } from '@/src/components/ui/button'
 import { AnnouncementBar } from '@/src/components/layout/announcement-bar'
 import { BrandLogo } from '@/src/components/layout/brand-logo'
 import { MobileNav } from '@/src/components/layout/mobile-nav'
 import { SearchForm } from '@/src/components/layout/search-form'
+import { AccountMenu } from '@/src/features/auth/components/account-menu'
 import { CATEGORY_LINKS, HIGHLIGHT_LINKS, OFFERS_LINK } from '@/src/lib/navigation'
 import { cn } from '@/src/lib/utils'
 
@@ -18,12 +19,7 @@ export function SiteHeader() {
           <BrandLogo />
           <SearchForm className="hidden flex-1 md:block lg:max-w-xl" />
           <div className="ml-auto flex items-center gap-1">
-            <Button asChild variant="ghost" className="hidden h-10 gap-2 px-3 sm:inline-flex">
-              <Link href="/ingresar">
-                <UserIcon weight="light" className="size-6" />
-                <span className="hidden text-sm lg:inline">Ingresá</span>
-              </Link>
-            </Button>
+            <AccountMenu />
             <Button asChild variant="ghost" size="icon-lg" className="hidden sm:inline-flex">
               <Link href="/favoritos" aria-label="Favoritos">
                 <HeartIcon weight="light" className="size-6" />
