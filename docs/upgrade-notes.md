@@ -16,7 +16,7 @@ The store needs the API running: keep `api-gc` up to date too (its own `npm run 
 
 ---
 
-## 2026-10-03 — Session checks (this change)
+## 2026-10-03 — Setup doctor (LumarSoft/front-gc#3)
 
 1. Create `.env.local` if you do not have it: `cp .env.example .env.local`.
 
