@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { notFound, redirect } from 'next/navigation'
 import { AdminSessionRenewal } from '@/src/features/admin/components/admin-session-renewal'
-import { AdminShell } from '@/src/features/admin/components/admin-shell'
+import { AdminShell } from '@/src/features/admin/components/shell/admin-shell'
 import { getServerSession } from '@/src/services/session.server'
 
 export const metadata: Metadata = {
