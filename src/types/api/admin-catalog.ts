@@ -33,3 +33,25 @@ export type AdminTag = {
   group: string | null
   productCount: number
 }
+
+export type CategoryInput = {
+  name: string
+  slug?: string
+  parentId?: number | null
+  description?: string | null
+  imageFileId?: number | null
+  isActive?: boolean
+}
+
+export type BrandInput = {
+  name: string
+  slug?: string
+  logoFileId?: number | null
+  isActive?: boolean
+}
+
+export type TagInput = {
+  name: string
+  slug?: string
+  group?: string | null
+}

@@ -1,5 +1,5 @@
 import type { Icon } from '@phosphor-icons/react'
-import { HouseIcon } from '@phosphor-icons/react'
+import { FoldersIcon, HouseIcon, TagIcon, TrademarkIcon } from '@phosphor-icons/react'
 
 export type AdminNavItem = {
   label: string
@@ -20,6 +20,14 @@ export type AdminNavGroup = {
 /** Admin sections. Each admin PR adds its section here when its page exists, so there are no dead links. */
 export const ADMIN_NAV: AdminNavGroup[] = [
   { label: null, items: [{ label: 'Inicio', href: '/admin', icon: HouseIcon, exact: true, pinned: true }] },
+  {
+    label: 'Catálogo',
+    items: [
+      { label: 'Categorías', href: '/admin/categorias', icon: FoldersIcon, pinned: true },
+      { label: 'Marcas', href: '/admin/marcas', icon: TrademarkIcon },
+      { label: 'Etiquetas', href: '/admin/etiquetas', icon: TagIcon },
+    ],
+  },
 ]
 
 export function isNavItemActive(item: AdminNavItem, pathname: string): boolean {

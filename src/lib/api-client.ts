@@ -11,6 +11,7 @@ export class ApiError extends Error {
 
 type ApiRequestOptions = {
   method?: 'GET' | 'POST' | 'PATCH' | 'PUT' | 'DELETE'
+  /** JSON-serializable data, or FormData for file uploads. */
   body?: unknown
   /** Skip the automatic session refresh (used by the auth endpoints themselves). */
   skipRefresh?: boolean
@@ -56,8 +57,9 @@ export async function apiRequest<T>(path: string, options: ApiRequestOptions = {
     fetch(`${API_URL}${path}`, {
       method,
       credentials: 'include',
-      headers: body === undefined ? undefined : { 'Content-Type': 'application/json' },
-      body: body === undefined ? undefined : JSON.stringify(body),
+      // FormData (file uploads) sets its own multipart Content-Type with the boundary.
+      headers: body === undefined || body instanceof FormData ? undefined : { 'Content-Type': 'application/json' },
+      body: body === undefined ? undefined : body instanceof FormData ? body : JSON.stringify(body),
     })
 
   let response: Response
