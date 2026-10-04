@@ -187,3 +187,12 @@
     display: none;
   }
 }
+
+/* Space for the iPhone home indicator under bars fixed to the bottom of the screen. */
+@utility pb-safe {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+@utility pb-safe-4 {
+  padding-bottom: max(1rem, env(safe-area-inset-bottom));
+}

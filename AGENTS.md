@@ -93,7 +93,11 @@ search `?q=`), `/categorias/[slug]` and `/productos/[slug]`. Catalog data is fet
 `src/services/catalog.service.ts` → `serverApiRequest` (`src/lib/server-api.ts`), which forwards the visitor's
 session so prices match their buyer profile; render `<SessionRefresh when={sessionExpired} />` on pages that use it.
 Filters live in the URL (`src/features/catalog/lib/catalog-params.ts`). **Auth is live**: `app/(auth)/`,
-`/mi-cuenta`, the header account menu; browser calls go through `apiRequest` (`src/lib/api-client.ts`). The cart is
+`/mi-cuenta`, the header account menu; browser calls go through `apiRequest` (`src/lib/api-client.ts`). **Admin panel** lives in `app/admin/` +
+`src/features/admin/`: the layout checks the role on the server (`getServerSession`, `src/services/session.server.ts`;
+customers get a 404, expired sessions are renewed in the browser) and admin pages load data client-side with TanStack
+Query through `src/services/admin-*.service.ts`. Each admin section adds itself to `ADMIN_NAV`
+(`src/features/admin/lib/admin-nav.ts`). The cart is
 not built yet ("Agregar al carrito" is disabled). Create folders as they are needed, following this structure.
 
 ## Code conventions

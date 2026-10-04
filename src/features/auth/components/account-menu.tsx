@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { PackageIcon, SignOutIcon, UserCircleIcon, UserIcon } from '@phosphor-icons/react'
+import { GearSixIcon, PackageIcon, SignOutIcon, UserCircleIcon, UserIcon } from '@phosphor-icons/react'
 import { Button } from '@/src/components/ui/button'
 import {
   DropdownMenu,
@@ -67,6 +67,14 @@ export function AccountMenu() {
             Mis pedidos
           </Link>
         </DropdownMenuItem>
+        {user.role === 'ADMIN' && (
+          <DropdownMenuItem asChild>
+            <Link href="/admin">
+              <GearSixIcon weight="light" className="size-5" />
+              Administración
+            </Link>
+          </DropdownMenuItem>
+        )}
         <DropdownMenuSeparator />
         <DropdownMenuItem disabled={logoutMutation.isPending} onSelect={() => handleLogout()}>
           <SignOutIcon weight="light" className="size-5" />
