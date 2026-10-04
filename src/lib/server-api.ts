@@ -25,6 +25,11 @@ async function readErrorMessage(response: Response): Promise<string> {
   return response.statusText
 }
 
+/** True when the visitor's browser sent an access cookie (valid or expired). */
+export async function hasAccessToken(): Promise<boolean> {
+  return Boolean((await cookies()).get(ACCESS_TOKEN_COOKIE)?.value)
+}
+
 /**
  * Server Component fetch to the API, forwarding the visitor's session so prices match their buyer profile.
  * Responses depend on the session, so they are never cached across visitors.

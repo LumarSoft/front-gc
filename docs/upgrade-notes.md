@@ -16,6 +16,14 @@ The store needs the API running: keep `api-gc` up to date too (its own `npm run 
 
 ---
 
+## 2026-10-04 — Admin panel shell (LumarSoft/front-gc#7)
+
+1. Needs `api-gc` with the admin endpoints (LumarSoft/api-gc#6 and #7): pull it and **restart** its `npm run dev`.
+2. `/admin` only opens for users with role `ADMIN`. Create yours in `api-gc`:
+   ```bash
+   ADMIN_EMAIL=you@example.com ADMIN_PASSWORD='YourPass123' npm run admin:create
+   ```
+
 ## 2026-10-04 — Store connected to the catalog (LumarSoft/front-gc#4)
 
 1. Needs `api-gc` up to date with the catalog (LumarSoft/api-gc#3) **and its seed loaded**

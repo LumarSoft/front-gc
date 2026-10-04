@@ -61,8 +61,14 @@ if (!env) {
 const apiUrl = (env?.NEXT_PUBLIC_API_URL ?? 'http://localhost:3001').replace(/\/+$/, '')
 try {
   const response = await fetch(`${apiUrl}/health`, { signal: AbortSignal.timeout(3000) })
-  if (response.ok) ok(`API reachable at ${apiUrl}`)
-  else warn(`API at ${apiUrl} answered ${response.status}`, 'run `npm run doctor` in api-gc')
+  if (response.ok) {
+    ok(`API reachable at ${apiUrl}`)
+    // 5. The admin panel needs the admin endpoints (LumarSoft/api-gc#6, #7). GET /tags arrived with them.
+    const tags = await fetch(`${apiUrl}/tags`, { signal: AbortSignal.timeout(3000) })
+    if (tags.ok) ok('API has the admin panel endpoints')
+    else
+      warn('API is older than the admin panel', 'pull api-gc and restart it (cd ../api-gc && git pull && npm run dev)')
+  } else warn(`API at ${apiUrl} answered ${response.status}`, 'run `npm run doctor` in api-gc')
 } catch {
   warn(`API not reachable at ${apiUrl} (the store will show errors)`, 'start it: cd ../api-gc && npm run dev')
 }
