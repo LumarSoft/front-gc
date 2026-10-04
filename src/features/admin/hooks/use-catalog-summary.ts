@@ -2,8 +2,7 @@
 
 import { useQueries } from '@tanstack/react-query'
 import { type CatalogSummary, summarizeCatalog } from '@/src/features/admin/lib/catalog-summary'
-import { QUERY_KEYS } from '@/src/lib/query-keys'
-import { getAdminBrands, getAdminCategories, getAdminTags } from '@/src/services/admin-catalog.service'
+import { adminBrandsQuery, adminCategoriesQuery, adminTagsQuery } from '@/src/features/admin/lib/admin-queries'
 
 type CatalogSummaryState = {
   summary: CatalogSummary | null
@@ -15,11 +14,7 @@ type CatalogSummaryState = {
 /** Loads the taxonomy lists (also used by their own admin pages, so the cache is shared) and counts them. */
 export function useCatalogSummary(): CatalogSummaryState {
   const [categories, brands, tags] = useQueries({
-    queries: [
-      { queryKey: QUERY_KEYS.admin.categories, queryFn: getAdminCategories },
-      { queryKey: QUERY_KEYS.admin.brands, queryFn: getAdminBrands },
-      { queryKey: QUERY_KEYS.admin.tags, queryFn: getAdminTags },
-    ],
+    queries: [adminCategoriesQuery, adminBrandsQuery, adminTagsQuery],
   })
   const all = [categories, brands, tags]
 
