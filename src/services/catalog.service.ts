@@ -32,7 +32,14 @@ export async function getCategory(slug: string): Promise<Category> {
   return (await serverApiRequest<Category>(`/categories/${encodeURIComponent(slug)}`)).data
 }
 
-/** Tags of one group, e.g. "uso" for the catalog's use filters. Managed from the admin panel. */
+/**
+ * Tags of one group, e.g. "uso" for the catalog's use filters. Managed from the admin panel.
+ * Secondary data: if it fails, the page renders without those filters instead of failing as a whole.
+ */
 export async function getTags(group: string): Promise<Tag[]> {
-  return (await serverApiRequest<Tag[]>(`/tags?group=${encodeURIComponent(group)}`)).data
+  try {
+    return (await serverApiRequest<Tag[]>(`/tags?group=${encodeURIComponent(group)}`)).data
+  } catch {
+    return []
+  }
 }
