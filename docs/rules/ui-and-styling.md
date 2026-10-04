@@ -2,10 +2,27 @@
 
 ## Visual direction
 
-- Clean, minimal, warm and human. Inspired by Epson's visual clarity **without copying its brand**: no Epson logos,
-  exact palette or layouts. Less "suit and tie", more creative.
+- Clean, minimal, warm and human, with a modern, dynamic touch. Less "suit and tie", more creative.
 - Generous whitespace, strong product photography, few colors, clear typography hierarchy.
 - The site must look great on a phone first — a lot of traffic comes from Instagram.
+
+## Visual references
+
+Check these before designing any page or section, in priority order:
+
+1. **[epson.com.ar](https://epson.com.ar/)** — the main reference. Follow its layout patterns, product presentation,
+   navigation and visual clarity closely.
+2. **[eco3.com/es/productos](https://eco3.com/es/productos)** — catalog and product listing.
+3. **[agfa.com/corporate](https://www.agfa.com/corporate/)** — institutional sections.
+
+On top of that, add dynamism and modernity (purposeful motion, richer transitions, more expressive sections) — see
+Animations below.
+
+## Epson assets
+
+Comunicaciones Gráficas is an **official Epson distributor** and has the right to use Epson's material: product
+images, logos, banners and other brand assets can be taken from Epson's sites. The store's own identity (logo,
+name) is still Comunicaciones Gráficas — Epson branding is used as the brand it sells, not as the store's.
 
 ## Design tokens
 

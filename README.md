@@ -58,7 +58,13 @@ The API already allows requests from `http://localhost:3000` (CORS).
 
 ### 5. Environment variables
 
-None are required yet. When the front starts calling the API, the base URL goes in `.env.local` (git-ignored):
+Copy the example and adjust if needed (`.env.local` is git-ignored):
+
+```bash
+cp .env.example .env.local
+```
+
+It contains:
 
 ```bash
 NEXT_PUBLIC_API_URL=http://localhost:3001
@@ -66,14 +72,20 @@ NEXT_PUBLIC_API_URL=http://localhost:3001
 
 Anything prefixed with `NEXT_PUBLIC_` is visible in the browser — never put secrets there.
 
+## Staying up to date
+
+After every `git pull`, run `npm run doctor`: it tells you exactly what is missing and how to fix it. The history of
+manual steps is in [docs/upgrade-notes.md](docs/upgrade-notes.md).
+
 ## Scripts
 
-| Script          | What it does         |
-| --------------- | -------------------- |
-| `npm run dev`   | Dev server           |
-| `npm run build` | Production build     |
-| `npm run start` | Run production build |
-| `npm run lint`  | ESLint               |
+| Script           | What it does          |
+| ---------------- | --------------------- |
+| `npm run dev`    | Dev server            |
+| `npm run build`  | Production build      |
+| `npm run start`  | Run production build  |
+| `npm run lint`   | ESLint                |
+| `npm run doctor` | Check the local setup |
 
 ## Production build
 

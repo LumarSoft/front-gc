@@ -1,26 +1,198 @@
-@import "tailwindcss";
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:is(.dark *));
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --font-sans: var(--font-jakarta);
+  --font-heading: var(--font-jakarta);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  /* Brand extras: deep sections, CMYK accents (print motif), commerce states */
+  --color-navy: var(--navy);
+  --color-navy-foreground: var(--navy-foreground);
+  --color-surface: var(--surface);
+  --color-cyan: var(--cyan);
+  --color-magenta: var(--magenta);
+  --color-yellow: var(--yellow);
+  --color-sale: var(--sale);
+  --color-sale-foreground: var(--sale-foreground);
+  --color-success: var(--success);
+
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-marquee: marquee 40s linear infinite;
+  --animate-fade-up: fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-fade-up-late: fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both;
+  --animate-blob: blob 14s ease-in-out infinite;
+  --animate-ken-burns: ken-burns 18s ease-out both;
+  --animate-blob-reverse: blob 18s ease-in-out infinite reverse;
+  --animate-blob-fast: blob 10s ease-in-out infinite;
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-12px);
+    }
+  }
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  @keyframes ken-burns {
+    from {
+      transform: scale(1.08);
+    }
+    to {
+      transform: scale(1);
+    }
+  }
+  @keyframes blob {
+    0%,
+    100% {
+      transform: translate(0, 0) scale(1);
+    }
+    33% {
+      transform: translate(24px, -18px) scale(1.08);
+    }
+    66% {
+      transform: translate(-18px, 14px) scale(0.94);
+    }
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Palette inspired by epson.com.ar (official distributor) + CMYK accents. Edit only here to rebrand. */
+:root {
+  --background: #ffffff;
+  --foreground: #0b1530;
+  --card: #ffffff;
+  --card-foreground: #0b1530;
+  --popover: #ffffff;
+  --popover-foreground: #0b1530;
+  --primary: #003399;
+  --primary-foreground: #ffffff;
+  --secondary: #ebf0f5;
+  --secondary-foreground: #0b1530;
+  --muted: #f2f4f7;
+  --muted-foreground: #5a6478;
+  --accent: #e5ecfa;
+  --accent-foreground: #003399;
+  --destructive: #d92d20;
+  --border: #e2e7ef;
+  --input: #d5dce7;
+  --ring: #003399;
+  --radius: 0.75rem;
+
+  --navy: #001a4d;
+  --navy-foreground: #ffffff;
+  --surface: #ebf0f5;
+  --cyan: #00a3e0;
+  --magenta: #e5007e;
+  --yellow: #ffd200;
+  --sale: #e5007e;
+  --sale-foreground: #ffffff;
+  --success: #0a8a4a;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    /* The canvas shows during elastic overscroll: navy matches the top bar and the footer instead of white. */
+    @apply scroll-smooth bg-navy font-sans;
+    overscroll-behavior-x: none;
+  }
+  body {
+    @apply overflow-x-clip bg-background text-foreground antialiased;
+  }
+  button:not(:disabled),
+  [role='button']:not(:disabled) {
+    cursor: pointer;
+  }
+}
+
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Scroll-driven reveal. Progressive enhancement: content is always visible without support or with reduced motion. */
+@utility reveal {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: reveal-up linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 40%;
+    }
+  }
+}
+
+/* Hero photo focal point on narrow screens: keeps the person and the printer in frame. */
+@utility object-hero-focus {
+  object-position: 78% 40%;
+}
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Space for the iPhone home indicator under bars fixed to the bottom of the screen. */
+@utility pb-safe {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+@utility pb-safe-4 {
+  padding-bottom: max(1rem, env(safe-area-inset-bottom));
 }

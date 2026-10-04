@@ -14,6 +14,15 @@ Guidance for AI coding agents (Claude Code, Cursor, Codex, Copilot…) and human
 **Read this file and every file in `docs/rules/` before writing code.** The block above is managed by Next.js — do
 not edit or remove it.
 
+## Start of every session (humans and AI agents)
+
+1. Run `npm run doctor`. It checks Node, dependencies, `.env.local` and that the API answers, and prints the exact
+   command to fix each problem. (Claude Code runs it automatically on session start through `.claude/settings.json`.)
+2. If it reports problems, fix them **before** any other work, using `docs/upgrade-notes.md` for context. The API has
+   its own doctor: if the API is the problem, run it in `../api-gc`.
+3. When your change requires a manual step from the other developers, add an entry at the top of
+   `docs/upgrade-notes.md` and a check in `scripts/doctor.mjs` in the same PR.
+
 ## Project
 
 E-commerce for **Comunicaciones Gráficas SRL**, a print shop in Rosario (Argentina) and official Epson reseller. Today
@@ -35,9 +44,10 @@ What the front will have:
   configurator** ("build your setup", basic / PRO mode) that asks questions and recommends the right product.
 - **Admin panel**: products, prices, stock, wholesalers, orders, CRM and stats.
 
-**Visual identity**: clean, minimal and warm — inspired by Epson's visual clarity **without copying its brand**
-(no logos, no exact palette). Less corporate, more human and creative. Mobile first: a lot of traffic will come from
-phones and Instagram. Details in @docs/rules/ui-and-styling.md.
+**Visual identity**: clean, minimal and warm, with a modern, dynamic touch. Main reference: **epson.com.ar** (then
+eco3 and Agfa). The client is an **official Epson distributor**, so Epson images, logos and assets can be used; the
+store's own identity stays Comunicaciones Gráficas. Less corporate, more human and creative. Mobile first: a lot of
+traffic will come from phones and Instagram. Details in @docs/rules/ui-and-styling.md.
 
 ## Commands
 
@@ -89,8 +99,17 @@ src/
 
 Path alias `@/*` resolves to the repo root (`@/src/components/ui/button`).
 
-Current state: **empty on purpose** — only the default Next.js page. Create folders as they are needed, following
-this structure.
+Current state: the store reads the **real catalog** from the API: home featured products, `/productos` (all products +
+search `?q=`), `/categorias/[slug]` and `/productos/[slug]`. Catalog data is fetched on the server through
+`src/services/catalog.service.ts` → `serverApiRequest` (`src/lib/server-api.ts`), which forwards the visitor's
+session so prices match their buyer profile; render `<SessionRefresh when={sessionExpired} />` on pages that use it.
+Filters live in the URL (`src/features/catalog/lib/catalog-params.ts`). **Auth is live**: `app/(auth)/`,
+`/mi-cuenta`, the header account menu; browser calls go through `apiRequest` (`src/lib/api-client.ts`). **Admin panel** lives in `app/admin/` +
+`src/features/admin/`: the layout checks the role on the server (`getServerSession`, `src/services/session.server.ts`;
+customers get a 404, expired sessions are renewed in the browser) and admin pages load data client-side with TanStack
+Query through `src/services/admin-*.service.ts`. Each admin section adds itself to `ADMIN_NAV`
+(`src/features/admin/lib/admin-nav.ts`). The cart is
+not built yet ("Agregar al carrito" is disabled). Create folders as they are needed, following this structure.
 
 ## Code conventions
 
