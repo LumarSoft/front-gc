@@ -15,6 +15,9 @@ export type NamedRef = {
 
 export type CategorySummary = NamedRef & { id: number }
 
+/** GET /tags. `group` "uso" holds the catalog's use filters. */
+export type Tag = NamedRef & { id: number; group: string | null }
+
 export type Category = CategorySummary & {
   description: string | null
   imageUrl: string | null
