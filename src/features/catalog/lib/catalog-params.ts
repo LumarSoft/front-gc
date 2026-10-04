@@ -10,18 +10,12 @@ export const SORT_OPTIONS: { value: ProductSort; label: string }[] = [
   { value: 'name', label: 'Nombre (A-Z)' },
 ]
 
-/**
- * "Uso" filters. Slugs match the tags loaded by the API seed.
- * TODO(api): read them from a tags endpoint once the admin panel can manage tags.
- */
-export const USE_FILTERS: { slug: string; label: string }[] = [
-  { slug: 'uso-hogar', label: 'Hogar' },
-  { slug: 'uso-oficina', label: 'Oficina' },
-  { slug: 'uso-foto', label: 'Fotografía' },
-  { slug: 'uso-textil', label: 'Textil y sublimación' },
-  { slug: 'uso-gran-formato', label: 'Gran formato' },
-  { slug: 'uso-comercio', label: 'Comercio' },
-]
+/** Tag group whose tags are the "Uso" filters (managed in /admin/etiquetas). */
+export const USE_TAG_GROUP = 'uso'
+
+/** Same limits as the API: lowercase slugs, at most 20 tags. Unknown slugs simply match no product. */
+const TAG_SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/
+const MAX_TAGS = 20
 
 /** Filters kept in the URL (`?q=&tag=a,b&sort=&page=`), so results are shareable and survive a reload. */
 export type CatalogParams = {
@@ -43,7 +37,10 @@ export function parseCatalogParams(searchParams: SearchParams): CatalogParams {
   const q = first(searchParams.q)?.trim()
   return {
     q: q ? q.slice(0, 100) : undefined,
-    tag: (first(searchParams.tag) ?? '').split(',').filter(slug => USE_FILTERS.some(filter => filter.slug === slug)),
+    tag: [...new Set((first(searchParams.tag) ?? '').split(',').filter(slug => TAG_SLUG.test(slug)))].slice(
+      0,
+      MAX_TAGS,
+    ),
     sort: SORT_OPTIONS.some(option => option.value === sort) ? (sort as ProductSort) : 'relevance',
     page: Number.isInteger(page) && page > 1 ? page : 1,
   }

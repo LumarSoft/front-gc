@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { CatalogView } from '@/src/features/catalog/components/catalog/catalog-view'
-import { parseCatalogParams, toProductQuery } from '@/src/features/catalog/lib/catalog-params'
-import { getCategories, getProducts } from '@/src/services/catalog.service'
+import { parseCatalogParams, toProductQuery, USE_TAG_GROUP } from '@/src/features/catalog/lib/catalog-params'
+import { getCategories, getProducts, getTags } from '@/src/services/catalog.service'
 
 export async function generateMetadata({ searchParams }: PageProps<'/productos'>): Promise<Metadata> {
   const { q } = parseCatalogParams(await searchParams)
@@ -15,9 +15,10 @@ export async function generateMetadata({ searchParams }: PageProps<'/productos'>
 
 export default async function ProductsPage({ searchParams }: PageProps<'/productos'>) {
   const params = parseCatalogParams(await searchParams)
-  const [{ data: result, sessionExpired }, categories] = await Promise.all([
+  const [{ data: result, sessionExpired }, categories, useTags] = await Promise.all([
     getProducts(toProductQuery(params)),
     getCategories(),
+    getTags(USE_TAG_GROUP),
   ])
 
   return (
@@ -30,6 +31,7 @@ export default async function ProductsPage({ searchParams }: PageProps<'/product
       result={result}
       sessionExpired={sessionExpired}
       categories={categories}
+      useTags={useTags}
     />
   )
 }

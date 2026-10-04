@@ -7,7 +7,7 @@ import { CatalogToolbar } from '@/src/features/catalog/components/catalog/catalo
 import { CategoryChips } from '@/src/features/catalog/components/catalog/category-chips'
 import { ProductGrid } from '@/src/features/catalog/components/product-grid'
 import type { CatalogParams } from '@/src/features/catalog/lib/catalog-params'
-import type { CategorySummary, NamedRef, PaginatedProducts } from '@/src/types/api/catalog'
+import type { CategorySummary, NamedRef, PaginatedProducts, Tag } from '@/src/types/api/catalog'
 
 type CatalogViewProps = {
   title: string
@@ -19,6 +19,7 @@ type CatalogViewProps = {
   sessionExpired: boolean
   categories: CategorySummary[]
   activeCategorySlug?: string
+  useTags: Tag[]
 }
 
 /** Product listing page: header, category chips, filters, toolbar, grid and pagination. */
@@ -32,6 +33,7 @@ export function CatalogView({
   sessionExpired,
   categories,
   activeCategorySlug,
+  useTags,
 }: CatalogViewProps) {
   const filters = (
     <CatalogFilters
@@ -39,6 +41,7 @@ export function CatalogView({
       params={params}
       categories={categories}
       activeCategorySlug={activeCategorySlug}
+      useTags={useTags}
     />
   )
   const hasFilters = params.tag.length > 0 || Boolean(params.q)

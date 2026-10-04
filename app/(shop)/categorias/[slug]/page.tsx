@@ -1,9 +1,9 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { CatalogView } from '@/src/features/catalog/components/catalog/catalog-view'
-import { parseCatalogParams, toProductQuery } from '@/src/features/catalog/lib/catalog-params'
+import { parseCatalogParams, toProductQuery, USE_TAG_GROUP } from '@/src/features/catalog/lib/catalog-params'
 import { ApiError } from '@/src/lib/api-client'
-import { getCategory, getProducts } from '@/src/services/catalog.service'
+import { getCategory, getProducts, getTags } from '@/src/services/catalog.service'
 import type { Category } from '@/src/types/api/catalog'
 
 async function loadCategory(slug: string): Promise<Category> {
@@ -27,9 +27,10 @@ export async function generateMetadata({ params }: PageProps<'/categorias/[slug]
 export default async function CategoryPage({ params, searchParams }: PageProps<'/categorias/[slug]'>) {
   const { slug } = await params
   const catalogParams = parseCatalogParams(await searchParams)
-  const [category, { data: result, sessionExpired }] = await Promise.all([
+  const [category, { data: result, sessionExpired }, useTags] = await Promise.all([
     loadCategory(slug),
     getProducts(toProductQuery(catalogParams, slug)),
+    getTags(USE_TAG_GROUP),
   ])
 
   // Subcategories of this category; on a subcategory, its siblings so the visitor can switch.
@@ -46,6 +47,7 @@ export default async function CategoryPage({ params, searchParams }: PageProps<'
       sessionExpired={sessionExpired}
       categories={parent.children}
       activeCategorySlug={slug}
+      useTags={useTags}
     />
   )
 }
