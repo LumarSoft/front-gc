@@ -36,7 +36,7 @@ export function ImageUploadField({ id, label, hint, value, onChange }: ImageUplo
           onDrop={event => {
             event.preventDefault()
             setDragging(false)
-            upload(event.dataTransfer.files[0])
+            if (!isUploading) upload(event.dataTransfer.files[0])
           }}
           className={cn(
             'relative grid size-24 shrink-0 cursor-pointer place-items-center overflow-hidden rounded-lg border border-dashed bg-muted/50 text-muted-foreground transition-colors hover:border-primary hover:text-primary',
@@ -56,8 +56,12 @@ export function ImageUploadField({ id, label, hint, value, onChange }: ImageUplo
           )}
         </label>
         <div className="flex flex-col items-start gap-2">
-          <Button asChild variant="outline" size="sm" disabled={isUploading}>
-            <label htmlFor={id} className="cursor-pointer">
+          <Button asChild variant="outline" size="sm">
+            <label
+              htmlFor={id}
+              aria-disabled={isUploading}
+              className="cursor-pointer aria-disabled:pointer-events-none aria-disabled:opacity-50"
+            >
               <UploadSimpleIcon />
               {value ? 'Cambiar imagen' : 'Subir imagen'}
             </label>
@@ -72,6 +76,8 @@ export function ImageUploadField({ id, label, hint, value, onChange }: ImageUplo
         <input
           id={id}
           type="file"
+          // A label cannot be disabled: disabling the input is what stops a second upload while one is running.
+          disabled={isUploading}
           accept="image/jpeg,image/png,image/webp,image/avif"
           className="sr-only"
           onChange={event => {
