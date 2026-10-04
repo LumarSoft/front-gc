@@ -20,3 +20,25 @@ export function summarizeCatalog(categories: AdminCategory[], brands: AdminBrand
     tags: tags.length,
   }
 }
+
+export type CategoryShare = {
+  id: number
+  name: string
+  /** Products in the category and its subcategories. */
+  products: number
+  /** 0–100, relative to the category with the most products (for the bar). */
+  percent: number
+}
+
+/** Top-level categories by product count, largest first. */
+export function productsByTopCategory(categories: AdminCategory[]): CategoryShare[] {
+  const totals = categories.map(category => ({
+    id: category.id,
+    name: category.name,
+    products: category.productCount + category.children.reduce((sum, child) => sum + child.productCount, 0),
+  }))
+  const max = Math.max(1, ...totals.map(total => total.products))
+  return totals
+    .sort((a, b) => b.products - a.products || a.name.localeCompare(b.name, 'es'))
+    .map(total => ({ ...total, percent: Math.round((total.products / max) * 100) }))
+}

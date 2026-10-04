@@ -27,15 +27,3 @@ export function getDiscountPercent(price: Money, compareAtPrice: Money): number 
   if (previous <= 0 || current >= previous) return 0
   return Math.round((1 - current / previous) * 100)
 }
-
-const longDateFormatter = new Intl.DateTimeFormat('es-AR', {
-  weekday: 'long',
-  day: 'numeric',
-  month: 'long',
-  timeZone: 'America/Argentina/Buenos_Aires',
-})
-
-/** "sábado, 4 de octubre", in Argentina's time zone whatever the server's. */
-export function formatLongDate(date: Date): string {
-  return longDateFormatter.format(date)
-}

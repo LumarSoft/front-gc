@@ -1,13 +1,15 @@
 import { AdminPageHeader } from '@/src/features/admin/components/admin-page-header'
-import { CatalogSummaryPanel } from '@/src/features/admin/components/dashboard/catalog-summary-panel'
-import { formatLongDate } from '@/src/lib/format'
+import { CatalogStats } from '@/src/features/admin/components/dashboard/catalog-stats'
+import { ProductsByCategoryCard } from '@/src/features/admin/components/dashboard/products-by-category-card'
 
 export default function AdminHomePage() {
-  const today = formatLongDate(new Date())
   return (
     <>
-      <AdminPageHeader title="Panel de administración" description={today.charAt(0).toUpperCase() + today.slice(1)} />
-      <CatalogSummaryPanel />
+      <AdminPageHeader title="Inicio" description="Un resumen del catálogo de la tienda." />
+      <div className="flex flex-col gap-4 lg:gap-6">
+        <CatalogStats />
+        <ProductsByCategoryCard />
+      </div>
     </>
   )
 }
