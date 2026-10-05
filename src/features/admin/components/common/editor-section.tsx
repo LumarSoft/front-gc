@@ -11,6 +11,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/src/components/ui/card'
+import { useUnsavedChangesWarning } from '@/src/hooks/use-unsaved-changes-warning'
 
 type EditorSectionProps = {
   title: string
@@ -36,6 +37,7 @@ export function EditorSection({
   onDiscard,
   children,
 }: EditorSectionProps) {
+  useUnsavedChangesWarning(dirty)
   return (
     <Card className="gap-0 shadow-xs ring-foreground/8">
       <CardHeader className="border-b">
