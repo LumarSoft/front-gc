@@ -8,6 +8,7 @@ import { ProductPrice } from '@/src/features/catalog/components/product/product-
 import { ProductTrustList } from '@/src/features/catalog/components/product/product-trust-list'
 import { VariantPicker } from '@/src/features/catalog/components/product/variant-picker'
 import { useSelectedVariant } from '@/src/features/catalog/hooks/use-selected-variant'
+import { useAddToCart } from '@/src/features/cart/hooks/use-add-to-cart'
 import type { ProductDetail } from '@/src/types/api/catalog'
 
 type ProductHeroProps = {
@@ -17,6 +18,7 @@ type ProductHeroProps = {
 /** Gallery + buying panel. Both follow the selected variant (photos, price and stock change per color). */
 export function ProductHero({ product }: ProductHeroProps) {
   const { variant, selectVariant, images, price, compareAtPrice, availability } = useSelectedVariant(product)
+  const cart = useAddToCart(variant)
   const inquiryHref = `/asistente?pregunta=${encodeURIComponent(`Quiero consultar por ${product.name}`)}`
 
   return (
@@ -36,11 +38,11 @@ export function ProductHero({ product }: ProductHeroProps) {
         </div>
         <ProductPrice price={price} compareAtPrice={compareAtPrice} availability={availability} variant={variant} />
         <VariantPicker variants={product.variants} selected={variant} onSelect={selectVariant} />
-        <ProductActions inquiryHref={inquiryHref} />
+        <ProductActions inquiryHref={inquiryHref} cart={cart} />
         <ProductTrustList />
       </div>
 
-      <MobileBuyBar title={variant?.name ?? product.name} price={price} inquiryHref={inquiryHref} />
+      <MobileBuyBar title={variant?.name ?? product.name} price={price} inquiryHref={inquiryHref} cart={cart} />
     </div>
   )
 }

@@ -16,6 +16,11 @@ The store needs the API running: keep `api-gc` up to date too (its own `npm run 
 
 ---
 
+## 2026-10-05 — Cart
+
+Needs the matching `api-gc` cart change: pull the backend and restart it. `npm run doctor` checks `/cart`.
+No new dependencies or environment variables. `/carrito` supports guests and users; checkout is still pending.
+
 ## 2026-10-05 — Variants, prices and exchange rate (LumarSoft/front-gc#12)
 
 1. Needs `api-gc` with LumarSoft/api-gc#12: pull it and restart its `npm run dev`.

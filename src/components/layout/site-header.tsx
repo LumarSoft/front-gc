@@ -1,11 +1,12 @@
 import Link from 'next/link'
-import { HandbagIcon, HeartIcon } from '@phosphor-icons/react/dist/ssr'
+import { HeartIcon } from '@phosphor-icons/react/dist/ssr'
 import { Button } from '@/src/components/ui/button'
 import { AnnouncementBar } from '@/src/components/layout/announcement-bar'
 import { BrandLogo } from '@/src/components/layout/brand-logo'
 import { MobileNav } from '@/src/components/layout/mobile-nav'
 import { SearchForm } from '@/src/components/layout/search-form'
 import { AccountMenu } from '@/src/features/auth/components/account-menu'
+import { CartLink } from '@/src/features/cart/components/cart-link'
 import { CATEGORY_LINKS, HIGHLIGHT_LINKS, OFFERS_LINK } from '@/src/lib/navigation'
 import { cn } from '@/src/lib/utils'
 
@@ -25,11 +26,7 @@ export function SiteHeader() {
                 <HeartIcon weight="light" className="size-6" />
               </Link>
             </Button>
-            <Button asChild size="icon-lg" className="rounded-full">
-              <Link href="/carrito" aria-label="Carrito">
-                <HandbagIcon weight="light" className="size-6" />
-              </Link>
-            </Button>
+            <CartLink />
           </div>
         </div>
         <div className="px-4 pb-3 md:hidden">

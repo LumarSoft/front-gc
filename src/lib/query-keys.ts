@@ -2,6 +2,8 @@ import type { AdminProductsQuery } from '@/src/types/api/admin-products'
 
 export const QUERY_KEYS = {
   currentUser: ['auth', 'current-user'],
+  cart: ['cart'],
+  cartFor: (userId: number | null) => ['cart', userId] as const,
   admin: {
     categories: ['admin', 'categories'],
     brands: ['admin', 'brands'],
