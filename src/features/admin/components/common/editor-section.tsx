@@ -11,6 +11,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/src/components/ui/card'
+import { useReportDirty } from '@/src/features/admin/hooks/use-dirty-sections'
 import { useUnsavedChangesWarning } from '@/src/hooks/use-unsaved-changes-warning'
 
 type EditorSectionProps = {
@@ -38,6 +39,7 @@ export function EditorSection({
   children,
 }: EditorSectionProps) {
   useUnsavedChangesWarning(dirty)
+  useReportDirty(dirty)
   return (
     <Card className="gap-0 shadow-xs ring-foreground/8">
       <CardHeader className="border-b">

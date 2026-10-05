@@ -10,5 +10,7 @@ export const QUERY_KEYS = {
     productLists: ['admin', 'products', 'list'],
     productList: (query: AdminProductsQuery) => ['admin', 'products', 'list', query] as const,
     product: (id: number) => ['admin', 'products', 'detail', id] as const,
+    priceLists: ['admin', 'price-lists'],
+    exchangeRates: ['admin', 'exchange-rates'],
   },
 } as const

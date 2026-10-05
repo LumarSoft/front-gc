@@ -16,6 +16,10 @@ The store needs the API running: keep `api-gc` up to date too (its own `npm run 
 
 ---
 
+## 2026-10-05 — Variants, prices and exchange rate (LumarSoft/front-gc#12)
+
+1. Needs `api-gc` with LumarSoft/api-gc#12: pull it and restart its `npm run dev`.
+
 ## 2026-10-05 — Admin products (LumarSoft/front-gc#11)
 
 1. Needs `api-gc` with LumarSoft/api-gc#11 (admin products): pull it and restart its `npm run dev`.

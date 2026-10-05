@@ -70,6 +70,38 @@ export type AdminVariantSummary = {
   availability: Availability
 }
 
+export type Currency = 'ARS' | 'USD'
+export type DataSource = 'TANGO' | 'MANUAL'
+export type SaleUnit = 'UNIT' | 'BOX' | 'PACK' | 'ROLL' | 'METER' | 'SQUARE_METER' | 'LITER' | 'KIT'
+
+export type VariantPrice = {
+  priceListId: number
+  amount: string
+  currency: Currency
+  compareAtAmount: string | null
+  source: DataSource
+}
+
+export type VariantStock = { onHand: number; reserved: number; lowStockThreshold: number | null }
+
+/** A variant with everything the admin can edit (GET /admin/products/:id). */
+export type AdminVariant = AdminVariantSummary & {
+  optionValues: Record<string, string> | null
+  barcode: string | null
+  source: DataSource
+  tangoCode: string | null
+  saleUnit: SaleUnit
+  unitsPerSaleUnit: number
+  weightGrams: number | null
+  lengthMm: number | null
+  widthMm: number | null
+  heightMm: number | null
+  isBulky: boolean
+  prices: VariantPrice[]
+  /** Null when stock was never loaded. */
+  stock: VariantStock | null
+}
+
 export type AdminProduct = {
   id: number
   type: 'STANDARD' | 'BUNDLE'
@@ -88,7 +120,7 @@ export type AdminProduct = {
   images: AdminProductImage[]
   specifications: AdminSpecification[]
   tags: AdminProductTag[]
-  variants: AdminVariantSummary[]
+  variants: AdminVariant[]
   issues: ProductIssue[]
   publishedAt: string | null
   createdAt: string
@@ -120,3 +152,27 @@ export type UpdateProductInput = Partial<{
 
 export type ProductImageInput = { id?: number; fileId: number; altText?: string | null; variantId?: number | null }
 export type SpecificationInput = { id?: number; groupName?: string | null; name: string; value: string }
+
+export type VariantInput = Partial<{
+  sku: string
+  name: string | null
+  optionValues: Record<string, string> | null
+  barcode: string | null
+  isActive: boolean
+  saleUnit: SaleUnit
+  unitsPerSaleUnit: number
+  weightGrams: number | null
+  lengthMm: number | null
+  widthMm: number | null
+  heightMm: number | null
+  isBulky: boolean
+}>
+
+export type VariantPriceInput = {
+  priceListId: number
+  amount: string
+  currency: Currency
+  compareAtAmount?: string | null
+}
+
+export type StockInput = { onHand: number; lowStockThreshold?: number | null; note?: string | null }
