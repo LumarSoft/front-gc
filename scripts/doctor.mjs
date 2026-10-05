@@ -63,11 +63,12 @@ try {
   const response = await fetch(`${apiUrl}/health`, { signal: AbortSignal.timeout(3000) })
   if (response.ok) {
     ok(`API reachable at ${apiUrl}`)
-    // 5. The admin panel needs the admin endpoints (LumarSoft/api-gc#6, #7, #11). GET /tags arrived with the first
+    // 5. The admin panel needs the admin endpoints (LumarSoft/api-gc#6, #7, #11, #12). GET /tags arrived with the first
     // ones; /admin/products answers 401 without a session when it exists and 404 on an older API.
     const tags = await fetch(`${apiUrl}/tags`, { signal: AbortSignal.timeout(3000) })
     const products = await fetch(`${apiUrl}/admin/products`, { signal: AbortSignal.timeout(3000) })
-    if (tags.ok && products.status !== 404) ok('API has the admin panel endpoints')
+    const priceLists = await fetch(`${apiUrl}/admin/price-lists`, { signal: AbortSignal.timeout(3000) })
+    if (tags.ok && products.status !== 404 && priceLists.status !== 404) ok('API has the admin panel endpoints')
     else
       warn('API is older than the admin panel', 'pull api-gc and restart it (cd ../api-gc && git pull && npm run dev)')
   } else warn(`API at ${apiUrl} answered ${response.status}`, 'run `npm run doctor` in api-gc')

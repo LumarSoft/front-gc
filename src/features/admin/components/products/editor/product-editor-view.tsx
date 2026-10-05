@@ -16,7 +16,7 @@ import { SeoSection } from '@/src/features/admin/components/products/editor/seo-
 import { SpecificationsSection } from '@/src/features/admin/components/products/editor/specifications-section'
 import { StatusCard } from '@/src/features/admin/components/products/editor/status-card'
 import { TagsSection } from '@/src/features/admin/components/products/editor/tags-section'
-import { VariantsSummary } from '@/src/features/admin/components/products/editor/variants-summary'
+import { VariantsCard } from '@/src/features/admin/components/products/variants/variants-card'
 import { useAdminProduct } from '@/src/features/admin/hooks/use-admin-products'
 import { ApiError } from '@/src/lib/api-client'
 
@@ -65,7 +65,7 @@ export function ProductEditorView({ productId }: { productId: number }) {
             <GallerySection product={product} />
           </div>
           <div className="order-4 lg:order-none">
-            <VariantsSummary product={product} />
+            <VariantsCard product={product} />
           </div>
           <div className="order-8 lg:order-none">
             <SpecificationsSection product={product} />

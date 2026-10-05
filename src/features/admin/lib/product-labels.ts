@@ -1,5 +1,5 @@
 import type { OutOfStockBehavior } from '@/src/types/api/catalog'
-import type { ProductIssue, ProductStatus } from '@/src/types/api/admin-products'
+import type { AdminVariantSummary, ProductIssue, ProductStatus, SaleUnit } from '@/src/types/api/admin-products'
 
 export const PRODUCT_STATUS_LABELS: Record<ProductStatus, string> = {
   PUBLISHED: 'Publicado',
@@ -33,3 +33,22 @@ export const OUT_OF_STOCK_OPTIONS: { value: OutOfStockBehavior; label: string; d
     description: 'Desaparece del catálogo hasta que vuelva a tener stock.',
   },
 ]
+
+export const SALE_UNIT_LABELS: Record<SaleUnit, string> = {
+  UNIT: 'Unidad',
+  BOX: 'Caja',
+  PACK: 'Pack',
+  ROLL: 'Rollo',
+  METER: 'Metro',
+  SQUARE_METER: 'Metro cuadrado',
+  LITER: 'Litro',
+  KIT: 'Kit',
+}
+
+/** How a variant is called in lists: its name, else its options ("Cyan / 70 ml"), else "Principal" or its SKU. */
+export function variantTitle(variant: AdminVariantSummary & { optionValues?: Record<string, string> | null }): string {
+  if (variant.name) return variant.name
+  const options = Object.values(variant.optionValues ?? {})
+  if (options.length) return options.join(' / ')
+  return variant.isDefault ? 'Variante principal' : variant.sku
+}
