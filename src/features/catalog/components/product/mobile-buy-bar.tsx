@@ -20,7 +20,11 @@ export function MobileBuyBar({ title, price, inquiryHref, cart }: MobileBuyBarPr
         <p className="text-lg leading-tight font-extrabold">{price ? formatMoney(price) : 'Consultá el precio'}</p>
       </div>
       {cart.canAdd ? (
-        <Button onClick={cart.add} disabled={cart.pending} className="h-11 shrink-0 rounded-full px-5 font-bold">
+        <Button
+          onClick={event => cart.add(event.currentTarget)}
+          disabled={cart.pending}
+          className="h-11 shrink-0 rounded-full px-5 font-bold"
+        >
           {cart.pending ? 'Agregando…' : 'Agregar al carrito'}
         </Button>
       ) : (

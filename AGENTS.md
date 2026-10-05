@@ -111,7 +111,10 @@ Query through `src/services/admin-*.service.ts`. Each admin section adds itself 
 (`src/features/admin/lib/admin-nav.ts`). **Cart is live**: `/carrito` + `src/features/cart/`, browser-only calls through
 `src/services/cart.service.ts`. Guests use an httpOnly API cookie; after login the API combines their cart with the
 user's cart. TanStack Query keys separate carts by session; the API computes every subtotal and validates stock.
-Checkout is not built yet. Create folders as they are needed, following this structure.
+The header and successful product additions open a lazy-loaded right-side cart drawer, controlled by
+`CartDrawerProvider` in the shop layout; `/carrito` remains available as a standalone page. Both surfaces reuse
+`CartView` and the same API-backed controls. Checkout is not built yet. Create folders as they are needed,
+following this structure.
 
 ## Code conventions
 

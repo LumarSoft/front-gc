@@ -204,3 +204,10 @@
 @utility max-h-dialog {
   max-height: 90dvh;
 }
+
+@media (prefers-reduced-motion: reduce) {
+  body:has([data-cart-drawer]) [data-slot='sheet-overlay'] {
+    animation: none;
+    transition: none;
+  }
+}

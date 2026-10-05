@@ -8,33 +8,43 @@ import { ProductImagePlaceholder } from '@/src/features/catalog/components/produ
 import { cartItemMessage } from '@/src/features/cart/lib/cart-messages'
 import { formatMoneyExact } from '@/src/lib/format'
 import type { CartItem } from '@/src/types/api/cart'
+import { cn } from '@/src/lib/utils'
 
 type CartItemRowProps = {
   item: CartItem
   pending: boolean
   onQuantity: (variantId: number, quantity: number) => void
   onRemove: (variantId: number) => void
+  compact?: boolean
+  onNavigate?: () => void
 }
 
-export function CartItemRow({ item, pending, onQuantity, onRemove }: CartItemRowProps) {
+export function CartItemRow({ item, pending, onQuantity, onRemove, compact = false, onNavigate }: CartItemRowProps) {
   const message = cartItemMessage(item)
   const href = `/productos/${item.productSlug}`
   return (
-    <li className="rounded-3xl border bg-card p-4 sm:p-6" aria-busy={pending}>
+    <li className={cn('rounded-3xl border bg-card p-4', !compact && 'sm:p-6')} aria-busy={pending}>
       <div className="flex gap-4">
         <Link
           href={href}
-          className="relative size-20 shrink-0 overflow-hidden rounded-xl bg-surface sm:size-28"
+          onClick={onNavigate}
+          className={cn('relative size-20 shrink-0 overflow-hidden rounded-xl bg-surface', !compact && 'sm:size-28')}
           aria-label={`Ver ${item.name}`}
         >
           {item.imageUrl ? (
-            <Image src={item.imageUrl} alt={item.name} fill sizes="112px" className="object-contain p-2" />
+            <Image
+              src={item.imageUrl}
+              alt={item.name}
+              fill
+              sizes={compact ? '80px' : '112px'}
+              className="object-contain p-2"
+            />
           ) : (
             <ProductImagePlaceholder />
           )}
         </Link>
         <div className="min-w-0 flex-1">
-          <Link href={href} className="text-base font-bold hover:text-primary">
+          <Link href={href} onClick={onNavigate} className="text-base font-bold hover:text-primary">
             {item.name}
           </Link>
           {item.variantName && <p className="mt-1 text-sm text-muted-foreground">{item.variantName}</p>}

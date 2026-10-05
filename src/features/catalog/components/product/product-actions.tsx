@@ -13,7 +13,7 @@ export function ProductActions({ inquiryHref, cart }: ProductActionsProps) {
       <Button
         size="lg"
         disabled={!cart.canAdd || cart.pending}
-        onClick={cart.add}
+        onClick={event => cart.add(event.currentTarget)}
         className="h-12 rounded-full text-base font-bold"
       >
         {cart.pending ? 'Agregando…' : 'Agregar al carrito'}
@@ -21,9 +21,13 @@ export function ProductActions({ inquiryHref, cart }: ProductActionsProps) {
       {cart.added && (
         <p role="status" className="text-center text-sm text-success">
           Agregaste el producto.{' '}
-          <Link href="/carrito" className="font-semibold underline">
+          <button
+            type="button"
+            onClick={event => cart.openCart(event.currentTarget)}
+            className="font-semibold underline"
+          >
             Ver carrito
-          </Link>
+          </button>
         </p>
       )}
       {cart.error && (
