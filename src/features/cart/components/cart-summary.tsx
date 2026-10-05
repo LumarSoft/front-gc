@@ -30,7 +30,7 @@ export function CartSummary({
         <p className="mt-4 text-sm text-destructive">Revisá los productos con avisos para continuar.</p>
       )}
       <div className={cn(drawer ? 'mt-3' : 'mt-6 border-t pt-5')}>
-        <p className="text-sm font-semibold">La compra online estará disponible próximamente.</p>
+        <p className="text-sm font-semibold">Prepará tus datos y la entrega en el siguiente paso.</p>
         {!drawer && (
           <p className="mt-2 text-sm text-muted-foreground">
             Tu carrito queda guardado. Los precios y el stock se actualizan al consultarlo; agregar productos no reserva
@@ -38,6 +38,17 @@ export function CartSummary({
           </p>
         )}
       </div>
+      {cart.hasIssues ? (
+        <Button disabled className="mt-4 h-11 w-full rounded-full font-bold">
+          Continuar con mi compra
+        </Button>
+      ) : (
+        <Button asChild className="mt-4 h-11 w-full rounded-full font-bold">
+          <Link href="/finalizar-compra" onClick={onContinue}>
+            Continuar con mi compra
+          </Link>
+        </Button>
+      )}
       {drawer ? (
         <Button variant="outline" className="mt-4 h-11 w-full rounded-full" onClick={onContinue}>
           Seguir eligiendo

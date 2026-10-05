@@ -16,6 +16,15 @@ The store needs the API running: keep `api-gc` up to date too (its own `npm run 
 
 ---
 
+## 2026-10-05 — Checkout preparation
+
+Needs the matching `api-gc` checkout change: restart the backend after pulling. `npm run doctor` checks
+`/cart/checkout`. No new dependencies, environment variables or migrations.
+
+The cart links to `/finalizar-compra`: contact details, delivery options and a server-calculated review. Payment,
+order creation and stock reservations are not enabled yet; payment credentials and guest-order policy remain pending.
+Local delivery reads existing `ShippingMethod` configuration; missing tariffs and carrier quotes stay unavailable.
+
 ## 2026-10-05 — Cart
 
 Needs the matching `api-gc` cart change: pull the backend and restart it. `npm run doctor` checks `/cart`.

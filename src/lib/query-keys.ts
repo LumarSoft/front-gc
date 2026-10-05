@@ -4,6 +4,7 @@ export const QUERY_KEYS = {
   currentUser: ['auth', 'current-user'],
   cart: ['cart'],
   cartFor: (userId: number | null) => ['cart', userId] as const,
+  checkoutFor: (userId: number | null) => ['cart', userId, 'checkout'] as const,
   admin: {
     categories: ['admin', 'categories'],
     brands: ['admin', 'brands'],

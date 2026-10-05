@@ -113,7 +113,10 @@ Query through `src/services/admin-*.service.ts`. Each admin section adds itself 
 user's cart. TanStack Query keys separate carts by session; the API computes every subtotal and validates stock.
 The header and successful product additions open a lazy-loaded right-side cart drawer, controlled by
 `CartDrawerProvider` in the shop layout; `/carrito` remains available as a standalone page. Both surfaces reuse
-`CartView` and the same API-backed controls. Checkout is not built yet. Create folders as they are needed,
+`CartView` and the same API-backed controls. **Checkout preparation** lives at `/finalizar-compra` +
+`src/features/checkout/`, with `/cart/checkout` and `/cart/checkout/preview` through `checkout.service.ts`.
+Contact details and delivery are validated before a server-calculated review. Payment, order creation and stock
+reservation are not enabled yet. Create folders as they are needed,
 following this structure.
 
 ## Code conventions

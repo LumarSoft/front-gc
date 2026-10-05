@@ -75,6 +75,9 @@ try {
     const cart = await fetch(`${apiUrl}/cart`, { signal: AbortSignal.timeout(3000) })
     if (cart.ok) ok('API has the cart endpoints')
     else warn('API does not expose the cart endpoints', 'pull api-gc and restart it (see docs/upgrade-notes.md)')
+    const checkout = await fetch(`${apiUrl}/cart/checkout`, { signal: AbortSignal.timeout(3000) })
+    if (checkout.ok) ok('API has the checkout preview endpoints')
+    else warn('API does not expose checkout preview', 'pull api-gc and restart it (see docs/upgrade-notes.md)')
   } else warn(`API at ${apiUrl} answered ${response.status}`, 'run `npm run doctor` in api-gc')
 } catch {
   warn(`API not reachable at ${apiUrl} (the store will show errors)`, 'start it: cd ../api-gc && npm run dev')

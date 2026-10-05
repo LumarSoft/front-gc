@@ -39,6 +39,7 @@ function useCartMutation<T>(mutationFn: (input: T) => Promise<Cart>) {
     },
     onSuccess: cart => {
       queryClient.setQueryData(queryKey, cart)
+      void queryClient.invalidateQueries({ queryKey: [...queryKey, 'checkout'] })
     },
     onError: async () => {
       await queryClient.invalidateQueries({ queryKey: QUERY_KEYS.cart })
