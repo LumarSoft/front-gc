@@ -1,7 +1,13 @@
 import { ApiError } from '@/src/lib/api-client'
 
-/** API messages (English, stable) the admin can act on, translated. Matched by substring. */
-const KNOWN_MESSAGES: [string, string][] = [
+/** API messages (English, stable) the admin can act on, translated. Matched in order, first match wins. */
+const KNOWN_MESSAGES: [RegExp | string, string][] = [
+  [/SKU .* archived record/, 'Ese SKU pertenece a un producto archivado. Usá otro.'],
+  [/SKU .* already in use/, 'Ese SKU ya lo usa otro producto.'],
+  ['Cannot publish', 'Para publicarlo necesita al menos una variante activa con precio minorista.'],
+  ['do not belong to this product', 'La lista cambió mientras la editabas. Recargá la página y probá de nuevo.'],
+  ['Some images do not exist', 'Alguna imagen ya no existe. Subila de nuevo.'],
+  ['Some tags do not exist', 'Alguna etiqueta ya no existe. Recargá la página.'],
   ['two levels only', 'Las subcategorías no pueden tener subcategorías propias.'],
   ['cannot become a subcategory', 'Una categoría con subcategorías no puede pasar a ser subcategoría.'],
   ['its own parent', 'Una categoría no puede ser su propia categoría principal.'],
@@ -22,7 +28,9 @@ export function adminErrorMessage(error: unknown): string {
   if (error.status === 0) return 'No hay conexión con el servidor. Revisá tu conexión y probá de nuevo.'
   if (error.status === 401 || error.status === 403) return 'Tu sesión venció o no tenés permiso. Volvé a ingresar.'
   if (error.status === 413) return 'La imagen pesa más de 5 MB. Elegí una más liviana.'
-  const known = KNOWN_MESSAGES.find(([fragment]) => error.message.includes(fragment))
+  const known = KNOWN_MESSAGES.find(([pattern]) =>
+    typeof pattern === 'string' ? error.message.includes(pattern) : pattern.test(error.message),
+  )
   if (known) return known[1]
   if (error.status === 404) return 'Ese elemento ya no existe. Recargá la página.'
   return 'No pudimos guardar los cambios. Probá de nuevo en unos segundos.'

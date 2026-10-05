@@ -1,5 +1,5 @@
 import type { Icon } from '@phosphor-icons/react'
-import { FoldersIcon, HouseIcon, TagIcon, TrademarkIcon } from '@phosphor-icons/react'
+import { FoldersIcon, HouseIcon, PackageIcon, TagIcon, TrademarkIcon } from '@phosphor-icons/react'
 
 export type AdminNavItem = {
   label: string
@@ -23,6 +23,7 @@ export const ADMIN_NAV: AdminNavGroup[] = [
   {
     label: 'Catálogo',
     items: [
+      { label: 'Productos', href: '/admin/productos', icon: PackageIcon, pinned: true },
       { label: 'Categorías', href: '/admin/categorias', icon: FoldersIcon, pinned: true },
       { label: 'Marcas', href: '/admin/marcas', icon: TrademarkIcon },
       { label: 'Etiquetas', href: '/admin/etiquetas', icon: TagIcon },
