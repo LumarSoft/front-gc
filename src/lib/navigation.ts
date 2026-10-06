@@ -31,7 +31,7 @@ export const HELP_LINKS: NavLink[] = [
   { label: 'Medios de pago', href: '/ayuda/medios-de-pago' },
   { label: 'Garantía oficial', href: '/ayuda/garantia' },
   { label: 'Preguntas frecuentes', href: '/ayuda/preguntas-frecuentes' },
-  { label: 'Seguí tu pedido', href: '/mi-cuenta/pedidos' },
+  { label: 'Seguí tu pedido', href: '/pedidos' },
 ]
 
 export const COMPANY_LINKS: NavLink[] = [

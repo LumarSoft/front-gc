@@ -76,7 +76,7 @@ export function SiteFooter() {
           <p>
             © {new Date().getFullYear()} {SITE.name} SRL. Todos los derechos reservados.
           </p>
-          <p>Pagos procesados por Mercado Pago</p>
+          <p>Pago a coordinar con el local</p>
           <Link
             href={WITHDRAWAL_LINK.href}
             className="rounded-full border border-navy-foreground/30 px-4 py-2 font-semibold text-navy-foreground transition-colors hover:bg-navy-foreground hover:text-navy"

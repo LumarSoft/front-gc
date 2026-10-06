@@ -3,9 +3,13 @@
 import { Button } from '@/src/components/ui/button'
 import type { Checkout } from '@/src/types/api/checkout'
 import { useCheckoutReviewFocus } from '../hooks/use-checkout-review-focus'
+import { usePlaceOrder } from '../hooks/use-place-order'
+import { useCartBusy } from '@/src/features/cart/hooks/use-cart'
 
 export function CheckoutReview({ checkout, onEdit }: { checkout: Checkout; onEdit: () => void }) {
   const heading = useCheckoutReviewFocus()
+  const { confirm, pending, error } = usePlaceOrder(checkout)
+  const busy = useCartBusy()
   const customer = checkout.customer!
   const delivery = checkout.deliveryOptions.find(option => option.code === checkout.deliveryMethod)
   return (
@@ -34,15 +38,30 @@ export function CheckoutReview({ checkout, onEdit }: { checkout: Checkout; onEdi
         )}
       </div>
       <div className="rounded-2xl bg-surface p-5">
-        <h3 className="font-bold">El pago estará disponible próximamente</h3>
+        <h3 className="font-bold">Pago a coordinar con el local</h3>
         <p className="mt-2 text-sm text-muted-foreground">
-          Todavía no se generó un pedido. Tu carrito sigue guardado para que puedas continuar cuando habilitemos los
-          medios de pago.
+          Al confirmar, reservamos tus productos durante {checkout.reservationHours} horas. El pedido queda pendiente
+          hasta que el equipo verifique el pago. Podés consultar sus avances con un enlace privado, sin crear una
+          cuenta.
         </p>
       </div>
-      <Button variant="outline" className="h-11 rounded-full" onClick={onEdit}>
-        Editar mis datos
-      </Button>
+      {error && (
+        <p role="alert" className="text-sm text-destructive">
+          {error} Podés volver a revisar la compra o reintentar.
+        </p>
+      )}
+      <div className="flex flex-col gap-3 sm:flex-row">
+        <Button
+          className="h-12 rounded-full font-bold sm:flex-1"
+          disabled={pending || busy || !checkout.reviewToken}
+          onClick={confirm}
+        >
+          {pending ? 'Confirmando…' : 'Confirmar pedido'}
+        </Button>
+        <Button variant="outline" className="h-12 rounded-full" disabled={pending || busy} onClick={onEdit}>
+          Editar mis datos
+        </Button>
+      </div>
     </section>
   )
 }

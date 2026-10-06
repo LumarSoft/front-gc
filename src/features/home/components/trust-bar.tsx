@@ -10,11 +10,11 @@ import { cn } from '@/src/lib/utils'
 const ITEMS = [
   { icon: CertificateIcon, title: 'Distribuidor oficial', text: 'Productos Epson originales con garantía' },
   { icon: StorefrontIcon, title: 'Retiro gratis', text: 'Comprá online y retirá en Rosario' },
-  { icon: TruckIcon, title: 'Envíos a todo el país', text: 'Cotizá con tu código postal' },
+  { icon: TruckIcon, title: 'Opciones de entrega', text: 'Consultá la disponibilidad al comprar' },
   {
     icon: CreditCardIcon,
-    title: 'Pagá como quieras',
-    text: 'Tarjeta, transferencia o Mercado Pago',
+    title: 'Pago en el local',
+    text: 'Coordiná el pago con nuestro equipo',
     desktopOnly: true,
   },
   { icon: ArrowUUpLeftIcon, title: 'Compra protegida', text: 'Botón de arrepentimiento' },

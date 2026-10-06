@@ -1,12 +1,9 @@
 import { CreditCardIcon, StorefrontIcon, TruckIcon } from '@phosphor-icons/react/dist/ssr'
-import { formatMoney } from '@/src/lib/format'
-import { SAMPLE_FREE_SHIPPING_THRESHOLD } from '@/src/lib/site-config'
 
-// SAMPLE copy: installments and the free-shipping threshold must come from the API/admin config.
 const MESSAGES = [
-  { icon: TruckIcon, text: `Envío gratis en Rosario desde ${formatMoney(SAMPLE_FREE_SHIPPING_THRESHOLD)}` },
+  { icon: TruckIcon, text: 'Consultá las opciones de entrega al comprar' },
   { icon: StorefrontIcon, text: 'Retiro gratis en nuestro local' },
-  { icon: CreditCardIcon, text: 'Pagá en cuotas con Mercado Pago' },
+  { icon: CreditCardIcon, text: 'Pago a coordinar con el local' },
 ]
 
 export function AnnouncementBar() {

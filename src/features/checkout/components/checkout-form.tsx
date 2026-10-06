@@ -40,7 +40,7 @@ export function CheckoutForm({ checkout, user, pending, error, onPreview }: Prop
               label="Email"
               type="email"
               autoComplete="email"
-              description="Lo usaremos para enviarte las novedades de tu pedido."
+              description="Queda como contacto del pedido. Por ahora, las novedades se consultan con tu enlace privado."
             />
             <CheckoutField
               name="phone"

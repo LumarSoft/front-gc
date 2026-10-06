@@ -78,6 +78,26 @@ try {
     const checkout = await fetch(`${apiUrl}/cart/checkout`, { signal: AbortSignal.timeout(3000) })
     if (checkout.ok) ok('API has the checkout preview endpoints')
     else warn('API does not expose checkout preview', 'pull api-gc and restart it (see docs/upgrade-notes.md)')
+    const orders = await fetch(`${apiUrl}/admin/orders`, { signal: AbortSignal.timeout(3000) })
+    const recovery = await fetch(`${apiUrl}/orders/recover`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: '{}',
+      signal: AbortSignal.timeout(3000),
+    })
+    const checkoutData = checkout.ok ? await checkout.json() : null
+    if (
+      orders.status === 401 &&
+      recovery.status === 400 &&
+      typeof checkoutData?.reservationHours === 'number' &&
+      'reviewToken' in checkoutData
+    )
+      ok('API has guest orders, private tracking and manual management')
+    else
+      warn(
+        'API is older than guest checkout',
+        'apply api-gc migrations, generate Prisma and restart it (see docs/upgrade-notes.md)',
+      )
   } else warn(`API at ${apiUrl} answered ${response.status}`, 'run `npm run doctor` in api-gc')
 } catch {
   warn(`API not reachable at ${apiUrl} (the store will show errors)`, 'start it: cd ../api-gc && npm run dev')

@@ -16,6 +16,26 @@ The store needs the API running: keep `api-gc` up to date too (its own `npm run 
 
 ---
 
+## 2026-10-05 — Guest order confirmation and private tracking
+
+Apply the guest-orders migration in `api-gc`, regenerate Prisma and restart both apps. Frontend doctor checks admin
+orders, safe token validation on `/orders/recover` and the preview's new fields. No frontend dependencies or env vars.
+
+The customer confirms a MANUAL pending-payment order, without registration or external providers. `reviewToken`
+detects stale reviews; the browser generates/persists a secure attempt token before POST so retries are idempotent.
+A lost response can be recovered from checkout using that token. Tracking lives at `/pedidos/[number]#acceso=<token>`;
+only the browser reads the fragment and sends it in a POST body, with no shared caching/indexing/referrers. The buyer
+must bookmark/copy the private link: this stage sends no emails. Tokens are bearer capabilities and contain no PII;
+never add them to logs/analytics or share links publicly. New navigation uses `/pedidos` as a paste-link entry point.
+
+`/admin/pedidos` lists/filters/pages orders, and each detail permits the next backend-approved states. Manual payment
+confirmation requires staff to explicitly check receipt of the full amount. Paid refunds/cancellation, carrier tracking,
+current-account charging and invoices remain future work. An API warning flags failed/stuck stock expiration.
+
+Manual reservation uses the provisional API window (default 24 hours, configurable via `Setting.reservation.manualHours`).
+Marketing claims about Mercado Pago/automatic carrier quoting/sample free-shipping thresholds were removed to match
+this scope. Other sample company/legal/wholesale content still requires the client's real information.
+
 ## 2026-10-05 — Checkout preparation
 
 Needs the matching `api-gc` checkout change: restart the backend after pulling. `npm run doctor` checks

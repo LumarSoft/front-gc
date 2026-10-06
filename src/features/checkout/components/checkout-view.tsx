@@ -8,11 +8,13 @@ import { useCheckout } from '../hooks/use-checkout'
 import { CheckoutForm } from './checkout-form'
 import { CheckoutSummary } from './checkout-summary'
 import { CheckoutReview } from './checkout-review'
+import { useRecoverOrder } from '../hooks/use-recover-order'
 
 export function CheckoutView() {
   const { query, preview, pending, user, error } = useCheckout()
   const { openCart } = useCartDrawer()
-  if (query.isPending) return <CartSkeleton />
+  const recovery = useRecoverOrder(Boolean(query.data && !query.data.cart.items.length))
+  if (query.isPending || recovery.pending) return <CartSkeleton />
   if (query.isError)
     return (
       <div className="rounded-3xl border p-8 text-center">
@@ -28,6 +30,16 @@ export function CheckoutView() {
       <div className="rounded-3xl border p-8 text-center">
         <h2 className="text-xl font-extrabold">Tu carrito está vacío</h2>
         <p className="mt-2 text-muted-foreground">Agregá productos para preparar tu compra.</p>
+        {recovery.available && (
+          <div className="mt-4">
+            <p className="text-sm text-muted-foreground">
+              Si acabás de confirmar y no recibiste la respuesta, podés recuperar el pedido.
+            </p>
+            <Button variant="outline" className="mt-3 rounded-full" onClick={recovery.recover}>
+              Recuperar mi confirmación
+            </Button>
+          </div>
+        )}
         <Button asChild className="mt-5 rounded-full">
           <Link href="/productos">Explorar productos</Link>
         </Button>

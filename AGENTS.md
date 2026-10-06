@@ -115,8 +115,10 @@ The header and successful product additions open a lazy-loaded right-side cart d
 `CartDrawerProvider` in the shop layout; `/carrito` remains available as a standalone page. Both surfaces reuse
 `CartView` and the same API-backed controls. **Checkout preparation** lives at `/finalizar-compra` +
 `src/features/checkout/`, with `/cart/checkout` and `/cart/checkout/preview` through `checkout.service.ts`.
-Contact details and delivery are validated before a server-calculated review. Payment, order creation and stock
-reservation are not enabled yet. Create folders as they are needed,
+Contact details and delivery are validated before a server-calculated review. Guest confirmation now creates a pending manual-payment order and reserves stock through `/cart/checkout/orders`.
+`src/features/orders/` renders private fragment-link tracking at `/pedidos/[number]`, with a paste-link entry page
+at `/pedidos`. Admin orders at `/admin/pedidos` manage verified payment and lifecycle states. No external providers
+or order emails are enabled. The provisional reservation window comes from the API (default 24 hours). Create folders as they are needed,
 following this structure.
 
 ## Code conventions
