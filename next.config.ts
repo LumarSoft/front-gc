@@ -1,8 +1,17 @@
 import type { NextConfig } from 'next'
 
-const apiUrl = new URL(process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3001')
+const upstreamUrl = (
+  process.env.API_UPSTREAM_URL ||
+  process.env.NEXT_PUBLIC_API_URL ||
+  'http://localhost:3001'
+).replace(/\/+$/, '')
+const apiUrl = new URL(upstreamUrl)
 
 const nextConfig: NextConfig = {
+  async rewrites() {
+    // Keep browser sessions on the frontend origin when the API is hosted on another domain.
+    return process.env.API_UPSTREAM_URL ? [{ source: '/api/:path*', destination: `${upstreamUrl}/:path*` }] : []
+  },
   images: {
     // 90 is reserved for full-width hero banners, where compression artifacts are visible.
     qualities: [75, 90],
