@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { ArrowRightIcon } from '@phosphor-icons/react/dist/ssr'
 import { ProductBadge } from '@/src/features/catalog/components/product-badge'
 import { ProductImagePlaceholder } from '@/src/features/catalog/components/product-image-placeholder'
+import { FavoriteButton } from '@/src/features/favorites/components/favorite-button'
 import { getAvailabilityLabel } from '@/src/features/catalog/lib/availability'
 import { formatMoney, getDiscountPercent } from '@/src/lib/format'
 import { cn } from '@/src/lib/utils'
@@ -44,6 +45,8 @@ export function ProductCard({ product, priority = false }: ProductCardProps) {
             </span>
           )}
         </div>
+        {/* Above the card-wide link overlay, so it toggles the favorite instead of opening the product. */}
+        <FavoriteButton productId={product.id} productName={product.name} className="absolute top-2 right-2 z-10" />
       </div>
       <div className="flex flex-1 flex-col gap-2 border-t p-3 sm:p-4">
         <p className="text-xs font-medium tracking-wide text-muted-foreground uppercase">{product.category.name}</p>

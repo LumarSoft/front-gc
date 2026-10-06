@@ -88,6 +88,8 @@ export type ProductListQuery = {
   tag?: string[]
   q?: string
   featured?: boolean
+  /** Only products shown as offers for the current buyer. */
+  onSale?: boolean
   sort?: ProductSort
 }
 

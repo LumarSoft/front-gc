@@ -9,6 +9,7 @@ import { ProductTrustList } from '@/src/features/catalog/components/product/prod
 import { VariantPicker } from '@/src/features/catalog/components/product/variant-picker'
 import { useSelectedVariant } from '@/src/features/catalog/hooks/use-selected-variant'
 import { useAddToCart } from '@/src/features/cart/hooks/use-add-to-cart'
+import { FavoriteButton } from '@/src/features/favorites/components/favorite-button'
 import type { ProductDetail } from '@/src/types/api/catalog'
 
 type ProductHeroProps = {
@@ -30,9 +31,12 @@ export function ProductHero({ product }: ProductHeroProps) {
           <p className="text-sm font-semibold text-primary">
             {product.brand?.name} · {product.category.name}
           </p>
-          <h1 className="mt-2 text-2xl leading-tight font-extrabold tracking-tight text-balance sm:text-3xl">
-            {product.name}
-          </h1>
+          <div className="mt-2 flex items-start justify-between gap-4">
+            <h1 className="text-2xl leading-tight font-extrabold tracking-tight text-balance sm:text-3xl">
+              {product.name}
+            </h1>
+            <FavoriteButton productId={product.id} productName={product.name} className="shrink-0" />
+          </div>
           {product.badge && <ProductBadge badge={product.badge} className="mt-3" />}
           {product.shortDescription && <p className="mt-4 text-muted-foreground">{product.shortDescription}</p>}
         </div>

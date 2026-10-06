@@ -5,6 +5,7 @@ export const QUERY_KEYS = {
   cart: ['cart'],
   cartFor: (userId: number | null) => ['cart', userId] as const,
   checkoutFor: (userId: number | null) => ['cart', userId, 'checkout'] as const,
+  favoritesFor: (userId: number) => ['favorites', userId] as const,
   orderTracking: (number: string, token: string | null) => ['orders', 'tracking', number, token] as const,
   admin: {
     categories: ['admin', 'categories'],

@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { GearSixIcon, PackageIcon, SignOutIcon, UserCircleIcon, UserIcon } from '@phosphor-icons/react'
+import { GearSixIcon, HeartIcon, PackageIcon, SignOutIcon, UserCircleIcon, UserIcon } from '@phosphor-icons/react'
 import { Button } from '@/src/components/ui/button'
 import {
   DropdownMenu,
@@ -65,6 +65,12 @@ export function AccountMenu() {
           <Link href="/pedidos">
             <PackageIcon weight="light" className="size-5" />
             Mis pedidos
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem asChild>
+          <Link href="/favoritos">
+            <HeartIcon weight="light" className="size-5" />
+            Mis favoritos
           </Link>
         </DropdownMenuItem>
         {user.role === 'ADMIN' && (
