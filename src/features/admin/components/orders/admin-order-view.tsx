@@ -67,10 +67,10 @@ export function AdminOrderView({ id }: { id: number }) {
       </section>
       <div className="grid items-start gap-6 lg:grid-cols-3">
         <div className="lg:col-start-3 lg:row-start-1">
-          <OrderProgress order={order} />
+          <OrderProgress order={order} staff />
         </div>
         <div className="lg:col-span-2 lg:col-start-1 lg:row-start-1">
-          <OrderDetails order={order} />
+          <OrderDetails order={order} staff />
         </div>
       </div>
       <ConfirmDialog

@@ -1,11 +1,13 @@
 import { formatDateTime, formatMoneyExact } from '@/src/lib/format'
 import type { Order } from '@/src/types/api/orders'
 
-export function OrderDetails({ order }: { order: Order }) {
+type Props = { order: Order; staff?: boolean }
+
+export function OrderDetails({ order, staff = false }: Props) {
   return (
     <div className="space-y-6">
       <section className="rounded-2xl border p-5 sm:p-6">
-        <h2 className="text-lg font-bold">Tu compra</h2>
+        <h2 className="text-lg font-bold">{staff ? 'Productos del pedido' : 'Tu compra'}</h2>
         <ul className="mt-4 divide-y">
           {order.items.map((item, index) => (
             <li key={`${item.sku}-${index}`} className="flex justify-between gap-4 py-4">
