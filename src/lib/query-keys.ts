@@ -5,6 +5,7 @@ export const QUERY_KEYS = {
   cart: ['cart'],
   cartFor: (userId: number | null) => ['cart', userId] as const,
   checkoutFor: (userId: number | null) => ['cart', userId, 'checkout'] as const,
+  wholesaleFor: (userId: number) => ['wholesale-application', userId] as const,
   favoritesFor: (userId: number) => ['favorites', userId] as const,
   orderTracking: (number: string, token: string | null) => ['orders', 'tracking', number, token] as const,
   admin: {
@@ -17,6 +18,10 @@ export const QUERY_KEYS = {
     product: (id: number) => ['admin', 'products', 'detail', id] as const,
     priceLists: ['admin', 'price-lists'],
     exchangeRates: ['admin', 'exchange-rates'],
+    wholesaleApplications: ['admin', 'wholesale-applications'],
+    wholesaleApplicationList: (page: number, status: string) =>
+      ['admin', 'wholesale-applications', 'list', page, status] as const,
+    wholesaleApplication: (id: number) => ['admin', 'wholesale-applications', 'detail', id] as const,
     orders: ['admin', 'orders'],
     orderList: (page: number, status: string) => ['admin', 'orders', 'list', page, status] as const,
     order: (id: number) => ['admin', 'orders', 'detail', id] as const,

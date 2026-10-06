@@ -16,19 +16,6 @@ const TRACK: UpcomingAction = { label: 'Seguí tu pedido', href: '/pedidos' }
 // Pages linked from the store whose content (from the client) or feature is not ready yet. The copy only states what
 // the store really does today: never invent policies, legal text or company data here.
 export const UPCOMING_PAGES = {
-  frequentCustomers: {
-    section: 'Clientes frecuentes',
-    title: 'Cuentas para clientes frecuentes',
-    description:
-      'Estamos preparando el alta para empresas y clientes que compran seguido, con precios y condiciones propias.',
-    actions: [BROWSE, HOME],
-  },
-  frequentCustomersApplication: {
-    section: 'Clientes frecuentes',
-    title: 'Solicitud de cuenta',
-    description: 'Muy pronto vas a poder pedir tu cuenta de cliente frecuente desde acá.',
-    actions: [BROWSE, HOME],
-  },
   assistant: {
     section: 'Asistente',
     title: 'Te ayudamos a elegir',

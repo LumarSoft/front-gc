@@ -16,6 +16,16 @@ The store needs the API running: keep `api-gc` up to date too (its own `npm run 
 
 ---
 
+## 2026-10-06 — Frequent customers
+
+Needs the matching `api-gc` change (`/wholesale-applications`): pull it and restart the API. `npm run doctor` checks
+it. No new dependencies or environment variables.
+
+`/clientes-frecuentes` explains the program and `/clientes-frecuentes/alta` lets a signed-in customer apply (CUIT
+check digit validated in the browser too) and see their status; "Mi cuenta" links there. Staff review applications
+at `/admin/clientes-frecuentes` (Ventas): approve, reject or pause with a reason the customer sees, resume.
+No documents are requested yet.
+
 ## 2026-10-06 — Offers and favorites
 
 Needs the matching `api-gc` change (offers filter + `/favorites`): pull it and restart the API. `npm run doctor`
