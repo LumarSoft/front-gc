@@ -108,8 +108,18 @@ Filters live in the URL (`src/features/catalog/lib/catalog-params.ts`). **Auth i
 `src/features/admin/`: the layout checks the role on the server (`getServerSession`, `src/services/session.server.ts`;
 customers get a 404, expired sessions are renewed in the browser) and admin pages load data client-side with TanStack
 Query through `src/services/admin-*.service.ts`. Each admin section adds itself to `ADMIN_NAV`
-(`src/features/admin/lib/admin-nav.ts`). The cart is
-not built yet ("Agregar al carrito" is disabled). Create folders as they are needed, following this structure.
+(`src/features/admin/lib/admin-nav.ts`). **Cart is live**: `/carrito` + `src/features/cart/`, browser-only calls through
+`src/services/cart.service.ts`. Guests use an httpOnly API cookie; after login the API combines their cart with the
+user's cart. TanStack Query keys separate carts by session; the API computes every subtotal and validates stock.
+The header and successful product additions open a lazy-loaded right-side cart drawer, controlled by
+`CartDrawerProvider` in the shop layout; `/carrito` remains available as a standalone page. Both surfaces reuse
+`CartView` and the same API-backed controls. **Checkout preparation** lives at `/finalizar-compra` +
+`src/features/checkout/`, with `/cart/checkout` and `/cart/checkout/preview` through `checkout.service.ts`.
+Contact details and delivery are validated before a server-calculated review. Guest confirmation now creates a pending manual-payment order and reserves stock through `/cart/checkout/orders`.
+`src/features/orders/` renders private fragment-link tracking at `/pedidos/[number]`, with a paste-link entry page
+at `/pedidos`. Admin orders at `/admin/pedidos` manage verified payment and lifecycle states. No external providers
+or order emails are enabled. The provisional reservation window comes from the API (default 24 hours). Create folders as they are needed,
+following this structure.
 
 ## Code conventions
 

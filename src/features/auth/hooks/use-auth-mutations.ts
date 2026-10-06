@@ -18,7 +18,12 @@ function useSessionMutation<TVariables>(mutationFn: (variables: TVariables) => P
   const queryClient = useQueryClient()
   return useMutation({
     mutationFn,
-    onSuccess: user => queryClient.setQueryData(QUERY_KEYS.currentUser, user),
+    onSuccess: async user => {
+      // Never reuse an anonymous or another account's cart after a session change.
+      await queryClient.cancelQueries({ queryKey: QUERY_KEYS.cart })
+      queryClient.removeQueries({ queryKey: QUERY_KEYS.cart })
+      queryClient.setQueryData(QUERY_KEYS.currentUser, user)
+    },
   })
 }
 

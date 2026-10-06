@@ -7,7 +7,7 @@ const PERKS = [
   'Lista de precios preferencial',
   'Cuenta corriente con estado online',
   'Compra directa, sin esperar aprobación',
-  'Pagá tu saldo con Mercado Pago o transferencia',
+  'Coordiná el pago con nuestro equipo',
 ]
 
 export function WholesaleBanner() {

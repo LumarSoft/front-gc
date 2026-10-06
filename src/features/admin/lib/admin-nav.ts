@@ -33,6 +33,7 @@ export const ADMIN_NAV: AdminNavGroup[] = [
     label: 'Precios',
     items: [{ label: 'Cotización del dólar', href: '/admin/cotizacion', icon: CurrencyDollarIcon }],
   },
+  { label: 'Ventas', items: [{ label: 'Pedidos', href: '/admin/pedidos', icon: PackageIcon }] },
 ]
 
 export function isNavItemActive(item: AdminNavItem, pathname: string): boolean {
