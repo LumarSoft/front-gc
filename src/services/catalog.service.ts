@@ -11,6 +11,7 @@ function toQueryString(query: ProductListQuery): string {
   if (query.tag?.length) params.set('tag', query.tag.join(','))
   if (query.q) params.set('q', query.q)
   if (query.featured) params.set('featured', 'true')
+  if (query.onSale) params.set('onSale', 'true')
   if (query.sort && query.sort !== 'relevance') params.set('sort', query.sort)
   const queryString = params.toString()
   return queryString ? `?${queryString}` : ''

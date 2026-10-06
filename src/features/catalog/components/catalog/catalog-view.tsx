@@ -20,6 +20,8 @@ type CatalogViewProps = {
   categories: CategorySummary[]
   activeCategorySlug?: string
   useTags: Tag[]
+  /** Shown instead of the generic empty state when the page has no products and no filters are active. */
+  emptyState?: React.ReactNode
 }
 
 /** Product listing page: header, category chips, filters, toolbar, grid and pagination. */
@@ -34,6 +36,7 @@ export function CatalogView({
   categories,
   activeCategorySlug,
   useTags,
+  emptyState,
 }: CatalogViewProps) {
   const filters = (
     <CatalogFilters
@@ -70,6 +73,8 @@ export function CatalogView({
           <div className="mt-6">
             {result.items.length > 0 ? (
               <ProductGrid products={result.items} eagerCount={4} />
+            ) : !hasFilters && emptyState ? (
+              emptyState
             ) : (
               <CatalogEmptyState clearFiltersHref={hasFilters ? basePath : undefined} />
             )}
