@@ -2,7 +2,10 @@ import 'server-only'
 import { cookies } from 'next/headers'
 import { ApiError } from '@/src/lib/api-client'
 
-const API_URL = (process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3001').replace(/\/+$/, '')
+const API_URL = (process.env.API_UPSTREAM_URL || process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001').replace(
+  /\/+$/,
+  '',
+)
 /** Same name as the API's access cookie (api-gc/src/common/constants/auth-cookies.ts). */
 const ACCESS_TOKEN_COOKIE = 'cg_at'
 

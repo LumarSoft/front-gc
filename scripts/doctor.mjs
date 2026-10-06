@@ -58,7 +58,10 @@ if (!env) {
 }
 
 // 4. API reachable (the store needs it for catalog, login, cart…)
-const apiUrl = (env?.NEXT_PUBLIC_API_URL ?? 'http://localhost:3001').replace(/\/+$/, '')
+const apiUrl = (env?.API_UPSTREAM_URL || env?.NEXT_PUBLIC_API_URL || 'http://localhost:3001').replace(/\/+$/, '')
+if (apiUrl.startsWith('/')) {
+  fail('A relative browser API URL requires API_UPSTREAM_URL', 'set API_UPSTREAM_URL to the absolute API origin')
+}
 try {
   const response = await fetch(`${apiUrl}/health`, { signal: AbortSignal.timeout(3000) })
   if (response.ok) {
