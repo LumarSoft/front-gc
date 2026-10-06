@@ -118,7 +118,10 @@ The header and successful product additions open a lazy-loaded right-side cart d
 Contact details and delivery are validated before a server-calculated review. Guest confirmation now creates a pending manual-payment order and reserves stock through `/cart/checkout/orders`.
 `src/features/orders/` renders private fragment-link tracking at `/pedidos/[number]`, with a paste-link entry page
 at `/pedidos`. Admin orders at `/admin/pedidos` manage verified payment and lifecycle states. No external providers
-or order emails are enabled. The provisional reservation window comes from the API (default 24 hours). Create folders as they are needed,
+or order emails are enabled. The provisional reservation window comes from the API (default 24 hours). Linked
+sections that are not ready (legal, help, about/contact, assistant, configurator, frequent customers) render
+`UpcomingPage` with copy from `src/features/content/lib/upcoming-pages.ts` (noindex); replace each page when its real
+content or feature lands — never put invented policies or company data there. Create folders as they are needed,
 following this structure.
 
 ## Code conventions

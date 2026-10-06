@@ -1,30 +1,7 @@
 import Link from 'next/link'
 import { ArrowRightIcon } from '@phosphor-icons/react/dist/ssr'
 import { cn } from '@/src/lib/utils'
-
-// Entry points to the guided configurator, styled as color swatch chips. `uso` pre-selects the first answer.
-const USE_CASES = [
-  { label: 'Casa y estudio', text: 'Tareas, documentos y fotos', value: 'hogar', swatch: 'bg-cyan text-white' },
-  { label: 'Oficina y pymes', text: 'Volumen, velocidad y dúplex', value: 'oficina', swatch: 'bg-primary text-white' },
-  {
-    label: 'Fotografía y arte',
-    text: 'Color fiel y papeles especiales',
-    value: 'foto',
-    swatch: 'bg-magenta text-white',
-  },
-  {
-    label: 'Emprendimiento textil',
-    text: 'Sublimación y personalizados',
-    value: 'textil',
-    swatch: 'bg-yellow text-foreground',
-  },
-  {
-    label: 'Planos y cartelería',
-    text: 'Gran formato y CAD',
-    value: 'gran-formato',
-    swatch: 'bg-foreground text-background',
-  },
-]
+import { USE_CASES } from '../lib/use-cases'
 
 export function UseCasePicker() {
   return (
