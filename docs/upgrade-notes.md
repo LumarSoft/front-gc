@@ -16,6 +16,15 @@ The store needs the API running: keep `api-gc` up to date too (its own `npm run 
 
 ---
 
+## 2026-10-06 — Offers and favorites
+
+Needs the matching `api-gc` change (offers filter + `/favorites`): pull it and restart the API. `npm run doctor`
+checks both. No new dependencies or environment variables.
+
+`/ofertas` lists products with a lower price for the visitor's buyer profile. Signed-in customers save products with
+the heart on cards and product pages and see them at `/favoritos` (also in the account menu); guests get a toast
+offering to sign in. Store pages now mount the toaster (top center), so store toasts are visible again.
+
 ## 2026-10-05 — Guest order confirmation and private tracking
 
 Apply the guest-orders migration in `api-gc`, regenerate Prisma and restart both apps. Frontend doctor checks admin
