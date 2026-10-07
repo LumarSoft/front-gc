@@ -106,6 +106,11 @@ try {
     const offers = await fetch(`${apiUrl}/products?onSale=true&pageSize=1`, { signal: AbortSignal.timeout(3000) })
     if (favorites.status === 401 && offers.ok) ok('API has offers and favorites')
     else warn('API is older than offers and favorites', 'pull api-gc and restart it (see docs/upgrade-notes.md)')
+    // Frequent customers (LumarSoft/api-gc#17): answers 401 without a session; an older API 404s.
+    const wholesale = await fetch(`${apiUrl}/wholesale-applications/mine`, { signal: AbortSignal.timeout(3000) })
+    if (wholesale.status === 401) ok('API has frequent-customer applications')
+    else
+      warn('API is older than frequent-customer applications', 'pull api-gc and restart it (see docs/upgrade-notes.md)')
   } else warn(`API at ${apiUrl} answered ${response.status}`, 'run `npm run doctor` in api-gc')
 } catch {
   warn(`API not reachable at ${apiUrl} (the store will show errors)`, 'start it: cd ../api-gc && npm run dev')
