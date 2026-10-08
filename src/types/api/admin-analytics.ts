@@ -14,7 +14,14 @@ export type AnalyticsBucket = { start: string; end: string; previousStart: strin
 
 export type AnalyticsMixRow<K extends string> = { key: K; orders: number; sales: Money; previousSales: Money }
 
-export type AnalyticsRankRow = { id: number | null; name: string; units: number; sales: Money; previousSales: Money }
+export type AnalyticsRankRow = {
+  id: number | null
+  name: string
+  units: number
+  sales: Money
+  previousSales: Money
+  previousUnits: number
+}
 
 export type AnalyticsProductRow = AnalyticsRankRow & { id: number; imageUrl: string | null; archived: boolean }
 
@@ -37,7 +44,10 @@ export type AdminAnalytics = {
   buyerTypes: AnalyticsMixRow<BuyerType>[]
   paymentMethods: AnalyticsMixRow<PaymentMethod>[]
   deliveryMethods: AnalyticsMixRow<DeliveryMethod>[]
+  /** Top 10 by sales. */
   products: AnalyticsProductRow[]
+  /** Top 10 by units: what moves most, whatever its price. */
+  productsByUnits: AnalyticsProductRow[]
   categories: AnalyticsRankRow[]
   brands: AnalyticsRankRow[]
   customers: {
