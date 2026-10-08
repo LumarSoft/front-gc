@@ -17,7 +17,7 @@ export function SalesCard({ dashboard }: { dashboard: AdminDashboard }) {
         <MetricChange change={percentChange(Number(sales.current.amount), Number(sales.previous.amount))} />
       </div>
       <AreaChart
-        title="Ventas por día de los últimos 30 días"
+        title="Ventas por día del período"
         values={sales.daily.map(Number)}
         labels={days.map(formatDay)}
         formatValue={value => formatMoneyExact({ amount: value.toFixed(2), currency })}

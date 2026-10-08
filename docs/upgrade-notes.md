@@ -16,6 +16,13 @@ The store needs the API running: keep `api-gc` up to date too (its own `npm run 
 
 ---
 
+## 2026-10-08 — Period picker on the admin home
+
+Pull `api-gc` too (LumarSoft/api-gc#22: `GET /admin/dashboard?from=&to=`) and restart it. With an older API the home
+ignores the chosen period (it always shows the last 30 days).
+
+---
+
 ## 2026-10-08 — Admin settings
 
 Pull `api-gc` too (LumarSoft/api-gc#21: `/admin/settings`) and restart it. "Configuración" moved to the bottom of the
