@@ -1,4 +1,6 @@
 import { Toaster } from '@/src/components/ui/sonner'
+import { TooltipProvider } from '@/src/components/ui/tooltip'
+import { AdminSearchProvider } from '@/src/features/admin/components/search/admin-search-provider'
 import { AdminSidebar } from '@/src/features/admin/components/shell/admin-sidebar'
 import { AdminTabBar } from '@/src/features/admin/components/shell/admin-tab-bar'
 import { AdminTopbar } from '@/src/features/admin/components/shell/admin-topbar'
@@ -9,20 +11,35 @@ type AdminShellProps = {
   children: React.ReactNode
 }
 
-/** Admin frame: sidebar on desktop, bottom tab bar on phones, top bar everywhere. Toasts confirm every change. */
+const TOAST_STYLE = {
+  '--normal-bg': 'var(--frame)',
+  '--normal-text': 'white',
+  '--normal-border': 'var(--frame)',
+} as React.CSSProperties
+
+/**
+ * Admin frame: dark sidebar with the page on an inset light panel (desktop); dark top bar and bottom tab bar (phones).
+ * `data-admin-shell` switches on the admin theme (app/admin-theme.css) for the whole document, portals included.
+ */
 export function AdminShell({ user, children }: AdminShellProps) {
   return (
-    <div className="flex min-h-dvh flex-1 bg-muted">
-      <AdminSidebar />
-      <div className="flex min-w-0 flex-1 flex-col">
-        <AdminTopbar user={user} />
-        <main className="mx-auto w-full max-w-6xl flex-1 px-4 pt-6 pb-28 sm:px-6 lg:px-8 lg:pt-8 lg:pb-12">
-          {children}
-        </main>
-      </div>
-      <AdminTabBar />
-      {/* On phones the toasts sit above the bottom tab bar. */}
-      <Toaster position="bottom-right" mobileOffset={{ bottom: 88 }} />
-    </div>
+    <TooltipProvider delayDuration={300}>
+      <AdminSearchProvider>
+        <div data-admin-shell className="flex min-h-dvh flex-1 bg-frame text-foreground">
+          <AdminSidebar user={user} />
+          <div className="flex min-w-0 flex-1 flex-col">
+            <AdminTopbar user={user} />
+            <div className="flex flex-1 flex-col bg-canvas lg:my-2 lg:mr-2 lg:rounded-xl">
+              <main className="mx-auto w-full max-w-7xl flex-1 px-4 pt-5 pb-28 sm:px-6 lg:px-8 lg:pt-7 lg:pb-12">
+                {children}
+              </main>
+            </div>
+          </div>
+          <AdminTabBar />
+          {/* On phones the toasts sit above the bottom tab bar. */}
+          <Toaster position="bottom-center" mobileOffset={{ bottom: 88 }} style={TOAST_STYLE} />
+        </div>
+      </AdminSearchProvider>
+    </TooltipProvider>
   )
 }

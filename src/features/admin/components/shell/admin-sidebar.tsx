@@ -1,19 +1,24 @@
+import { AdminAccountMenu } from '@/src/features/admin/components/shell/admin-account-menu'
 import { AdminBrand } from '@/src/features/admin/components/shell/admin-brand'
 import { AdminNav } from '@/src/features/admin/components/shell/admin-nav'
+import { AdminSearchTrigger } from '@/src/features/admin/components/search/admin-search-trigger'
 import { StoreLink } from '@/src/features/admin/components/shell/store-link'
+import type { AuthUser } from '@/src/types/api/auth'
 
-/** Desktop navigation (lg and up). Phones use the top bar menu and the bottom tab bar. */
-export function AdminSidebar() {
+/** Desktop navigation (lg and up), on the dark frame: store, search, sections, and the account at the bottom. */
+export function AdminSidebar({ user }: { user: AuthUser }) {
   return (
-    <aside className="sticky top-0 hidden h-dvh w-64 shrink-0 flex-col border-r bg-background lg:flex">
-      <div className="flex h-14 items-center border-b px-4">
+    <aside className="sticky top-0 hidden h-dvh w-60 shrink-0 flex-col bg-frame lg:flex">
+      <div className="flex flex-col gap-3 px-3 pt-3 pb-4">
         <AdminBrand />
+        <AdminSearchTrigger />
       </div>
-      <div className="flex-1 overflow-y-auto px-3 py-4">
+      <div className="flex-1 overflow-y-auto px-3">
         <AdminNav />
       </div>
-      <div className="border-t p-3">
+      <div className="flex flex-col gap-1 p-3">
         <StoreLink />
+        <AdminAccountMenu user={user} />
       </div>
     </aside>
   )
