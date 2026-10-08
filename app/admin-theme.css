@@ -13,6 +13,8 @@
   --color-frame-raised: var(--frame-raised);
   --color-canvas: var(--canvas);
   --color-table-head: var(--table-head);
+  --color-chart-series: var(--chart-series);
+  --color-chart-grid: var(--chart-grid);
 
   /* Status tones (badges, inline notices): background + readable text. */
   --color-tone-success: var(--tone-success);
@@ -102,6 +104,9 @@ html:has([data-admin-shell]) {
   --frame-raised: #262626;
   --canvas: #f1f1f1;
   --table-head: #f7f7f7;
+  /* Single-series charts (admin home). Validated against the white card: lightness, chroma, contrast ≥ 3:1. */
+  --chart-series: #2c6ecb;
+  --chart-grid: #ebebeb;
 
   --background: #ffffff;
   --foreground: #303030;

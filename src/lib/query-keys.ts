@@ -26,6 +26,7 @@ export const QUERY_KEYS = {
     orders: ['admin', 'orders'],
     orderList: (query: AdminOrdersQuery) => ['admin', 'orders', 'list', query] as const,
     orderCounts: ['admin', 'orders', 'counts'],
+    dashboard: ['admin', 'dashboard'],
     order: (id: number) => ['admin', 'orders', 'detail', id] as const,
   },
 } as const
