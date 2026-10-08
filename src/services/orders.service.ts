@@ -1,6 +1,13 @@
 import { apiRequest } from '@/src/lib/api-client'
 import type { PreviewCheckoutRequest } from '@/src/types/api/checkout'
-import type { AdminOrdersQuery, Order, OrderCounts, OrderStatus, OrdersPage } from '@/src/types/api/orders'
+import type {
+  AdminOrdersQuery,
+  MyOrdersPage,
+  Order,
+  OrderCounts,
+  OrderStatus,
+  OrdersPage,
+} from '@/src/types/api/orders'
 
 export type PlaceOrderRequest = PreviewCheckoutRequest & { accessToken: string; reviewToken: string }
 export function placeOrder(input: PlaceOrderRequest): Promise<Order> {
@@ -15,6 +22,12 @@ export function trackOrder(number: string, accessToken: string): Promise<Order> 
     body: { accessToken },
     skipRefresh: true,
   })
+}
+export function getMyOrders(page: number, pageSize: number): Promise<MyOrdersPage> {
+  return apiRequest<MyOrdersPage>(`/orders/mine?page=${page}&pageSize=${pageSize}`)
+}
+export function getMyOrder(number: string): Promise<Order> {
+  return apiRequest<Order>(`/orders/mine/${encodeURIComponent(number)}`)
 }
 export function getAdminOrders(query: AdminOrdersQuery): Promise<OrdersPage> {
   const params = new URLSearchParams()

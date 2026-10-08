@@ -62,7 +62,7 @@ export function AccountMenu() {
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
-          <Link href="/pedidos">
+          <Link href="/mi-cuenta/pedidos">
             <PackageIcon weight="light" className="size-5" />
             Mis pedidos
           </Link>

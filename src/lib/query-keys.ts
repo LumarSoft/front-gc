@@ -9,6 +9,11 @@ export const QUERY_KEYS = {
   checkoutFor: (userId: number | null) => ['cart', userId, 'checkout'] as const,
   wholesaleFor: (userId: number) => ['wholesale-application', userId] as const,
   favoritesFor: (userId: number) => ['favorites', userId] as const,
+  /** Prefix of every account order query, to refresh them after a purchase. */
+  myOrders: ['orders', 'mine'],
+  myOrderList: (userId: number, page: number, pageSize: number) =>
+    ['orders', 'mine', userId, 'list', page, pageSize] as const,
+  myOrder: (userId: number, number: string) => ['orders', 'mine', userId, 'detail', number] as const,
   orderTracking: (number: string, token: string | null) => ['orders', 'tracking', number, token] as const,
   admin: {
     categories: ['admin', 'categories'],

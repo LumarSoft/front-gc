@@ -53,6 +53,18 @@ const dateTimeFormatter = new Intl.DateTimeFormat('es-AR', {
   timeZone: 'America/Argentina/Buenos_Aires',
 })
 
+const dateFormatter = new Intl.DateTimeFormat('es-AR', {
+  day: '2-digit',
+  month: '2-digit',
+  year: 'numeric',
+  timeZone: 'America/Argentina/Buenos_Aires',
+})
+
+/** "04/10/2026" in Argentina's time zone. */
+export function formatDate(iso: string): string {
+  return dateFormatter.format(new Date(iso))
+}
+
 /** "04/10/2026, 14:05" in Argentina's time zone. */
 export function formatDateTime(iso: string): string {
   return dateTimeFormatter.format(new Date(iso))
