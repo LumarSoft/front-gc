@@ -24,7 +24,7 @@ export function AnalyticsReport({ analytics }: { analytics: AdminAnalytics }) {
         <OrderOutcomesCard analytics={analytics} />
       </div>
       <div className="grid items-start gap-4 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)]">
-        <TopProductsCard products={analytics.products} />
+        <TopProductsCard bySales={analytics.products} byUnits={analytics.productsByUnits} />
         <div className="flex flex-col gap-4">
           <BarListCard title="Ventas por categoría" note="Productos, sin envío" rows={rankRows(analytics.categories)} />
           {/* With a single brand (today, Epson) the ranking says nothing. */}
