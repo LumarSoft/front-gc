@@ -1,5 +1,5 @@
+import { ChevronRightIcon, PackageIcon } from 'lucide-react'
 import Link from 'next/link'
-import { CaretRightIcon, PackageIcon } from '@phosphor-icons/react/dist/ssr'
 import { RowCheckbox } from '@/src/features/admin/components/common/row-checkbox'
 import type { RowSelection } from '@/src/features/admin/hooks/use-row-selection'
 import { ItemThumb } from '@/src/features/admin/components/common/item-thumb'
@@ -48,7 +48,7 @@ export function ProductsMobileList({ products, selection }: ProductsMobileListPr
               </div>
               <ProductIssueChips issues={product.issues} />
             </div>
-            <CaretRightIcon className="mt-3 size-4 shrink-0 text-muted-foreground" />
+            <ChevronRightIcon className="mt-3 size-4 shrink-0 text-muted-foreground" />
           </Link>
         </li>
       ))}

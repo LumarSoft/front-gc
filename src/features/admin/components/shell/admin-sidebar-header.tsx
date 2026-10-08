@@ -1,6 +1,6 @@
 'use client'
 
-import { SidebarSimpleIcon } from '@phosphor-icons/react'
+import { PanelLeftIcon } from 'lucide-react'
 import { BrandLogoImage } from '@/src/components/layout/brand-logo-image'
 import { AdminTooltip } from '@/src/features/admin/components/common/admin-tooltip'
 import { AdminBrand } from '@/src/features/admin/components/shell/admin-brand'
@@ -30,7 +30,7 @@ export function AdminSidebarHeader() {
           <span className="transition-opacity duration-150 group-hover/expand:opacity-0 group-focus-visible/expand:opacity-0">
             <BrandLogoImage inverted className="h-3.5" />
           </span>
-          <SidebarSimpleIcon
+          <PanelLeftIcon
             aria-hidden
             className="absolute size-4.5 text-white opacity-0 transition-opacity duration-150 group-hover/expand:opacity-100 group-focus-visible/expand:opacity-100"
           />
@@ -43,7 +43,7 @@ export function AdminSidebarHeader() {
       <AdminBrand compact />
       <AdminTooltip label="Contraer navegación" shortcut={shortcut} side="bottom">
         <button type="button" onClick={toggle} aria-label="Contraer navegación" className={`w-8 ${BUTTON}`}>
-          <SidebarSimpleIcon className="size-4.5" />
+          <PanelLeftIcon className="size-4.5" />
         </button>
       </AdminTooltip>
     </div>

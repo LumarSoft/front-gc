@@ -1,4 +1,4 @@
-import { CaretLeftIcon, CaretRightIcon } from '@phosphor-icons/react'
+import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react'
 import { Button } from '@/src/components/ui/button'
 import { CalendarMonth } from '@/src/features/admin/components/date-range/calendar-month'
 import type { DateRangePickerState } from '@/src/features/admin/hooks/use-date-range-picker'
@@ -25,7 +25,7 @@ export function RangeCalendar({ picker }: { picker: DateRangePickerState }) {
         onClick={() => picker.moveMonth(-1)}
         aria-label="Mes anterior"
       >
-        <CaretLeftIcon />
+        <ChevronLeftIcon />
       </Button>
       <Button
         variant="ghost"
@@ -35,7 +35,7 @@ export function RangeCalendar({ picker }: { picker: DateRangePickerState }) {
         disabled={atCurrentMonth}
         aria-label="Mes siguiente"
       >
-        <CaretRightIcon />
+        <ChevronRightIcon />
       </Button>
       <div className="grid gap-6 sm:grid-cols-2">
         <div className="max-sm:hidden">

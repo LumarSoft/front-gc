@@ -1,7 +1,7 @@
 'use client'
 
+import { ExternalLinkIcon } from 'lucide-react'
 import Link from 'next/link'
-import { ArrowSquareOutIcon } from '@phosphor-icons/react/dist/ssr'
 import { AdminTooltip } from '@/src/features/admin/components/common/admin-tooltip'
 import { cn } from '@/src/lib/utils'
 
@@ -23,7 +23,7 @@ export function StoreLink({ className, collapsed = false }: StoreLinkProps) {
           className,
         )}
       >
-        <ArrowSquareOutIcon className="size-4.5 shrink-0" />
+        <ExternalLinkIcon className="size-4.5 shrink-0" />
         <span className={cn('truncate transition-opacity duration-150', collapsed && 'opacity-0')}>Ver la tienda</span>
       </Link>
     </AdminTooltip>

@@ -1,14 +1,6 @@
 'use client'
 
-import {
-  ArchiveIcon,
-  ArrowDownIcon,
-  ArrowUpIcon,
-  EyeIcon,
-  EyeSlashIcon,
-  PencilSimpleIcon,
-  TrademarkIcon,
-} from '@phosphor-icons/react'
+import { ArchiveIcon, ArrowDownIcon, ArrowUpIcon, EyeIcon, EyeOffIcon, FactoryIcon, PencilIcon } from 'lucide-react'
 import { ItemThumb } from '@/src/features/admin/components/common/item-thumb'
 import { ListRow, ListRowButton } from '@/src/features/admin/components/common/list-row'
 import { ProductCount } from '@/src/features/admin/components/common/product-count'
@@ -35,7 +27,7 @@ type BrandRowProps = {
 export function BrandRow({ brand, index, total, reorderable, handlers }: BrandRowProps) {
   return (
     <ListRow
-      leading={<ItemThumb url={brand.logoUrl} fallbackIcon={TrademarkIcon} />}
+      leading={<ItemThumb url={brand.logoUrl} fallbackIcon={FactoryIcon} />}
       title={<ListRowButton onClick={() => handlers.edit(brand)}>{brand.name}</ListRowButton>}
       meta={brand.slug}
       details={
@@ -48,7 +40,7 @@ export function BrandRow({ brand, index, total, reorderable, handlers }: BrandRo
         <RowActions
           itemName={brand.name}
           actions={[
-            { label: 'Editar', icon: PencilSimpleIcon, onSelect: () => handlers.edit(brand) },
+            { label: 'Editar', icon: PencilIcon, onSelect: () => handlers.edit(brand) },
             {
               label: 'Mover arriba',
               icon: ArrowUpIcon,
@@ -63,7 +55,7 @@ export function BrandRow({ brand, index, total, reorderable, handlers }: BrandRo
             },
             {
               label: brand.isActive ? 'Desactivar' : 'Activar',
-              icon: brand.isActive ? EyeSlashIcon : EyeIcon,
+              icon: brand.isActive ? EyeOffIcon : EyeIcon,
               onSelect: () => handlers.toggleActive(brand),
             },
             { label: 'Archivar…', icon: ArchiveIcon, onSelect: () => handlers.archive(brand), destructive: true },

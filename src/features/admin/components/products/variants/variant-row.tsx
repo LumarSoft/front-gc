@@ -1,6 +1,6 @@
 'use client'
 
-import { ArchiveIcon, PencilSimpleIcon, StarIcon } from '@phosphor-icons/react'
+import { ArchiveIcon, PencilIcon, StarIcon } from 'lucide-react'
 import { RowActions } from '@/src/features/admin/components/common/row-actions'
 import { StockLabel } from '@/src/features/admin/components/products/stock-label'
 import { variantTitle } from '@/src/features/admin/lib/product-labels'
@@ -74,7 +74,7 @@ export function VariantRow({ variant, priceLists, usdRate, onEdit, onMakeDefault
       <RowActions
         itemName={variantTitle(variant)}
         actions={[
-          { label: 'Editar', icon: PencilSimpleIcon, onSelect: onEdit },
+          { label: 'Editar', icon: PencilIcon, onSelect: onEdit },
           {
             label: 'Hacer principal',
             icon: StarIcon,

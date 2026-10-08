@@ -1,4 +1,4 @@
-import { ArrowDownRightIcon, ArrowUpRightIcon } from '@phosphor-icons/react/dist/ssr'
+import { ArrowDownRightIcon, ArrowUpRightIcon } from 'lucide-react'
 import { formatChange } from '@/src/features/admin/lib/dashboard-metrics'
 import { cn } from '@/src/lib/utils'
 

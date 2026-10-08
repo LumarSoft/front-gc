@@ -1,6 +1,6 @@
 'use client'
 
-import { PlusIcon, TrademarkIcon } from '@phosphor-icons/react'
+import { FactoryIcon, PlusIcon } from 'lucide-react'
 import { Button } from '@/src/components/ui/button'
 import { EmptyState } from '@/src/components/ui/empty-state'
 import { AdminPageHeader } from '@/src/features/admin/components/admin-page-header'
@@ -66,10 +66,10 @@ export function BrandsView() {
         isEmpty={shown.length === 0}
         empty={
           filter.filtered ? (
-            <NoMatches icon={TrademarkIcon} title="Ninguna marca coincide" onClear={filter.clear} />
+            <NoMatches icon={FactoryIcon} title="Ninguna marca coincide" onClear={filter.clear} />
           ) : (
             <EmptyState
-              icon={<TrademarkIcon />}
+              icon={<FactoryIcon />}
               title="Todavía no hay marcas"
               description="Agregá las marcas que vendés para poder asignarlas a los productos."
               action={createButton}

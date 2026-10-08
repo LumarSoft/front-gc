@@ -1,7 +1,7 @@
 'use client'
 
+import { ArrowLeftIcon, ChevronDownIcon, CircleXIcon } from 'lucide-react'
 import Link from 'next/link'
-import { ArrowLeftIcon, CaretDownIcon, XCircleIcon } from '@phosphor-icons/react'
 import { Button } from '@/src/components/ui/button'
 import {
   DropdownMenu,
@@ -43,12 +43,12 @@ export function OrderHeader({ order, canCancel, onCancel }: OrderHeaderProps) {
           <DropdownMenuTrigger asChild>
             <Button variant="outline">
               Más acciones
-              <CaretDownIcon />
+              <ChevronDownIcon />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-52">
             <DropdownMenuItem variant="destructive" onSelect={onCancel}>
-              <XCircleIcon />
+              <CircleXIcon />
               Cancelar pedido
             </DropdownMenuItem>
           </DropdownMenuContent>

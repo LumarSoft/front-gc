@@ -1,8 +1,8 @@
 'use client'
 
+import { LoaderCircleIcon, SearchIcon } from 'lucide-react'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { CircleNotchIcon, MagnifyingGlassIcon } from '@phosphor-icons/react'
 import { Dialog, DialogContent, DialogTitle } from '@/src/components/ui/dialog'
 import { AdminSearchResultList } from '@/src/features/admin/components/search/admin-search-result-list'
 import { useAdminSearchResults } from '@/src/features/admin/hooks/use-admin-search-results'
@@ -43,9 +43,9 @@ export function AdminSearchDialog({ open, onOpenChange }: AdminSearchDialogProps
         <DialogTitle className="sr-only">Buscar en el panel</DialogTitle>
         <div className="flex items-center gap-2 border-b px-3">
           {isSearching ? (
-            <CircleNotchIcon className="size-4.5 shrink-0 animate-spin text-muted-foreground" />
+            <LoaderCircleIcon className="size-4.5 shrink-0 animate-spin text-muted-foreground" />
           ) : (
-            <MagnifyingGlassIcon className="size-4.5 shrink-0 text-muted-foreground" />
+            <SearchIcon className="size-4.5 shrink-0 text-muted-foreground" />
           )}
           <input
             autoFocus

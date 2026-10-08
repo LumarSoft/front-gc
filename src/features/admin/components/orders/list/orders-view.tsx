@@ -1,6 +1,6 @@
 'use client'
 
-import { TrayIcon } from '@phosphor-icons/react'
+import { InboxIcon } from 'lucide-react'
 import { Button } from '@/src/components/ui/button'
 import { EmptyState } from '@/src/components/ui/empty-state'
 import { AdminPageHeader } from '@/src/features/admin/components/admin-page-header'
@@ -36,7 +36,7 @@ export function OrdersView() {
         empty={
           filtered ? (
             <EmptyState
-              icon={<TrayIcon />}
+              icon={<InboxIcon />}
               title="Ningún pedido coincide"
               description="Probá con otra búsqueda o mirá todos los pedidos."
               action={
@@ -47,7 +47,7 @@ export function OrdersView() {
             />
           ) : (
             <EmptyState
-              icon={<TrayIcon />}
+              icon={<InboxIcon />}
               title="Todavía no hay pedidos"
               description="Cuando alguien compre en la tienda, el pedido aparece acá para verificar el pago y prepararlo."
             />

@@ -1,7 +1,7 @@
 'use client'
 
+import { ArrowDownIcon, ArrowUpIcon, Trash2Icon } from 'lucide-react'
 import type { UseFormReturn } from 'react-hook-form'
-import { ArrowDownIcon, ArrowUpIcon, TrashIcon } from '@phosphor-icons/react'
 import { Button } from '@/src/components/ui/button'
 import { Input } from '@/src/components/ui/input'
 import type { SpecificationsValues } from '@/src/features/admin/lib/specifications-form'
@@ -73,7 +73,7 @@ export function SpecificationRowFields({ form, index, total, onMove, onRemove }:
           onClick={onRemove}
           className="text-destructive"
         >
-          <TrashIcon />
+          <Trash2Icon />
         </Button>
       </div>
     </li>

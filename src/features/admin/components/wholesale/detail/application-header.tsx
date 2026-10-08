@@ -1,5 +1,5 @@
+import { ArrowLeftIcon } from 'lucide-react'
 import Link from 'next/link'
-import { ArrowLeftIcon } from '@phosphor-icons/react'
 import { Button } from '@/src/components/ui/button'
 import { WholesaleStatusBadges } from '@/src/features/admin/components/wholesale/wholesale-status-badge'
 import { formatOrderDate } from '@/src/features/admin/lib/relative-date'

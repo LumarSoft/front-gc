@@ -1,7 +1,7 @@
 'use client'
 
+import { CheckIcon, MinusIcon } from 'lucide-react'
 import { useState } from 'react'
-import { CheckIcon, MinusIcon } from '@phosphor-icons/react'
 import { Checkbox as CheckboxPrimitive } from 'radix-ui'
 import { cn } from '@/src/lib/utils'
 
@@ -37,9 +37,9 @@ export function RowCheckbox({ checked, onCheckedChange, label, className }: RowC
         className="transition-[opacity,scale] duration-150 data-[state=unchecked]:scale-50 data-[state=unchecked]:opacity-0 motion-reduce:transition-none"
       >
         {mark === 'indeterminate' ? (
-          <MinusIcon weight="bold" className="size-3" />
+          <MinusIcon strokeWidth={3} className="size-3" />
         ) : (
-          <CheckIcon weight="bold" className="size-3" />
+          <CheckIcon strokeWidth={3} className="size-3" />
         )}
       </CheckboxPrimitive.Indicator>
     </CheckboxPrimitive.Root>

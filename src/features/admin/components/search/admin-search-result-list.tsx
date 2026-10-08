@@ -1,4 +1,4 @@
-import { ArrowRightIcon, PackageIcon } from '@phosphor-icons/react'
+import { ArrowRightIcon, PackageIcon } from 'lucide-react'
 import { ItemThumb } from '@/src/features/admin/components/common/item-thumb'
 import type { AdminSearchGroup } from '@/src/features/admin/hooks/use-admin-search-results'
 import { cn } from '@/src/lib/utils'

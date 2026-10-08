@@ -1,6 +1,6 @@
 'use client'
 
-import { ListBulletsIcon, PlusIcon } from '@phosphor-icons/react'
+import { ListIcon, PlusIcon } from 'lucide-react'
 import { Button } from '@/src/components/ui/button'
 import { EmptyState } from '@/src/components/ui/empty-state'
 import { ProductEditorCard } from '@/src/features/admin/components/products/editor/product-editor-card'
@@ -27,7 +27,7 @@ export function SpecificationsSection({ product }: { product: AdminProduct }) {
     >
       {rows.fields.length === 0 ? (
         <EmptyState
-          icon={<ListBulletsIcon />}
+          icon={<ListIcon />}
           title="Sin especificaciones"
           description="Agregá datos técnicos como velocidad, conectividad o rendimiento."
           action={addButton}

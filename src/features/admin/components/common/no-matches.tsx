@@ -1,9 +1,9 @@
-import type { Icon } from '@phosphor-icons/react'
+import type { LucideIcon } from 'lucide-react'
 import { Button } from '@/src/components/ui/button'
 import { EmptyState } from '@/src/components/ui/empty-state'
 
 type NoMatchesProps = {
-  icon: Icon
+  icon: LucideIcon
   /** "Ninguna categoría coincide". */
   title: string
   onClear: () => void

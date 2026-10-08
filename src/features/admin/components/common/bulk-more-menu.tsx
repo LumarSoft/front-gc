@@ -1,6 +1,6 @@
 'use client'
 
-import { DotsThreeIcon } from '@phosphor-icons/react'
+import { EllipsisIcon } from 'lucide-react'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -33,7 +33,7 @@ export function BulkMoreMenu({ actions, disabled }: BulkMoreMenuProps) {
         aria-label="Más acciones"
         className="grid size-8 shrink-0 place-items-center rounded-lg transition-colors hover:bg-frame-accent focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none disabled:opacity-50 aria-expanded:bg-frame-accent"
       >
-        <DotsThreeIcon weight="bold" className="size-5" />
+        <EllipsisIcon strokeWidth={2.5} className="size-5" />
       </DropdownMenuTrigger>
       <DropdownMenuContent side="top" align="end" className="w-52">
         {regular.map(item)}

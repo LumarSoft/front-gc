@@ -1,4 +1,4 @@
-import { InfoIcon } from '@phosphor-icons/react/dist/ssr'
+import { InfoIcon } from 'lucide-react'
 import { formatRange } from '@/src/features/admin/lib/date-range'
 import type { AdminBehavior } from '@/src/types/api/admin-behavior'
 

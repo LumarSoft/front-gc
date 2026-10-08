@@ -1,6 +1,6 @@
 'use client'
 
-import { ArchiveIcon, PencilSimpleLineIcon } from '@phosphor-icons/react'
+import { ArchiveIcon, PencilLineIcon } from 'lucide-react'
 import { ConfirmDialog } from '@/src/components/ui/confirm-dialog'
 import { BulkActionBar, BulkActionButton } from '@/src/features/admin/components/common/bulk-action-bar'
 import { BulkMoreMenu } from '@/src/features/admin/components/common/bulk-more-menu'
@@ -24,7 +24,7 @@ export function ProductsBulkActions({ selection }: { selection: RowSelection }) 
         <BulkMoreMenu
           disabled={bulk.pending}
           actions={[
-            { label: 'Pasar a borrador', icon: PencilSimpleLineIcon, onSelect: () => bulk.run('DRAFT') },
+            { label: 'Pasar a borrador', icon: PencilLineIcon, onSelect: () => bulk.run('DRAFT') },
             { label: 'Archivar', icon: ArchiveIcon, onSelect: () => bulk.run('ARCHIVE'), destructive: true },
           ]}
         />

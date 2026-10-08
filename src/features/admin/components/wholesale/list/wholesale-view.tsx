@@ -1,6 +1,6 @@
 'use client'
 
-import { BuildingsIcon } from '@phosphor-icons/react'
+import { Building2Icon } from 'lucide-react'
 import { Button } from '@/src/components/ui/button'
 import { EmptyState } from '@/src/components/ui/empty-state'
 import { AdminPageHeader } from '@/src/features/admin/components/admin-page-header'
@@ -34,7 +34,7 @@ export function WholesaleView() {
         empty={
           filtered ? (
             <EmptyState
-              icon={<BuildingsIcon />}
+              icon={<Building2Icon />}
               title="Ninguna solicitud coincide"
               description="Probá con otra búsqueda o mirá todas las solicitudes."
               action={
@@ -45,7 +45,7 @@ export function WholesaleView() {
             />
           ) : (
             <EmptyState
-              icon={<BuildingsIcon />}
+              icon={<Building2Icon />}
               title="Todavía no hay solicitudes"
               description="Cuando una empresa pida su cuenta desde la tienda, aparece acá para revisarla."
             />

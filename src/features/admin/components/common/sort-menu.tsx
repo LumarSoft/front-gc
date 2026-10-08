@@ -1,6 +1,6 @@
 'use client'
 
-import { ArrowsDownUpIcon } from '@phosphor-icons/react'
+import { ArrowDownUpIcon } from 'lucide-react'
 import { Button } from '@/src/components/ui/button'
 import {
   DropdownMenu,
@@ -25,7 +25,7 @@ export function SortMenu<T extends string>({ options, value, onChange }: SortMen
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="outline" size="icon" aria-label="Ordenar">
-          <ArrowsDownUpIcon />
+          <ArrowDownUpIcon />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-52">

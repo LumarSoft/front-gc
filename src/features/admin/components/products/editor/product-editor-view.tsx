@@ -1,7 +1,7 @@
 'use client'
 
+import { PackageIcon } from 'lucide-react'
 import Link from 'next/link'
-import { PackageIcon } from '@phosphor-icons/react'
 import { Button } from '@/src/components/ui/button'
 import { Card } from '@/src/components/ui/card'
 import { EmptyState } from '@/src/components/ui/empty-state'

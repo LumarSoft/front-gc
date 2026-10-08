@@ -42,7 +42,7 @@ export function AdminNavEntry({ item, pathname, count, inSheet = false }: AdminN
         collapsed && open && 'bg-frame-accent',
       )}
     >
-      <Icon weight={open ? 'fill' : 'regular'} className="size-4.5 shrink-0" />
+      <Icon strokeWidth={open ? 2.5 : 2} className="size-4.5 shrink-0" />
       <span className={cn('truncate transition-opacity duration-150', collapsed && 'opacity-0')}>{item.label}</span>
       <NavCount
         count={count}

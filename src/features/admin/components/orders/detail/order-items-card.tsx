@@ -1,4 +1,4 @@
-import { CircleNotchIcon, PackageIcon } from '@phosphor-icons/react'
+import { LoaderCircleIcon, PackageIcon } from 'lucide-react'
 import { Button } from '@/src/components/ui/button'
 import { AdminCard } from '@/src/features/admin/components/common/admin-card'
 import { ItemThumb } from '@/src/features/admin/components/common/item-thumb'
@@ -30,7 +30,7 @@ export function OrderItemsCard({ order, nextStep, pending, onStep }: OrderItemsC
       footer={
         fulfillmentStep ? (
           <Button onClick={() => onStep(fulfillmentStep)} disabled={pending}>
-            {pending && <CircleNotchIcon className="animate-spin" />}
+            {pending && <LoaderCircleIcon className="animate-spin" />}
             {NEXT_STEP_LABELS[fulfillmentStep]}
           </Button>
         ) : waitingPayment ? (

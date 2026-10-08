@@ -1,7 +1,7 @@
 'use client'
 
+import { Building2Icon } from 'lucide-react'
 import Link from 'next/link'
-import { BuildingsIcon } from '@phosphor-icons/react'
 import { Button } from '@/src/components/ui/button'
 import { Card } from '@/src/components/ui/card'
 import { EmptyState } from '@/src/components/ui/empty-state'
@@ -27,7 +27,7 @@ export function WholesaleApplicationView({ id }: { id: number }) {
       <Card className="py-0">
         {missing ? (
           <EmptyState
-            icon={<BuildingsIcon />}
+            icon={<Building2Icon />}
             title="No encontramos esta solicitud"
             description="Puede que el link esté mal escrito. Buscala por empresa o CUIT en la lista."
             action={

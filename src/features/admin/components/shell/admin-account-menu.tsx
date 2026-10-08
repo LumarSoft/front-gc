@@ -1,8 +1,8 @@
 'use client'
 
+import { ChevronsUpDownIcon, ExternalLinkIcon, LogOutIcon } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { ArrowSquareOutIcon, CaretUpDownIcon, SignOutIcon } from '@phosphor-icons/react'
 import { Avatar, AvatarFallback } from '@/src/components/ui/avatar'
 import {
   DropdownMenu,
@@ -53,7 +53,7 @@ export function AdminAccountMenu({ user, variant = 'sidebar' }: AdminAccountMenu
               </span>
               <span className="truncate text-xs text-frame-muted">{user.email}</span>
             </span>
-            <CaretUpDownIcon className="size-4 shrink-0 text-frame-muted" />
+            <ChevronsUpDownIcon className="size-4 shrink-0 text-frame-muted" />
           </>
         )}
       </DropdownMenuTrigger>
@@ -72,7 +72,7 @@ export function AdminAccountMenu({ user, variant = 'sidebar' }: AdminAccountMenu
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
           <Link href="/" target="_blank">
-            <ArrowSquareOutIcon className="size-4" />
+            <ExternalLinkIcon className="size-4" />
             Ver la tienda
           </Link>
         </DropdownMenuItem>
@@ -80,7 +80,7 @@ export function AdminAccountMenu({ user, variant = 'sidebar' }: AdminAccountMenu
           disabled={logoutMutation.isPending}
           onSelect={() => logoutMutation.mutate(undefined, { onSettled: () => router.push('/') })}
         >
-          <SignOutIcon className="size-4" />
+          <LogOutIcon className="size-4" />
           Cerrar sesión
         </DropdownMenuItem>
       </DropdownMenuContent>

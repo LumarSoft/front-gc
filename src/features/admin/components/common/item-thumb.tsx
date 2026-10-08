@@ -1,11 +1,11 @@
+import type { LucideIcon } from 'lucide-react'
 import Image from 'next/image'
-import type { Icon } from '@phosphor-icons/react'
 import { cn } from '@/src/lib/utils'
 
 type ItemThumbProps = {
   url: string | null
   /** Shown when there is no image. */
-  fallbackIcon: Icon
+  fallbackIcon: LucideIcon
   /** "sm" (32 px) for dense rows and search results; "md" (40 px) by default. */
   size?: 'sm' | 'md'
 }

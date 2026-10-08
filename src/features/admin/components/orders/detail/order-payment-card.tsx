@@ -1,6 +1,6 @@
 'use client'
 
-import { CircleNotchIcon, ClockIcon, WarningIcon } from '@phosphor-icons/react'
+import { ClockIcon, LoaderCircleIcon, TriangleAlertIcon } from 'lucide-react'
 import { Button } from '@/src/components/ui/button'
 import { useNow } from '@/src/features/admin/hooks/use-now'
 import { AdminCard } from '@/src/features/admin/components/common/admin-card'
@@ -32,7 +32,7 @@ export function OrderPaymentCard({ order, canConfirm, pending, onConfirm }: Orde
       footer={
         canConfirm && (
           <Button onClick={onConfirm} disabled={pending}>
-            {pending && <CircleNotchIcon className="animate-spin" />}
+            {pending && <LoaderCircleIcon className="animate-spin" />}
             Marcar como pagado
           </Button>
         )
@@ -63,7 +63,7 @@ export function OrderPaymentCard({ order, canConfirm, pending, onConfirm }: Orde
           )}
         >
           {overdue ? (
-            <WarningIcon weight="fill" className="mt-0.5 size-4 shrink-0" />
+            <TriangleAlertIcon strokeWidth={2.25} className="mt-0.5 size-4 shrink-0" />
           ) : (
             <ClockIcon className="mt-0.5 size-4 shrink-0" />
           )}

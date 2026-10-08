@@ -1,6 +1,6 @@
 'use client'
 
-import { WarningCircleIcon } from '@phosphor-icons/react'
+import { CircleAlertIcon } from 'lucide-react'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/src/components/ui/tooltip'
 import { BLOCKING_ISSUES, PRODUCT_ISSUE_LABELS } from '@/src/features/admin/lib/product-labels'
 import { cn } from '@/src/lib/utils'
@@ -22,7 +22,7 @@ export function ProductIssuesHint({ issues }: { issues: ProductIssue[] }) {
           blocking ? 'text-destructive' : 'text-warning',
         )}
       >
-        <WarningCircleIcon weight="fill" className="size-4" />
+        <CircleAlertIcon strokeWidth={2.25} className="size-4" />
       </TooltipTrigger>
       <TooltipContent>{summary}</TooltipContent>
     </Tooltip>

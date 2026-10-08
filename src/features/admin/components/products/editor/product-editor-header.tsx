@@ -1,7 +1,7 @@
 'use client'
 
+import { ArchiveIcon, ArrowLeftIcon, CopyIcon } from 'lucide-react'
 import Link from 'next/link'
-import { ArchiveIcon, ArrowLeftIcon, CopyIcon } from '@phosphor-icons/react'
 import { Button } from '@/src/components/ui/button'
 import { ArchiveConfirmDialog } from '@/src/features/admin/components/common/archive-confirm-dialog'
 import { RowActions } from '@/src/features/admin/components/common/row-actions'

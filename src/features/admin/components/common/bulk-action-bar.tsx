@@ -1,7 +1,7 @@
 'use client'
 
+import { XIcon } from 'lucide-react'
 import { useState } from 'react'
-import { XIcon } from '@phosphor-icons/react'
 import { usePresence } from '@/src/features/admin/hooks/use-presence'
 
 type BulkActionBarProps = {

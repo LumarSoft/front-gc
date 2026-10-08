@@ -1,6 +1,6 @@
 'use client'
 
-import { CircleNotchIcon } from '@phosphor-icons/react'
+import { LoaderCircleIcon } from 'lucide-react'
 import { Button } from '@/src/components/ui/button'
 import {
   Dialog,
@@ -57,7 +57,7 @@ export function FormDialog({
               variant={destructive ? 'destructive' : 'default'}
               disabled={pending || submitDisabled}
             >
-              {pending && <CircleNotchIcon className="size-4 animate-spin" />}
+              {pending && <LoaderCircleIcon className="size-4 animate-spin" />}
               {submitLabel}
             </Button>
           </DialogFooter>

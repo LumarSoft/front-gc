@@ -1,7 +1,7 @@
 'use client'
 
+import { LoaderCircleIcon, UploadIcon } from 'lucide-react'
 import { useState } from 'react'
-import { CircleNotchIcon, UploadSimpleIcon } from '@phosphor-icons/react'
 import { cn } from '@/src/lib/utils'
 
 type GalleryDropzoneProps = {
@@ -34,12 +34,12 @@ export function GalleryDropzone({ onFiles, uploading, remaining }: GalleryDropzo
       >
         {uploading ? (
           <>
-            <CircleNotchIcon className="size-6 animate-spin text-primary" />
+            <LoaderCircleIcon className="size-6 animate-spin text-primary" />
             Subiendo {remaining}…
           </>
         ) : (
           <>
-            <UploadSimpleIcon className="size-6" />
+            <UploadIcon className="size-6" />
             Agregar imágenes
             <span className="text-muted-foreground">o arrastralas acá</span>
           </>

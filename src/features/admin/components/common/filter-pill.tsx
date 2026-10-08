@@ -1,6 +1,6 @@
 'use client'
 
-import { CaretDownIcon, XIcon } from '@phosphor-icons/react'
+import { ChevronDownIcon, XIcon } from 'lucide-react'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/src/components/ui/dropdown-menu'
 import { cn } from '@/src/lib/utils'
 
@@ -33,7 +33,7 @@ export function FilterPill({ label, valueLabel, onClear, children }: FilterPillP
           ) : (
             label
           )}
-          {!active && <CaretDownIcon className="size-3.5" />}
+          {!active && <ChevronDownIcon className="size-3.5" />}
         </DropdownMenuTrigger>
         <DropdownMenuContent align="start" className="max-h-80 w-60">
           {children}
