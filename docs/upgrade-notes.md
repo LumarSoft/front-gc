@@ -16,6 +16,13 @@ The store needs the API running: keep `api-gc` up to date too (its own `npm run 
 
 ---
 
+## 2026-10-07 — Bulk actions in the admin product list
+
+Pull `api-gc` too (LumarSoft/api-gc#19: `POST /admin/products/bulk`) and restart it. With an older API the selection bar
+shows an error toast when an action is run; nothing else changes.
+
+---
+
 ## 2026-10-07 — Admin orders views, search and counters
 
 Pull `api-gc` too (LumarSoft/api-gc#18: `GET /admin/orders?stage=&q=` and `GET /admin/orders/counts`) and restart it.
