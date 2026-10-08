@@ -16,6 +16,23 @@ The store needs the API running: keep `api-gc` up to date too (its own `npm run 
 
 ---
 
+## 2026-10-08 — Setup checks after pull
+
+Nothing to run. From now on, after `git pull` (also merge, rebase or switching branches) the git hooks show the new
+entries of this file and run `npm run doctor` when something relevant changed. They come with Husky, already
+installed by `npm install`.
+
+---
+
+## 2026-10-08 — Stats page and store activity
+
+Pull `api-gc` too (LumarSoft/api-gc#27, #28, #29), **apply its migration** (`npx prisma migrate dev && npx prisma
+generate` there; production: `npx prisma migrate deploy`) and restart it. The new API refuses to start until the
+migration is applied. With an older API, `/admin/estadisticas` shows an error and the store's activity reports are
+silently dropped. `npm run doctor` checks it.
+
+---
+
 ## 2026-10-08 — Photos on order lines
 
 Pull `api-gc` too (LumarSoft/api-gc#24: `items[].imageUrl` in order responses) and restart it. With an older API the
