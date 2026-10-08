@@ -12,7 +12,7 @@ import {
 import type { AdminProduct } from '@/src/types/api/admin-products'
 import type { StoredFile } from '@/src/types/api/admin-files'
 
-/** Local, unsaved version of the product gallery and the actions on it. Saved as a whole with one request. */
+/** Local, unsaved version of the product gallery and the actions on it. Saved as a whole with one request (save bar). */
 export function useGalleryDraft(product: AdminProduct) {
   const { replaceImages } = useProductMutations(product.id)
   const saved = toGalleryItems(product.images)
@@ -31,8 +31,6 @@ export function useGalleryDraft(product: AdminProduct) {
 
   return {
     items,
-    dirty: !sameGallery(items, saved),
-    pending: replaceImages.isPending,
     add: (file: StoredFile) =>
       setItems(current => [
         ...current,
@@ -49,7 +47,14 @@ export function useGalleryDraft(product: AdminProduct) {
     move: (key: string, offset: number) => setItems(current => moveItem(current, indexOf(key), indexOf(key) + offset)),
     makeMain: (key: string) => setItems(current => moveItem(current, indexOf(key), 0)),
     setAltText: (key: string, altText: string) => update(key, { altText }),
-    save: () => replaceImages.mutate(toImageInputs(items)),
-    discard: () => setItems(saved),
+    /** For the save bar. Photos still uploading are not in `items` yet: the gallery section blocks saving meanwhile. */
+    section: {
+      dirty: !sameGallery(items, saved),
+      prepare: async () => {
+        const images = toImageInputs(items)
+        return () => replaceImages.mutateAsync(images)
+      },
+      discard: () => setItems(saved),
+    },
   }
 }

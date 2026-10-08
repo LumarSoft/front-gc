@@ -8,8 +8,9 @@ type AdminMutationOptions<TVariables, TData> = {
   mutationFn: (variables: TVariables) => Promise<TData>
   /** Lists to reload after a successful change. */
   invalidate: QueryKey[]
-  /** Toast shown on success; a function receives the result (e.g. the saved name). */
-  successMessage: string | ((data: TData, variables: TVariables) => string)
+  /** Toast shown on success; a function receives the result (e.g. the saved name). Omit it when the caller confirms
+   * on its own (the product editor's save bar shows one toast for several requests). */
+  successMessage?: string | ((data: TData, variables: TVariables) => string)
   /** Extra work after success, e.g. storing the returned record in the cache. */
   onSuccess?: (data: TData, variables: TVariables) => void
 }
@@ -26,7 +27,8 @@ export function useAdminMutation<TVariables, TData>({
     mutationFn,
     onSuccess: async (data, variables) => {
       onSuccess?.(data, variables)
-      toast.success(typeof successMessage === 'function' ? successMessage(data, variables) : successMessage)
+      if (successMessage)
+        toast.success(typeof successMessage === 'function' ? successMessage(data, variables) : successMessage)
       await Promise.all(invalidate.map(queryKey => queryClient.invalidateQueries({ queryKey })))
     },
     onError: error => toast.error(adminErrorMessage(error)),

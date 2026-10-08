@@ -6,7 +6,7 @@ import type { AdminProduct } from '@/src/types/api/admin-products'
 
 const idsOf = (product: AdminProduct): number[] => product.tags.map(tag => tag.id).sort((a, b) => a - b)
 
-/** Selected tag ids, saved as a whole. */
+/** Selected tag ids, saved as a whole through the page's save bar. */
 export function useTagsDraft(product: AdminProduct) {
   const { replaceTags } = useProductMutations(product.id)
   const saved = idsOf(product)
@@ -23,9 +23,13 @@ export function useTagsDraft(product: AdminProduct) {
       setSelected(current =>
         current.includes(id) ? current.filter(item => item !== id) : [...current, id].sort((a, b) => a - b),
       ),
-    dirty: JSON.stringify(selected) !== JSON.stringify(saved),
-    pending: replaceTags.isPending,
-    save: () => replaceTags.mutate(selected),
-    discard: () => setSelected(saved),
+    section: {
+      dirty: JSON.stringify(selected) !== JSON.stringify(saved),
+      prepare: async () => {
+        const tagIds = selected
+        return () => replaceTags.mutateAsync(tagIds)
+      },
+      discard: () => setSelected(saved),
+    },
   }
 }

@@ -3,14 +3,14 @@
 import { ListBulletsIcon, PlusIcon } from '@phosphor-icons/react'
 import { Button } from '@/src/components/ui/button'
 import { EmptyState } from '@/src/components/ui/empty-state'
-import { EditorSection } from '@/src/features/admin/components/common/editor-section'
+import { ProductEditorCard } from '@/src/features/admin/components/products/editor/product-editor-card'
 import { SpecificationRowFields } from '@/src/features/admin/components/products/editor/specification-row'
 import { useSpecificationsForm } from '@/src/features/admin/hooks/use-specifications-form'
 import type { AdminProduct } from '@/src/types/api/admin-products'
 
 /** Technical sheet: shown on the product page, used for comparisons and by the assistant. */
 export function SpecificationsSection({ product }: { product: AdminProduct }) {
-  const { form, rows, addRow, dirty, pending, save, discard } = useSpecificationsForm(product)
+  const { form, rows, addRow, section } = useSpecificationsForm(product)
   const addButton = (
     <Button type="button" variant="outline" size="sm" onClick={addRow}>
       <PlusIcon />
@@ -19,14 +19,11 @@ export function SpecificationsSection({ product }: { product: AdminProduct }) {
   )
 
   return (
-    <EditorSection
+    <ProductEditorCard
       title="Especificaciones"
       description="Ficha técnica. El grupo (ej.: Impresión, Conectividad) arma las secciones de la ficha."
       action={rows.fields.length > 0 ? addButton : undefined}
-      dirty={dirty}
-      pending={pending}
-      onSave={save}
-      onDiscard={discard}
+      section={section}
     >
       {rows.fields.length === 0 ? (
         <EmptyState
@@ -49,6 +46,6 @@ export function SpecificationsSection({ product }: { product: AdminProduct }) {
           ))}
         </ul>
       )}
-    </EditorSection>
+    </ProductEditorCard>
   )
 }

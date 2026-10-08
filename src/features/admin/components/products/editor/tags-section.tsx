@@ -2,7 +2,7 @@
 
 import { CheckIcon } from '@phosphor-icons/react'
 import Link from 'next/link'
-import { EditorSection } from '@/src/features/admin/components/common/editor-section'
+import { ProductEditorCard } from '@/src/features/admin/components/products/editor/product-editor-card'
 import { useAdminTags } from '@/src/features/admin/hooks/use-admin-tags'
 import { useTagsDraft } from '@/src/features/admin/hooks/use-tags-draft'
 import { groupLabel, groupTags } from '@/src/features/admin/lib/tag-form'
@@ -15,13 +15,7 @@ export function TagsSection({ product }: { product: AdminProduct }) {
   const draft = useTagsDraft(product)
 
   return (
-    <EditorSection
-      title="Etiquetas"
-      dirty={draft.dirty}
-      pending={draft.pending}
-      onSave={draft.save}
-      onDiscard={draft.discard}
-    >
+    <ProductEditorCard title="Etiquetas" section={draft.section}>
       {tags.length === 0 ? (
         <p className="text-sm text-muted-foreground">
           No hay etiquetas. Crealas en{' '}
@@ -60,6 +54,6 @@ export function TagsSection({ product }: { product: AdminProduct }) {
           ))}
         </div>
       )}
-    </EditorSection>
+    </ProductEditorCard>
   )
 }

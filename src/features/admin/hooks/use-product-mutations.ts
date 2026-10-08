@@ -23,7 +23,10 @@ import type {
 
 const invalidate = [QUERY_KEYS.admin.productLists, QUERY_KEYS.admin.categories, QUERY_KEYS.admin.tags]
 
-/** Every change to one product. Each answer is the updated product, stored in the cache so the editor refreshes at once. */
+/**
+ * Every change to one product. Each answer is the updated product, stored in the cache so the editor refreshes at once.
+ * Content saves (update, images, specifications, tags) have no toast of their own: the save bar confirms them once.
+ */
 export function useProductMutations(productId: number) {
   const queryClient = useQueryClient()
   const store = (product: AdminProduct): void => {
@@ -34,7 +37,6 @@ export function useProductMutations(productId: number) {
   return {
     update: useAdminMutation({
       mutationFn: (input: UpdateProductInput) => updateProduct(productId, input),
-      successMessage: 'Cambios guardados.',
       ...saved,
     }),
     setStatus: useAdminMutation({
@@ -44,17 +46,14 @@ export function useProductMutations(productId: number) {
     }),
     replaceImages: useAdminMutation({
       mutationFn: (images: ProductImageInput[]) => replaceProductImages(productId, images),
-      successMessage: 'Imágenes guardadas.',
       ...saved,
     }),
     replaceSpecifications: useAdminMutation({
       mutationFn: (specifications: SpecificationInput[]) => replaceProductSpecifications(productId, specifications),
-      successMessage: 'Especificaciones guardadas.',
       ...saved,
     }),
     replaceTags: useAdminMutation({
       mutationFn: (tagIds: number[]) => replaceProductTags(productId, tagIds),
-      successMessage: 'Etiquetas guardadas.',
       ...saved,
     }),
     duplicate: useAdminMutation({

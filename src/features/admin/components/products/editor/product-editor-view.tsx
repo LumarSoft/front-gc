@@ -11,6 +11,7 @@ import { GallerySection } from '@/src/features/admin/components/products/editor/
 import { GeneralSection } from '@/src/features/admin/components/products/editor/general-section'
 import { OrganizationSection } from '@/src/features/admin/components/products/editor/organization-section'
 import { ProductEditorHeader } from '@/src/features/admin/components/products/editor/product-editor-header'
+import { ProductSaveBar } from '@/src/features/admin/components/products/editor/product-save-bar'
 import { ProductEditorSkeleton } from '@/src/features/admin/components/products/editor/product-editor-skeleton'
 import { SeoSection } from '@/src/features/admin/components/products/editor/seo-section'
 import { SpecificationsSection } from '@/src/features/admin/components/products/editor/specifications-section'
@@ -18,11 +19,16 @@ import { StatusCard } from '@/src/features/admin/components/products/editor/stat
 import { TagsSection } from '@/src/features/admin/components/products/editor/tags-section'
 import { VariantsCard } from '@/src/features/admin/components/products/variants/variants-card'
 import { useAdminProduct } from '@/src/features/admin/hooks/use-admin-products'
+import { SaveBarContext, useSaveBar } from '@/src/features/admin/hooks/use-save-bar'
 import { ApiError } from '@/src/lib/api-client'
 
-/** Product editor: content on the left, status and organization on the right (stacked on phones, status first). */
+/**
+ * Product editor: content on the left, status and organization on the right (stacked on phones, status first). Content
+ * sections save together through the save bar; variants (side panel) and status actions apply at once.
+ */
 export function ProductEditorView({ productId }: { productId: number }) {
   const { data: product, isPending, error, refetch } = useAdminProduct(productId)
+  const saveBar = useSaveBar('Producto guardado')
 
   if (isPending) return <ProductEditorSkeleton />
   if (error instanceof ApiError && error.status === 404) {
@@ -50,8 +56,17 @@ export function ProductEditorView({ productId }: { productId: number }) {
   }
 
   return (
-    <>
-      <ProductEditorHeader product={product} />
+    <SaveBarContext.Provider value={saveBar.registry}>
+      <ProductSaveBar
+        dirty={saveBar.dirty}
+        saving={saveBar.saving}
+        onSave={() => void saveBar.save()}
+        onDiscard={saveBar.discard}
+      />
+      {/* Desktop: room above the title for the save bar, always there so nothing shifts when it appears. */}
+      <div className="lg:pt-8">
+        <ProductEditorHeader product={product} />
+      </div>
       {/*
         Desktop: content column + side column. Phones: one column in task order (status, content, then settings);
         the column wrappers become `contents` so each section can take its own place.
@@ -89,6 +104,6 @@ export function ProductEditorView({ productId }: { productId: number }) {
           </div>
         </div>
       </div>
-    </>
+    </SaveBarContext.Provider>
   )
 }
