@@ -1,4 +1,5 @@
 import type { AdminOrdersQuery, OrderStage } from '@/src/types/api/orders'
+import { parsePage } from '@/src/lib/pagination'
 
 const STAGES: OrderStage[] = ['PENDING_PAYMENT', 'TO_FULFILL', 'READY', 'CLOSED']
 export const ADMIN_ORDERS_PAGE_SIZE = 25
@@ -6,11 +7,11 @@ export const ADMIN_ORDERS_PAGE_SIZE = 25
 /** Order list state in the URL (`?stage=&q=&page=`): shareable and kept on reload. */
 export function parseOrderListParams(params: URLSearchParams): AdminOrdersQuery {
   const stage = params.get('stage') as OrderStage | null
-  const page = Number(params.get('page'))
+  const page = parsePage(params.get('page'))
   return {
     stage: stage && STAGES.includes(stage) ? stage : undefined,
     q: params.get('q')?.trim() || undefined,
-    page: Number.isInteger(page) && page > 1 ? page : undefined,
+    page: page > 1 ? page : undefined,
     pageSize: ADMIN_ORDERS_PAGE_SIZE,
   }
 }

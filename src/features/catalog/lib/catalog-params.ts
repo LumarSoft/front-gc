@@ -1,4 +1,5 @@
 import type { ProductListQuery, ProductSort } from '@/src/types/api/catalog'
+import { parsePage } from '@/src/lib/pagination'
 
 export const CATALOG_PAGE_SIZE = 24
 
@@ -33,7 +34,6 @@ function first(value: string | string[] | undefined): string | undefined {
 
 export function parseCatalogParams(searchParams: SearchParams): CatalogParams {
   const sort = first(searchParams.sort)
-  const page = Number(first(searchParams.page))
   const q = first(searchParams.q)?.trim()
   return {
     q: q ? q.slice(0, 100) : undefined,
@@ -42,7 +42,7 @@ export function parseCatalogParams(searchParams: SearchParams): CatalogParams {
       MAX_TAGS,
     ),
     sort: SORT_OPTIONS.some(option => option.value === sort) ? (sort as ProductSort) : 'relevance',
-    page: Number.isInteger(page) && page > 1 ? page : 1,
+    page: parsePage(first(searchParams.page)),
   }
 }
 

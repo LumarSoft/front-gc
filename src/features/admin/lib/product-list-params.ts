@@ -1,4 +1,5 @@
 import type { AdminProductSort, AdminProductsQuery, ProductStatus } from '@/src/types/api/admin-products'
+import { parsePage } from '@/src/lib/pagination'
 
 const STATUSES: ProductStatus[] = ['PUBLISHED', 'DRAFT', 'HIDDEN']
 const SORTS: AdminProductSort[] = ['updated', 'name', 'newest']
@@ -13,6 +14,7 @@ const positiveInt = (value: string | null): number | undefined => {
 export function parseProductListParams(params: URLSearchParams): AdminProductsQuery {
   const status = params.get('status') as ProductStatus | null
   const sort = params.get('sort') as AdminProductSort | null
+  const page = parsePage(params.get('page'))
   return {
     q: params.get('q')?.trim() || undefined,
     status: status && STATUSES.includes(status) ? status : undefined,
@@ -20,7 +22,7 @@ export function parseProductListParams(params: URLSearchParams): AdminProductsQu
     brandId: positiveInt(params.get('brandId')),
     stock: params.get('stock') === 'out' ? 'out' : undefined,
     sort: sort && SORTS.includes(sort) ? sort : undefined,
-    page: positiveInt(params.get('page')),
+    page: page > 1 ? page : undefined,
     pageSize: ADMIN_PRODUCTS_PAGE_SIZE,
   }
 }
