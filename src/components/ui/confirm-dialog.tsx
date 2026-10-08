@@ -17,6 +17,8 @@ type ConfirmDialogProps = {
   title: string
   description: React.ReactNode
   confirmLabel?: string
+  /** Defaults to "Cancelar" (or "Entendido" when the dialog only informs). */
+  cancelLabel?: string
   /** Without it the dialog only informs (e.g. why something cannot be done) and offers "Entendido". */
   onConfirm?: () => void
   /** Red confirm button, for actions that remove or hide things. */
@@ -30,6 +32,7 @@ export function ConfirmDialog({
   title,
   description,
   confirmLabel,
+  cancelLabel,
   onConfirm,
   destructive = false,
 }: ConfirmDialogProps) {
@@ -41,7 +44,7 @@ export function ConfirmDialog({
           <AlertDialogDescription>{description}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>{onConfirm ? 'Cancelar' : 'Entendido'}</AlertDialogCancel>
+          <AlertDialogCancel>{cancelLabel ?? (onConfirm ? 'Cancelar' : 'Entendido')}</AlertDialogCancel>
           {onConfirm && (
             <AlertDialogAction variant={destructive ? 'destructive' : 'default'} onClick={onConfirm}>
               {confirmLabel}
