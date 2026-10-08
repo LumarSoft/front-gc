@@ -29,7 +29,10 @@ export { TableBody as IndexTableBody }
 export function IndexTableRow({ className, ...props }: React.ComponentProps<typeof TableRow>) {
   return (
     <TableRow
-      className={cn('relative transition-colors hover:bg-table-head has-focus-visible:bg-table-head', className)}
+      className={cn(
+        'relative transition-colors hover:bg-table-head has-focus-visible:bg-table-head data-[state=selected]:bg-tone-neutral/50',
+        className,
+      )}
       {...props}
     />
   )

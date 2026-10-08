@@ -176,3 +176,11 @@ export type VariantPriceInput = {
 }
 
 export type StockInput = { onHand: number; lowStockThreshold?: number | null; note?: string | null }
+
+/** Matches POST /admin/products/bulk. */
+export type BulkProductAction = 'PUBLISH' | 'HIDE' | 'DRAFT' | 'ARCHIVE'
+export type BulkProductsResult = {
+  updated: number[]
+  unchanged: number[]
+  skipped: { id: number; reason: 'NOT_FOUND' | 'CANNOT_PUBLISH'; issues?: ProductIssue[] }[]
+}

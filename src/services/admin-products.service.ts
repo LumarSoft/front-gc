@@ -2,6 +2,8 @@ import { apiRequest } from '@/src/lib/api-client'
 import type {
   AdminProduct,
   AdminProductsQuery,
+  BulkProductAction,
+  BulkProductsResult,
   CreateProductInput,
   PaginatedAdminProducts,
   ProductImageInput,
@@ -21,6 +23,10 @@ function toQueryString(query: AdminProductsQuery): string {
 
 export function getAdminProducts(query: AdminProductsQuery): Promise<PaginatedAdminProducts> {
   return apiRequest<PaginatedAdminProducts>(`/admin/products${toQueryString(query)}`)
+}
+
+export function bulkUpdateProducts(ids: number[], action: BulkProductAction): Promise<BulkProductsResult> {
+  return apiRequest<BulkProductsResult>('/admin/products/bulk', { method: 'POST', body: { ids, action } })
 }
 
 export function getAdminProduct(id: number): Promise<AdminProduct> {
