@@ -2,6 +2,7 @@
 
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
+import { useTrackActivity } from '@/src/features/activity/hooks/use-track-activity'
 import { cartErrorMessage } from '@/src/features/cart/lib/cart-messages'
 import { finishPendingOrder, orderPath, pendingOrderToken } from '@/src/features/orders/lib/order-access'
 import { QUERY_KEYS } from '@/src/lib/query-keys'
@@ -11,6 +12,7 @@ import type { Checkout } from '@/src/types/api/checkout'
 export function usePlaceOrder(checkout: Checkout) {
   const client = useQueryClient()
   const router = useRouter()
+  const { track } = useTrackActivity()
   const mutation = useMutation({
     mutationKey: QUERY_KEYS.cart,
     scope: { id: 'cart' },
@@ -30,6 +32,7 @@ export function usePlaceOrder(checkout: Checkout) {
     },
     onMutate: () => client.cancelQueries({ queryKey: QUERY_KEYS.cart }),
     onSuccess: ({ order, accessToken }) => {
+      track({ type: 'ORDER_PLACED' })
       // Keep the retry token until navigation: even a failure here can safely recover the created order.
       router.replace(orderPath(order.number, accessToken))
       finishPendingOrder()

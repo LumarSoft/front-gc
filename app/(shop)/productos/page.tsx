@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { TrackActivity } from '@/src/features/activity/components/track-activity'
 import { CatalogView } from '@/src/features/catalog/components/catalog/catalog-view'
 import { parseCatalogParams, toProductQuery, USE_TAG_GROUP } from '@/src/features/catalog/lib/catalog-params'
 import { getCategories, getProducts, getTags } from '@/src/services/catalog.service'
@@ -22,16 +23,21 @@ export default async function ProductsPage({ searchParams }: PageProps<'/product
   ])
 
   return (
-    <CatalogView
-      title={params.q ? `Resultados para “${params.q}”` : 'Todos los productos'}
-      description={params.q ? null : 'Equipos y consumibles originales, con asesoramiento antes y después de comprar.'}
-      breadcrumbs={[]}
-      basePath="/productos"
-      params={params}
-      result={result}
-      sessionExpired={sessionExpired}
-      categories={categories}
-      useTags={useTags}
-    />
+    <>
+      {params.q && <TrackActivity event={{ type: 'SEARCH', query: params.q, resultCount: result.total }} />}
+      <CatalogView
+        title={params.q ? `Resultados para “${params.q}”` : 'Todos los productos'}
+        description={
+          params.q ? null : 'Equipos y consumibles originales, con asesoramiento antes y después de comprar.'
+        }
+        breadcrumbs={[]}
+        basePath="/productos"
+        params={params}
+        result={result}
+        sessionExpired={sessionExpired}
+        categories={categories}
+        useTags={useTags}
+      />
+    </>
   )
 }

@@ -46,6 +46,7 @@ export function ComparisonChart({
   const left = (index: number) => (values.length > 1 ? (index / (values.length - 1)) * 100 : 50)
   const top = (value: number) => 100 - (value / max) * 100
   const active = hover.active
+  const empty = [...values, ...previous].every(value => value === 0)
 
   return (
     <figure className="flex flex-col gap-1.5">
@@ -60,10 +61,6 @@ export function ComparisonChart({
         onBlur={hover.clear}
         className="relative h-52 touch-pan-y rounded-md outline-none focus-visible:ring-2 focus-visible:ring-ring sm:h-60"
       >
-        <span className="absolute top-0 left-0 text-xs text-muted-foreground tabular-nums">{formatAxis(max)}</span>
-        <span className="absolute top-1/2 left-0 -translate-y-full text-xs text-muted-foreground tabular-nums">
-          {formatAxis(max / 2)}
-        </span>
         <svg
           aria-hidden
           viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
@@ -102,7 +99,18 @@ export function ComparisonChart({
             vectorEffect="non-scaling-stroke"
           />
         </svg>
-        {[...values, ...previous].every(value => value === 0) && (
+        {/* Scale labels above the lines, on a soft backing so a line crossing them never hides the number. */}
+        {!empty && (
+          <>
+            <span className="absolute top-0 left-0 z-[1] rounded-sm bg-card/80 pr-1 text-xs text-muted-foreground tabular-nums">
+              {formatAxis(max)}
+            </span>
+            <span className="absolute top-1/2 left-0 z-[1] -translate-y-full rounded-sm bg-card/80 pr-1 text-xs text-muted-foreground tabular-nums">
+              {formatAxis(max / 2)}
+            </span>
+          </>
+        )}
+        {empty && (
           <span className="absolute inset-0 grid place-items-center text-sm text-muted-foreground">
             Sin movimiento en estos períodos.
           </span>

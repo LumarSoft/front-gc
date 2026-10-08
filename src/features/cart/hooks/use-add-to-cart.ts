@@ -4,6 +4,7 @@ import { useSyncExternalStore } from 'react'
 import { useAddCartItem, useCartBusy } from '@/src/features/cart/hooks/use-cart'
 import { cartErrorMessage } from '@/src/features/cart/lib/cart-messages'
 import type { ProductVariant } from '@/src/types/api/catalog'
+import { useTrackActivity } from '@/src/features/activity/hooks/use-track-activity'
 import { useCurrentUser } from '@/src/features/auth/hooks/use-current-user'
 import { useCartDrawer } from './use-cart-drawer'
 
@@ -20,13 +21,15 @@ const subscribe = () => () => {}
 const clientSnapshot = () => true
 const serverSnapshot = () => false
 
-export function useAddToCart(variant: ProductVariant | undefined): AddToCartState {
+/** `productId`: the product the variant belongs to, for the store's activity stats. */
+export function useAddToCart(variant: ProductVariant | undefined, productId: number): AddToCartState {
   // The browser may already have session data while a streamed product still needs hydration.
   const hydrated = useSyncExternalStore(subscribe, clientSnapshot, serverSnapshot)
   const mutation = useAddCartItem()
   const busy = useCartBusy()
   const session = useCurrentUser()
   const { openCart } = useCartDrawer()
+  const { track } = useTrackActivity()
   const canAdd =
     hydrated &&
     !session.isPending &&
@@ -39,7 +42,15 @@ export function useAddToCart(variant: ProductVariant | undefined): AddToCartStat
     openCart,
     add: trigger => {
       if (variant && canAdd && !busy)
-        mutation.mutate({ variantId: variant.id, quantity: 1 }, { onSuccess: () => openCart(trigger) })
+        mutation.mutate(
+          { variantId: variant.id, quantity: 1 },
+          {
+            onSuccess: () => {
+              openCart(trigger)
+              track({ type: 'ADD_TO_CART', productId })
+            },
+          },
+        )
     },
   }
 }

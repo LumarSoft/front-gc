@@ -15,6 +15,8 @@ type ApiRequestOptions = {
   body?: unknown
   /** Skip the automatic session refresh (used by the auth endpoints themselves). */
   skipRefresh?: boolean
+  /** Let the request finish even if the page navigates away (fire-and-forget reports). */
+  keepalive?: boolean
 }
 
 const API_URL = (process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3001').replace(/\/+$/, '')
@@ -51,12 +53,13 @@ async function readErrorMessage(response: Response): Promise<string> {
  * On a 401 it tries to refresh the session once and retries the request.
  */
 export async function apiRequest<T>(path: string, options: ApiRequestOptions = {}): Promise<T> {
-  const { method = 'GET', body, skipRefresh = false } = options
+  const { method = 'GET', body, skipRefresh = false, keepalive } = options
 
   const send = (): Promise<Response> =>
     fetch(`${API_URL}${path}`, {
       method,
       credentials: 'include',
+      keepalive,
       // FormData (file uploads) sets its own multipart Content-Type with the boundary.
       headers: body === undefined || body instanceof FormData ? undefined : { 'Content-Type': 'application/json' },
       body: body === undefined ? undefined : body instanceof FormData ? body : JSON.stringify(body),
