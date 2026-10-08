@@ -18,7 +18,7 @@ export type AdminNavItem = AdminNavLink & {
   badge?: AdminNavBadge
 }
 
-export type AdminNavBadge = 'ordersWaiting'
+export type AdminNavBadge = 'ordersWaiting' | 'wholesalePending'
 
 /** Admin sections. Each admin PR adds its section here when its page exists, so there are no dead links. */
 export const ADMIN_NAV: AdminNavItem[] = [
@@ -35,7 +35,12 @@ export const ADMIN_NAV: AdminNavItem[] = [
       { label: 'Etiquetas', href: '/admin/etiquetas' },
     ],
   },
-  { label: 'Clientes frecuentes', href: '/admin/clientes-frecuentes', icon: BuildingsIcon },
+  {
+    label: 'Clientes frecuentes',
+    href: '/admin/clientes-frecuentes',
+    icon: BuildingsIcon,
+    badge: 'wholesalePending',
+  },
 ]
 
 /** Store settings, at the bottom of the sidebar like Shopify's "Configuración". */

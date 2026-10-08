@@ -1,9 +1,10 @@
 import { apiRequest } from '@/src/lib/api-client'
-import type { WholesaleStatus } from '@/src/types/api/auth'
 import type {
   AdminWholesaleApplication,
+  AdminWholesaleQuery,
   CreateWholesaleApplicationRequest,
   MyWholesaleApplication,
+  WholesaleApplicationCounts,
   WholesaleApplicationsPage,
   WholesaleDecision,
 } from '@/src/types/api/wholesale'
@@ -16,13 +17,15 @@ export function applyForWholesale(input: CreateWholesaleApplicationRequest): Pro
   return apiRequest<MyWholesaleApplication>('/wholesale-applications', { method: 'POST', body: input })
 }
 
-export function getAdminWholesaleApplications(
-  page: number,
-  status: WholesaleStatus | '',
-): Promise<WholesaleApplicationsPage> {
-  const params = new URLSearchParams({ page: String(page) })
-  if (status) params.set('status', status)
+export function getAdminWholesaleApplications(query: AdminWholesaleQuery): Promise<WholesaleApplicationsPage> {
+  const params = new URLSearchParams({ page: String(query.page ?? 1), pageSize: String(query.pageSize) })
+  if (query.status) params.set('status', query.status)
+  if (query.q) params.set('q', query.q)
   return apiRequest<WholesaleApplicationsPage>(`/admin/wholesale-applications?${params}`)
+}
+
+export function getAdminWholesaleCounts(): Promise<WholesaleApplicationCounts> {
+  return apiRequest<WholesaleApplicationCounts>('/admin/wholesale-applications/counts')
 }
 
 export function getAdminWholesaleApplication(id: number): Promise<AdminWholesaleApplication> {

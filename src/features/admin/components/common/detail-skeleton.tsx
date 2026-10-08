@@ -3,10 +3,10 @@ import { Skeleton } from '@/src/components/ui/skeleton'
 
 const WIDTHS = ['w-11/12', 'w-3/4', 'w-3/5', 'w-1/2']
 
-/** Same layout as the order page, so nothing jumps when it loads. */
-export function OrderDetailSkeleton() {
+/** Same layout as a detail page (main column + side column), so nothing jumps when it loads. */
+export function DetailSkeleton({ label }: { label: string }) {
   return (
-    <div aria-busy aria-label="Cargando pedido">
+    <div aria-busy aria-label={label}>
       <div className="mb-5 flex items-center gap-3">
         <Skeleton className="size-8 rounded-lg" />
         <Skeleton className="h-6 w-36" />

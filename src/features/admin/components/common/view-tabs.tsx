@@ -1,5 +1,6 @@
 'use client'
 
+import { useHydrated } from '@/src/hooks/use-hydrated'
 import { cn } from '@/src/lib/utils'
 
 /** `count` (e.g. orders waiting) shows next to the label when above zero. */
@@ -14,6 +15,8 @@ type ViewTabsProps<T> = {
 
 /** Saved views at the top of a list card ("Todos", "Publicados"…); scrolls sideways on narrow phones. */
 export function ViewTabs<T>({ label, options, value, onChange }: ViewTabsProps<T>) {
+  // Counts come from a shared query that may already be cached when this hydrates; the server never has them.
+  const hydrated = useHydrated()
   return (
     <div role="radiogroup" aria-label={label} className="no-scrollbar flex min-w-0 gap-0.5 overflow-x-auto">
       {options.map(option => {
@@ -31,7 +34,7 @@ export function ViewTabs<T>({ label, options, value, onChange }: ViewTabsProps<T
             )}
           >
             {option.label}
-            {Boolean(option.count) && (
+            {hydrated && Boolean(option.count) && (
               <span className="ml-1.5 rounded-md bg-background/70 px-1.5 text-xs text-muted-foreground tabular-nums">
                 {option.count}
               </span>

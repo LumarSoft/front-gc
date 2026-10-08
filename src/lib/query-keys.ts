@@ -1,5 +1,6 @@
 import type { AdminProductsQuery } from '@/src/types/api/admin-products'
 import type { AdminOrdersQuery } from '@/src/types/api/orders'
+import type { AdminWholesaleQuery } from '@/src/types/api/wholesale'
 
 export const QUERY_KEYS = {
   currentUser: ['auth', 'current-user'],
@@ -20,8 +21,9 @@ export const QUERY_KEYS = {
     priceLists: ['admin', 'price-lists'],
     exchangeRates: ['admin', 'exchange-rates'],
     wholesaleApplications: ['admin', 'wholesale-applications'],
-    wholesaleApplicationList: (page: number, status: string) =>
-      ['admin', 'wholesale-applications', 'list', page, status] as const,
+    wholesaleApplicationList: (query: AdminWholesaleQuery) =>
+      ['admin', 'wholesale-applications', 'list', query] as const,
+    wholesaleCounts: ['admin', 'wholesale-applications', 'counts'],
     wholesaleApplication: (id: number) => ['admin', 'wholesale-applications', 'detail', id] as const,
     orders: ['admin', 'orders'],
     orderList: (query: AdminOrdersQuery) => ['admin', 'orders', 'list', query] as const,
