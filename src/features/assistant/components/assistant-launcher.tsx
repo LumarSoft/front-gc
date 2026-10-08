@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { BrandLogoImage } from '@/src/components/layout/brand-logo-image'
 import { cn } from '@/src/lib/utils'
 
 export function AssistantLauncher() {
@@ -16,11 +17,8 @@ export function AssistantLauncher() {
         isProductPage && 'hidden lg:flex',
       )}
     >
-      <span aria-hidden className="grid size-9 grid-cols-2 gap-0.5 rounded-full bg-background p-2">
-        <span className="rounded-full bg-cyan" />
-        <span className="rounded-full bg-magenta" />
-        <span className="rounded-full bg-yellow" />
-        <span className="rounded-full bg-foreground" />
+      <span aria-hidden className="flex h-9 items-center rounded-full bg-background px-2.5">
+        <BrandLogoImage className="h-4" />
       </span>
       <span>
         ¿Dudas?<span className="hidden sm:inline"> Te ayudamos a elegir</span>

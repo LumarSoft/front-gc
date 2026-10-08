@@ -24,6 +24,17 @@ Comunicaciones Gráficas is an **official Epson distributor** and has the right 
 images, logos, banners and other brand assets can be taken from Epson's sites. The store's own identity (logo,
 name) is still Comunicaciones Gráficas — Epson branding is used as the brand it sells, not as the store's.
 
+## Store logo
+
+- The Comunicaciones Gráficas logo ("CG" with cyan, magenta and yellow waves) was provided by the client on
+  2026-10-08. Files in `public/images/brand/`: `logo-cg.png` (black letters, light surfaces) and `logo-cg-light.png`
+  (white letters, dark surfaces: footer, admin frame, navy panels). The waves keep their colors in both.
+- Always render it through `BrandLogoImage` (image only) or `BrandLogo` (image + name, links home) from
+  `src/components/layout/` — never redraw it with CSS or recolor the waves.
+- Browser and home-screen icons (`app/favicon.ico`, `app/icon.png`, `app/apple-icon.png`) show the logo on a white tile
+  so it reads on dark tab bars too.
+- A new version of the logo replaces both PNGs and the three icons together.
+
 ## Design tokens
 
 - Colors, fonts, radii and shadows are defined once as tokens in `app/globals.css` (`@theme inline`).

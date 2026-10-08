@@ -17,7 +17,7 @@ export function SiteHeader() {
       <div className="border-b bg-background/90 backdrop-blur-md">
         <div className="mx-auto flex h-16 max-w-7xl items-center gap-2 px-4 sm:px-6 lg:h-18 lg:gap-8">
           <MobileNav />
-          <BrandLogo />
+          <BrandLogo priority />
           <SearchForm className="hidden flex-1 md:block lg:max-w-xl" />
           <div className="ml-auto flex items-center gap-1">
             <AccountMenu />
