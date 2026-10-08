@@ -9,6 +9,8 @@
   --color-frame-foreground: var(--frame-foreground);
   --color-frame-muted: var(--frame-muted);
   --color-frame-accent: var(--frame-accent);
+  --color-frame-hover: var(--frame-hover);
+  --color-frame-raised: var(--frame-raised);
   --color-canvas: var(--canvas);
   --color-table-head: var(--table-head);
 
@@ -55,10 +57,14 @@
 html:has([data-admin-shell]) {
   --font-sans-app: var(--font-inter);
 
-  --frame: #1a1a1a;
+  /* Near-black frame; hover and the current section step up in gray. */
+  --frame: #0a0a0a;
   --frame-foreground: #e3e3e3;
-  --frame-muted: #a3a3a3;
-  --frame-accent: #2e2e2e;
+  --frame-muted: #9b9b9b;
+  --frame-hover: #1d1d1d;
+  --frame-accent: #2d2d2d;
+  /* Floating dark surfaces (save bar, bulk bar): lighter than the frame so they stand out against it. */
+  --frame-raised: #262626;
   --canvas: #f1f1f1;
   --table-head: #f7f7f7;
 

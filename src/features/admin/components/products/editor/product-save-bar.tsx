@@ -4,6 +4,7 @@ import { CircleNotchIcon, WarningCircleIcon } from '@phosphor-icons/react'
 import { ConfirmDialog } from '@/src/components/ui/confirm-dialog'
 import { useHotkey } from '@/src/features/admin/hooks/use-hotkey'
 import { useIsMac } from '@/src/features/admin/hooks/use-is-mac'
+import { usePresence } from '@/src/features/admin/hooks/use-presence'
 import { useNavigationGuard } from '@/src/hooks/use-navigation-guard'
 import { useUnsavedChangesWarning } from '@/src/hooks/use-unsaved-changes-warning'
 
@@ -23,10 +24,20 @@ export function ProductSaveBar({ dirty, saving, onSave, onDiscard }: ProductSave
   useUnsavedChangesWarning(dirty)
   const leave = useNavigationGuard(dirty)
   useHotkey('s', () => dirty && onSave())
+  // Stays a moment after saving or discarding, to slide back up instead of vanishing.
+  const presence = usePresence(dirty)
 
   return (
     <>
-      {dirty && <SaveBar saving={saving} saveHint={isMac ? '⌘S' : 'Ctrl+S'} onSave={onSave} onDiscard={onDiscard} />}
+      {presence.mounted && (
+        <SaveBar
+          state={presence.state}
+          saving={saving}
+          saveHint={isMac ? '⌘S' : 'Ctrl+S'}
+          onSave={onSave}
+          onDiscard={onDiscard}
+        />
+      )}
       <ConfirmDialog
         open={leave.pending}
         onOpenChange={open => !open && leave.cancel()}
@@ -41,17 +52,20 @@ export function ProductSaveBar({ dirty, saving, onSave, onDiscard }: ProductSave
   )
 }
 
-type SaveBarProps = Omit<ProductSaveBarProps, 'dirty'> & { saveHint: string }
+type SaveBarProps = Omit<ProductSaveBarProps, 'dirty'> & { saveHint: string; state: 'open' | 'closed' }
 
-function SaveBar({ saving, saveHint, onSave, onDiscard }: SaveBarProps) {
+/** Raised dark surface (lighter than the frame) so it reads apart from the sidebar behind it. */
+function SaveBar({ state, saving, saveHint, onSave, onDiscard }: SaveBarProps) {
   return (
     <div
       role="region"
       aria-label="Cambios sin guardar"
-      className="fixed inset-x-3 top-2 z-50 mx-auto flex max-w-2xl items-center gap-2 rounded-xl bg-frame py-2 pr-2 pl-4 text-white shadow-2xl motion-safe:animate-in motion-safe:fade-in-0 motion-safe:slide-in-from-top-4 lg:left-60"
+      data-state={state}
+      inert={state === 'closed'}
+      className="fixed inset-x-3 top-3 z-50 mx-auto flex w-fit max-w-full items-center gap-2 rounded-xl bg-frame-raised py-1.5 pr-1.5 pl-3.5 text-white shadow-2xl ring-1 ring-white/10 duration-200 motion-safe:data-[state=closed]:animate-out motion-safe:data-[state=closed]:fade-out-0 motion-safe:data-[state=closed]:slide-out-to-top-3 motion-safe:data-[state=open]:animate-in motion-safe:data-[state=open]:fade-in-0 motion-safe:data-[state=open]:slide-in-from-top-3 data-[state=closed]:fill-mode-forwards lg:left-55"
     >
       <WarningCircleIcon className="size-4.5 shrink-0 text-frame-muted max-sm:hidden" />
-      <p className="min-w-0 flex-1 truncate text-sm font-medium" role="status">
+      <p className="mr-6 min-w-0 flex-1 truncate text-sm font-medium" role="status">
         <span className="sm:hidden">Sin guardar</span>
         <span className="max-sm:hidden">Cambios sin guardar</span>
       </p>

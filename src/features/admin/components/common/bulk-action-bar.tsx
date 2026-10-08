@@ -1,6 +1,8 @@
 'use client'
 
+import { useState } from 'react'
 import { XIcon } from '@phosphor-icons/react'
+import { usePresence } from '@/src/features/admin/hooks/use-presence'
 
 type BulkActionBarProps = {
   count: number
@@ -11,20 +13,27 @@ type BulkActionBarProps = {
 
 /** Dark bar that rises from the bottom while rows are selected: how many, the actions, and a way out. */
 export function BulkActionBar({ count, onClear, children }: BulkActionBarProps) {
-  if (count === 0) return null
+  const presence = usePresence(count > 0)
+  // While it slides away the selection is already empty: keep showing the last count instead of "0".
+  const [shownCount, setShownCount] = useState(count)
+  if (count > 0 && count !== shownCount) setShownCount(count)
+
+  if (!presence.mounted) return null
   return (
     <div
       role="toolbar"
       aria-label="Acciones sobre la selección"
-      className="fixed inset-x-3 bottom-20 z-40 mx-auto flex max-w-fit items-center gap-1 rounded-xl bg-frame p-1.5 text-white shadow-2xl motion-safe:animate-in motion-safe:fade-in-0 motion-safe:slide-in-from-bottom-4 lg:bottom-6"
+      data-state={presence.state}
+      inert={count === 0}
+      className="fixed inset-x-3 bottom-20 z-40 mx-auto flex max-w-fit items-center gap-1 rounded-xl bg-frame-raised p-1.5 text-white shadow-2xl ring-1 ring-white/10 duration-200 motion-safe:data-[state=closed]:animate-out motion-safe:data-[state=closed]:fade-out-0 motion-safe:data-[state=closed]:slide-out-to-bottom-3 motion-safe:data-[state=open]:animate-in motion-safe:data-[state=open]:fade-in-0 motion-safe:data-[state=open]:slide-in-from-bottom-3 data-[state=closed]:fill-mode-forwards lg:bottom-6"
     >
       <span className="shrink-0 px-2.5 text-sm font-medium tabular-nums" aria-live="polite">
         {/* Phones show just the number so the bar fits; the full wording is still read out. */}
         <span aria-hidden className="sm:hidden">
-          {count}
+          {shownCount}
         </span>
         <span className="max-sm:sr-only">
-          {count} {count === 1 ? 'seleccionado' : 'seleccionados'}
+          {shownCount} {shownCount === 1 ? 'seleccionado' : 'seleccionados'}
         </span>
       </span>
       <span aria-hidden className="mx-1 h-5 w-px shrink-0 bg-white/15" />

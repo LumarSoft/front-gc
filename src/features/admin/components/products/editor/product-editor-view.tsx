@@ -63,10 +63,7 @@ export function ProductEditorView({ productId }: { productId: number }) {
         onSave={() => void saveBar.save()}
         onDiscard={saveBar.discard}
       />
-      {/* Desktop: room above the title for the save bar, always there so nothing shifts when it appears. */}
-      <div className="lg:pt-8">
-        <ProductEditorHeader product={product} />
-      </div>
+      <ProductEditorHeader product={product} />
       {/*
         Desktop: content column + side column. Phones: one column in task order (status, content, then settings);
         the column wrappers become `contents` so each section can take its own place.
