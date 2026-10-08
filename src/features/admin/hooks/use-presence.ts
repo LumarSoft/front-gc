@@ -2,8 +2,11 @@
 
 import { useEffect, useState } from 'react'
 
-/** How long exit animations last (keep in sync with the `duration-200` of the elements that use this hook). */
+/** How long exit animations last (keep in sync with the exit keyframes in app/admin-theme.css). */
 export const EXIT_MS = 200
+/** Extra time before unmounting: the exit starts a frame or two after `show` turns false, and the animation ends on
+ * its last frame (`forwards`), so waiting a little longer never shows anything but avoids cutting it short. */
+const UNMOUNT_MARGIN_MS = 120
 
 /**
  * Keeps an element mounted while it animates out. `state` drives `data-[state=open|closed]` enter/exit classes;
@@ -20,7 +23,7 @@ export function usePresence(show: boolean, exitMs = EXIT_MS) {
       const frame = requestAnimationFrame(() => setWasShown(true))
       return () => cancelAnimationFrame(frame)
     }
-    const timer = setTimeout(() => setWasShown(false), exitMs)
+    const timer = setTimeout(() => setWasShown(false), exitMs + UNMOUNT_MARGIN_MS)
     return () => clearTimeout(timer)
   }, [show, exitMs])
 

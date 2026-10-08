@@ -25,7 +25,7 @@ export function BulkActionBar({ count, onClear, children }: BulkActionBarProps) 
       aria-label="Acciones sobre la selección"
       data-state={presence.state}
       inert={count === 0}
-      className="fixed inset-x-3 bottom-20 z-40 mx-auto flex max-w-fit items-center gap-1 rounded-xl bg-frame-raised p-1.5 text-white shadow-2xl ring-1 ring-white/10 duration-200 motion-safe:data-[state=closed]:animate-out motion-safe:data-[state=closed]:fade-out-0 motion-safe:data-[state=closed]:slide-out-to-bottom-3 motion-safe:data-[state=open]:animate-in motion-safe:data-[state=open]:fade-in-0 motion-safe:data-[state=open]:slide-in-from-bottom-3 data-[state=closed]:fill-mode-forwards lg:bottom-6"
+      className="fixed inset-x-3 bottom-20 z-40 mx-auto flex max-w-fit items-center gap-1 rounded-xl bg-frame-raised p-1.5 text-white shadow-2xl ring-1 ring-white/10 motion-safe:data-[state=closed]:animate-sink-out motion-safe:data-[state=open]:animate-rise-in lg:bottom-6"
     >
       <span className="shrink-0 px-2.5 text-sm font-medium tabular-nums" aria-live="polite">
         {/* Phones show just the number so the bar fits; the full wording is still read out. */}
