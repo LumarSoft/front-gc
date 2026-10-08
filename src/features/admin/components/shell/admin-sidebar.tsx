@@ -1,26 +1,41 @@
-import { AdminAccountMenu } from '@/src/features/admin/components/shell/admin-account-menu'
-import { AdminBrand } from '@/src/features/admin/components/shell/admin-brand'
-import { AdminNav } from '@/src/features/admin/components/shell/admin-nav'
+'use client'
+
 import { AdminSearchTrigger } from '@/src/features/admin/components/search/admin-search-trigger'
+import { AdminAccountMenu } from '@/src/features/admin/components/shell/admin-account-menu'
+import { AdminNav } from '@/src/features/admin/components/shell/admin-nav'
 import { AdminSettingsLink } from '@/src/features/admin/components/shell/admin-settings-link'
+import { AdminSidebarHeader } from '@/src/features/admin/components/shell/admin-sidebar-header'
 import { StoreLink } from '@/src/features/admin/components/shell/store-link'
+import { useAdminSidebar } from '@/src/features/admin/hooks/use-admin-sidebar'
+import { cn } from '@/src/lib/utils'
 import type { AuthUser } from '@/src/types/api/auth'
 
-/** Desktop navigation (lg and up), on the dark frame: store, search, sections, and the account at the bottom. */
+/**
+ * Desktop navigation (lg and up), on the dark frame: store, search, sections, and the account at the bottom. Folds to
+ * a 56 px icon rail (⌘B); icons stay put while the width animates, labels fade and get clipped.
+ */
 export function AdminSidebar({ user }: { user: AuthUser }) {
+  const { collapsed } = useAdminSidebar()
+
   return (
-    <aside className="sticky top-0 hidden h-dvh w-55 shrink-0 flex-col bg-frame lg:flex">
+    <aside
+      data-collapsed={collapsed}
+      className={cn(
+        'sticky top-0 hidden h-dvh shrink-0 flex-col overflow-x-hidden bg-frame transition-[width] duration-200 ease-out-quart motion-reduce:transition-none lg:flex',
+        collapsed ? 'w-14' : 'w-55',
+      )}
+    >
       <div className="flex flex-col gap-3 px-2.5 pt-3 pb-3">
-        <AdminBrand compact />
-        <AdminSearchTrigger />
+        <AdminSidebarHeader />
+        {collapsed ? <AdminSearchTrigger compact tooltip /> : <AdminSearchTrigger />}
       </div>
       <div className="flex-1 overflow-y-auto px-2.5">
         <AdminNav />
       </div>
       <div className="flex flex-col gap-1 p-2.5">
         <AdminSettingsLink />
-        <StoreLink />
-        <AdminAccountMenu user={user} />
+        <StoreLink collapsed={collapsed} />
+        <AdminAccountMenu user={user} variant={collapsed ? 'rail' : 'sidebar'} />
       </div>
     </aside>
   )

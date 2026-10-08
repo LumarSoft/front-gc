@@ -18,15 +18,18 @@ import type { AuthUser } from '@/src/types/api/auth'
 
 type AdminAccountMenuProps = {
   user: AuthUser
-  /** "sidebar": name and email at the bottom of the sidebar; "compact": just the avatar (phone top bar). */
-  variant?: 'sidebar' | 'compact'
+  /**
+   * "sidebar": name and email at the bottom of the sidebar; "compact": just the avatar (phone top bar); "rail": just
+   * the avatar at the bottom of the folded sidebar, menu opening to its right.
+   */
+  variant?: 'sidebar' | 'compact' | 'rail'
 }
 
 export function AdminAccountMenu({ user, variant = 'sidebar' }: AdminAccountMenuProps) {
   const router = useRouter()
   const logoutMutation = useLogout()
   const initials = `${user.firstName.charAt(0)}${user.lastName.charAt(0)}`.toUpperCase()
-  const compact = variant === 'compact'
+  const compact = variant !== 'sidebar'
 
   return (
     <DropdownMenu>
@@ -54,7 +57,12 @@ export function AdminAccountMenu({ user, variant = 'sidebar' }: AdminAccountMenu
           </>
         )}
       </DropdownMenuTrigger>
-      <DropdownMenuContent align={compact ? 'end' : 'start'} side={compact ? 'bottom' : 'top'} className="w-60">
+      <DropdownMenuContent
+        align={variant === 'compact' ? 'end' : variant === 'rail' ? 'end' : 'start'}
+        side={variant === 'compact' ? 'bottom' : variant === 'rail' ? 'right' : 'top'}
+        sideOffset={variant === 'rail' ? 10 : 4}
+        className="w-60"
+      >
         <DropdownMenuLabel className="flex flex-col">
           <span className="truncate font-medium">
             {user.firstName} {user.lastName}

@@ -5,6 +5,6 @@ import { AdminNavEntry } from '@/src/features/admin/components/shell/admin-nav-e
 import { ADMIN_SETTINGS_NAV } from '@/src/features/admin/lib/admin-nav'
 
 /** "Configuración" at the bottom of the navigation, unfolding its sub-pages while inside them. */
-export function AdminSettingsLink() {
-  return <AdminNavEntry item={ADMIN_SETTINGS_NAV} pathname={usePathname()} />
+export function AdminSettingsLink({ inSheet = false }: { inSheet?: boolean }) {
+  return <AdminNavEntry item={ADMIN_SETTINGS_NAV} pathname={usePathname()} inSheet={inSheet} />
 }
