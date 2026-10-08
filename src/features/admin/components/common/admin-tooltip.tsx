@@ -1,6 +1,7 @@
 'use client'
 
 import { Tooltip as TooltipPrimitive } from 'radix-ui'
+import { RAIL_POPOVER_OFFSET } from '@/src/features/admin/lib/admin-nav'
 import { cn } from '@/src/lib/utils'
 
 type AdminTooltipProps = {
@@ -31,9 +32,9 @@ export function AdminTooltip({
       <TooltipPrimitive.Portal>
         <TooltipPrimitive.Content
           side={side}
-          sideOffset={8}
+          sideOffset={side === 'right' ? RAIL_POPOVER_OFFSET : 8}
           className={cn(
-            'z-50 flex origin-(--radix-tooltip-content-transform-origin) items-center gap-2 rounded-lg bg-frame-raised px-2.5 py-1.5 text-xs font-medium text-white shadow-lg ring-1 ring-white/10',
+            'z-50 flex origin-(--radix-tooltip-content-transform-origin) items-center gap-2 rounded-lg bg-frame-popover px-2.5 py-1.5 text-xs font-medium text-white shadow-xl ring-1 ring-white/12',
             'duration-150 data-[state=delayed-open]:animate-in data-[state=delayed-open]:fade-in-0 data-[state=delayed-open]:zoom-in-95 data-closed:animate-out data-closed:fade-out-0',
             'data-[side=bottom]:slide-in-from-top-1 data-[side=left]:slide-in-from-right-1 data-[side=right]:slide-in-from-left-1 data-[side=top]:slide-in-from-bottom-1',
             'motion-reduce:animate-none',

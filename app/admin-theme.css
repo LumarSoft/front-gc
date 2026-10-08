@@ -11,6 +11,7 @@
   --color-frame-accent: var(--frame-accent);
   --color-frame-hover: var(--frame-hover);
   --color-frame-raised: var(--frame-raised);
+  --color-frame-popover: var(--frame-popover);
   --color-canvas: var(--canvas);
   --color-table-head: var(--table-head);
   --color-chart-series: var(--chart-series);
@@ -104,6 +105,8 @@ html:has([data-admin-shell]) {
   --frame-accent: #2d2d2d;
   /* Floating dark surfaces (save bar, bulk bar): lighter than the frame so they stand out against it. */
   --frame-raised: #262626;
+  /* Tooltips and flyouts of the folded sidebar: almost the frame's black, set apart by a hairline and a shadow. */
+  --frame-popover: #121212;
   /* White page around the cards, like Shopify's admin; cards separate with a hairline border and a soft shadow. */
   --canvas: #ffffff;
   --table-head: #f7f7f7;

@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { useState } from 'react'
 import { HoverCard } from 'radix-ui'
 import { NavCount } from '@/src/features/admin/components/shell/nav-count'
-import { isNavLinkActive, type AdminNavItem } from '@/src/features/admin/lib/admin-nav'
+import { isNavLinkActive, RAIL_POPOVER_OFFSET, type AdminNavItem } from '@/src/features/admin/lib/admin-nav'
 import { cn } from '@/src/lib/utils'
 
 type AdminNavFlyoutProps = {
@@ -31,9 +31,9 @@ export function AdminNavFlyout({ item, pathname, count, children }: AdminNavFlyo
         <HoverCard.Content
           side="right"
           align="start"
-          sideOffset={10}
+          sideOffset={RAIL_POPOVER_OFFSET}
           className={cn(
-            'z-50 flex w-52 origin-(--radix-hover-card-content-transform-origin) flex-col gap-0.5 rounded-xl bg-frame-raised p-1.5 text-sm shadow-xl ring-1 ring-white/10',
+            'z-50 flex w-52 origin-(--radix-hover-card-content-transform-origin) flex-col gap-0.5 rounded-xl bg-frame-popover p-1.5 text-sm shadow-2xl ring-1 ring-white/12',
             'duration-150 data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=open]:slide-in-from-left-1',
             'data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 motion-reduce:animate-none',
           )}
@@ -47,9 +47,9 @@ export function AdminNavFlyout({ item, pathname, count, children }: AdminNavFlyo
                 onClick={() => setOpen(false)}
                 aria-current={active ? 'page' : undefined}
                 className={cn(
-                  'flex h-8 items-center rounded-lg px-2.5 text-frame-foreground transition-colors hover:bg-white/8 hover:text-white focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none',
+                  'flex h-8 items-center rounded-lg px-2.5 text-frame-foreground transition-colors hover:bg-white/6 hover:text-white focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none',
                   index === 0 && 'font-semibold text-white',
-                  active && 'bg-white/12 text-white',
+                  active && 'bg-white/10 text-white',
                 )}
               >
                 {link.label}
