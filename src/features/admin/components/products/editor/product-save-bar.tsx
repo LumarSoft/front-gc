@@ -1,8 +1,10 @@
 'use client'
 
 import { CircleNotchIcon, WarningCircleIcon } from '@phosphor-icons/react'
+import { ConfirmDialog } from '@/src/components/ui/confirm-dialog'
 import { useHotkey } from '@/src/features/admin/hooks/use-hotkey'
 import { useIsMac } from '@/src/features/admin/hooks/use-is-mac'
+import { useNavigationGuard } from '@/src/hooks/use-navigation-guard'
 import { useUnsavedChangesWarning } from '@/src/hooks/use-unsaved-changes-warning'
 
 type ProductSaveBarProps = {
@@ -12,13 +14,36 @@ type ProductSaveBarProps = {
   onDiscard: () => void
 }
 
-/** Dark bar that drops in at the top while the page has unsaved changes. ⌘S / Ctrl+S saves. */
+/**
+ * Dark bar that drops in at the top while the page has unsaved changes. ⌘S / Ctrl+S saves; leaving the page (links,
+ * ⌘K, reload or close) asks first.
+ */
 export function ProductSaveBar({ dirty, saving, onSave, onDiscard }: ProductSaveBarProps) {
   const isMac = useIsMac()
   useUnsavedChangesWarning(dirty)
+  const leave = useNavigationGuard(dirty)
   useHotkey('s', () => dirty && onSave())
 
-  if (!dirty) return null
+  return (
+    <>
+      {dirty && <SaveBar saving={saving} saveHint={isMac ? '⌘S' : 'Ctrl+S'} onSave={onSave} onDiscard={onDiscard} />}
+      <ConfirmDialog
+        open={leave.pending}
+        onOpenChange={open => !open && leave.cancel()}
+        title="¿Salir sin guardar?"
+        description="Si salís ahora, se pierden los cambios que todavía no guardaste."
+        confirmLabel="Descartar cambios"
+        cancelLabel="Seguir editando"
+        destructive
+        onConfirm={leave.confirm}
+      />
+    </>
+  )
+}
+
+type SaveBarProps = Omit<ProductSaveBarProps, 'dirty'> & { saveHint: string }
+
+function SaveBar({ saving, saveHint, onSave, onDiscard }: SaveBarProps) {
   return (
     <div
       role="region"
@@ -42,7 +67,7 @@ export function ProductSaveBar({ dirty, saving, onSave, onDiscard }: ProductSave
         type="button"
         onClick={onSave}
         disabled={saving}
-        title={isMac ? '⌘S' : 'Ctrl+S'}
+        title={saveHint}
         className="inline-flex h-8 shrink-0 items-center gap-1.5 rounded-lg bg-white px-3 text-sm font-medium text-frame transition-colors hover:bg-white/90 focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none disabled:opacity-70"
       >
         {saving && <CircleNotchIcon className="size-4 animate-spin" />}

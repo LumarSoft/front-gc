@@ -7,6 +7,7 @@ import { Dialog, DialogContent, DialogTitle } from '@/src/components/ui/dialog'
 import { AdminSearchResultList } from '@/src/features/admin/components/search/admin-search-result-list'
 import { useAdminSearchResults } from '@/src/features/admin/hooks/use-admin-search-results'
 import { useListNavigation } from '@/src/features/admin/hooks/use-list-navigation'
+import { navigateWithGuard } from '@/src/hooks/use-navigation-guard'
 
 type AdminSearchDialogProps = {
   open: boolean
@@ -23,7 +24,7 @@ export function AdminSearchDialog({ open, onOpenChange }: AdminSearchDialogProps
     const result = results[index]
     if (!result) return
     onOpenChange(false)
-    router.push(result.href)
+    navigateWithGuard(() => router.push(result.href))
   }
   const navigation = useListNavigation(results.length, go, `${term}|${results.length}`)
 
