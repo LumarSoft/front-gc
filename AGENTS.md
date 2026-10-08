@@ -108,7 +108,10 @@ Filters live in the URL (`src/features/catalog/lib/catalog-params.ts`). **Auth i
 `src/features/admin/`: the layout checks the role on the server (`getServerSession`, `src/services/session.server.ts`;
 customers get a 404, expired sessions are renewed in the browser) and admin pages load data client-side with TanStack
 Query through `src/services/admin-*.service.ts`. Each admin section adds itself to `ADMIN_NAV`
-(`src/features/admin/lib/admin-nav.ts`). **Cart is live**: `/carrito` + `src/features/cart/`, browser-only calls through
+(`src/features/admin/lib/admin-nav.ts`). The admin has its own dense theme (`app/admin-theme.css`, switched on by `data-admin-shell`
+for the whole document, portals included; the store is untouched) and shared list pieces in
+`src/features/admin/components/common/` (`IndexFilters`, `ViewTabs`, `FilterPill`, `SortMenu`, `IndexTable`,
+`ToneBadge`): new admin screens build on them. ⌘K opens the search palette (`components/search/`). **Cart is live**: `/carrito` + `src/features/cart/`, browser-only calls through
 `src/services/cart.service.ts`. Guests use an httpOnly API cookie; after login the API combines their cart with the
 user's cart. TanStack Query keys separate carts by session; the API computes every subtotal and validates stock.
 The header and successful product additions open a lazy-loaded right-side cart drawer, controlled by

@@ -15,6 +15,15 @@ export function useProductListParams() {
     router.replace(`${pathname}${productListSearch(next)}`, { scroll: false })
   }
 
-  const hasFilters = Boolean(query.q || query.status || query.categoryId || query.brandId || query.stock)
-  return { query, update, clear: () => router.replace(pathname, { scroll: false }), hasFilters }
+  /** Search and filters, not the view (status) or the order. */
+  const hasSearch = Boolean(query.q || query.categoryId || query.brandId || query.stock)
+  const hasFilters = hasSearch || Boolean(query.status)
+  return {
+    query,
+    update,
+    hasSearch,
+    hasFilters,
+    clear: () => router.replace(pathname, { scroll: false }),
+    clearSearch: () => update({ q: undefined, categoryId: undefined, brandId: undefined, stock: undefined }),
+  }
 }

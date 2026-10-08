@@ -1,66 +1,50 @@
 import type { Icon } from '@phosphor-icons/react'
-import {
-  CurrencyDollarIcon,
-  FoldersIcon,
-  HouseIcon,
-  PackageIcon,
-  StorefrontIcon,
-  TagIcon,
-  TrademarkIcon,
-} from '@phosphor-icons/react'
+import { BuildingsIcon, HouseIcon, PackageIcon, TrayIcon } from '@phosphor-icons/react'
 
-export type AdminNavItem = {
+export type AdminNavLink = {
   label: string
   href: string
-  icon: Icon
   /** Only the exact path is active (for the home); otherwise any sub-path also is. */
   exact?: boolean
-  /** Shown as its own tab in the phone bottom bar; the rest live in the "Menú" sheet. */
-  pinned?: boolean
 }
 
-export type AdminNavGroup = {
-  /** Null for the ungrouped first block (Inicio). */
-  label: string | null
-  items: AdminNavItem[]
+export type AdminNavItem = AdminNavLink & {
+  icon: Icon
+  /** Shown as its own tab in the phone bottom bar; the rest live in the "Menú" sheet. */
+  pinned?: boolean
+  /** Sub-sections, shown under the item while the admin is anywhere inside it. */
+  children?: AdminNavLink[]
 }
 
 /** Admin sections. Each admin PR adds its section here when its page exists, so there are no dead links. */
-export const ADMIN_NAV: AdminNavGroup[] = [
-  { label: null, items: [{ label: 'Inicio', href: '/admin', icon: HouseIcon, exact: true, pinned: true }] },
+export const ADMIN_NAV: AdminNavItem[] = [
+  { label: 'Inicio', href: '/admin', icon: HouseIcon, exact: true, pinned: true },
+  { label: 'Pedidos', href: '/admin/pedidos', icon: TrayIcon, pinned: true },
   {
-    label: 'Catálogo',
-    items: [
-      { label: 'Productos', href: '/admin/productos', icon: PackageIcon, pinned: true },
-      { label: 'Categorías', href: '/admin/categorias', icon: FoldersIcon, pinned: true },
-      { label: 'Marcas', href: '/admin/marcas', icon: TrademarkIcon },
-      { label: 'Etiquetas', href: '/admin/etiquetas', icon: TagIcon },
+    label: 'Productos',
+    href: '/admin/productos',
+    icon: PackageIcon,
+    pinned: true,
+    children: [
+      { label: 'Categorías', href: '/admin/categorias' },
+      { label: 'Marcas', href: '/admin/marcas' },
+      { label: 'Etiquetas', href: '/admin/etiquetas' },
+      { label: 'Cotización del dólar', href: '/admin/cotizacion' },
     ],
   },
-  {
-    label: 'Precios',
-    items: [{ label: 'Cotización del dólar', href: '/admin/cotizacion', icon: CurrencyDollarIcon }],
-  },
-  {
-    label: 'Ventas',
-    items: [
-      { label: 'Pedidos', href: '/admin/pedidos', icon: PackageIcon },
-      { label: 'Clientes frecuentes', href: '/admin/clientes-frecuentes', icon: StorefrontIcon },
-    ],
-  },
+  { label: 'Clientes frecuentes', href: '/admin/clientes-frecuentes', icon: BuildingsIcon },
 ]
 
-export function isNavItemActive(item: AdminNavItem, pathname: string): boolean {
-  return item.exact ? pathname === item.href : pathname === item.href || pathname.startsWith(`${item.href}/`)
+export function isNavLinkActive(link: AdminNavLink, pathname: string): boolean {
+  return link.exact ? pathname === link.href : pathname === link.href || pathname.startsWith(`${link.href}/`)
 }
 
-/** The section the admin is in, for breadcrumbs. */
-export function findActiveNav(pathname: string): { group: AdminNavGroup; item: AdminNavItem } | null {
-  for (const group of ADMIN_NAV) {
-    const item = group.items.find(candidate => isNavItemActive(candidate, pathname))
-    if (item) return { group, item }
-  }
-  return null
+/** The item or one of its sub-sections is open: its sub-navigation is shown. */
+export function isNavSectionActive(item: AdminNavItem, pathname: string): boolean {
+  return isNavLinkActive(item, pathname) || (item.children ?? []).some(child => isNavLinkActive(child, pathname))
 }
 
-export const PINNED_NAV_ITEMS: AdminNavItem[] = ADMIN_NAV.flatMap(group => group.items).filter(item => item.pinned)
+/** Every destination, flattened, for the search palette. */
+export const ADMIN_DESTINATIONS: AdminNavLink[] = ADMIN_NAV.flatMap(item => [item, ...(item.children ?? [])])
+
+export const PINNED_NAV_ITEMS: AdminNavItem[] = ADMIN_NAV.filter(item => item.pinned)

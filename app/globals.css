@@ -1,14 +1,16 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
 @import 'shadcn/tailwind.css';
+@import './admin-theme.css';
 
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-jakarta);
-  --font-heading: var(--font-jakarta);
+  /* The admin swaps the app font (admin-theme.css); the store uses Plus Jakarta Sans. */
+  --font-sans: var(--font-sans-app);
+  --font-heading: var(--font-sans-app);
   --color-ring: var(--ring);
   --color-input: var(--input);
   --color-border: var(--border);
@@ -106,6 +108,7 @@
 
 /* Palette inspired by epson.com.ar (official distributor) + CMYK accents. Edit only here to rebrand. */
 :root {
+  --font-sans-app: var(--font-jakarta);
   --background: #ffffff;
   --foreground: #0b1530;
   --card: #ffffff;

@@ -1,11 +1,31 @@
 import type { OutOfStockBehavior } from '@/src/types/api/catalog'
-import type { AdminVariantSummary, ProductIssue, ProductStatus, SaleUnit } from '@/src/types/api/admin-products'
+import type {
+  AdminProductSort,
+  AdminVariantSummary,
+  ProductIssue,
+  ProductStatus,
+  SaleUnit,
+} from '@/src/types/api/admin-products'
 
 export const PRODUCT_STATUS_LABELS: Record<ProductStatus, string> = {
   PUBLISHED: 'Publicado',
   DRAFT: 'Borrador',
   HIDDEN: 'Oculto',
 }
+
+/** Saved views of the product list. */
+export const PRODUCT_STATUS_VIEWS: { value: ProductStatus | undefined; label: string }[] = [
+  { value: undefined, label: 'Todos' },
+  { value: 'PUBLISHED', label: 'Publicados' },
+  { value: 'DRAFT', label: 'Borradores' },
+  { value: 'HIDDEN', label: 'Ocultos' },
+]
+
+export const PRODUCT_SORT_OPTIONS: { value: AdminProductSort; label: string }[] = [
+  { value: 'updated', label: 'Última edición' },
+  { value: 'name', label: 'Nombre (A–Z)' },
+  { value: 'newest', label: 'Más nuevos' },
+]
 
 export const PRODUCT_ISSUE_LABELS: Record<ProductIssue, string> = {
   NO_ACTIVE_VARIANT: 'Sin variantes activas',

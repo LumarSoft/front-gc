@@ -1,0 +1,169 @@
+/*
+ * Admin panel theme: a neutral, dense work tool (Shopify admin's language, not its brand).
+ * Scoped with `html:has([data-admin-shell])` instead of a wrapper class, so dialogs, menus and toasts rendered in
+ * portals outside the shell get the same look. The store keeps its own palette untouched.
+ */
+
+@theme inline {
+  --color-frame: var(--frame);
+  --color-frame-foreground: var(--frame-foreground);
+  --color-frame-muted: var(--frame-muted);
+  --color-frame-accent: var(--frame-accent);
+  --color-canvas: var(--canvas);
+  --color-table-head: var(--table-head);
+
+  /* Status tones (badges, inline notices): background + readable text. */
+  --color-tone-success: var(--tone-success);
+  --color-tone-success-foreground: var(--tone-success-foreground);
+  --color-tone-attention: var(--tone-attention);
+  --color-tone-attention-foreground: var(--tone-attention-foreground);
+  --color-tone-warning: var(--tone-warning);
+  --color-tone-warning-foreground: var(--tone-warning-foreground);
+  --color-tone-critical: var(--tone-critical);
+  --color-tone-critical-foreground: var(--tone-critical-foreground);
+  --color-tone-info: var(--tone-info);
+  --color-tone-info-foreground: var(--tone-info-foreground);
+  --color-tone-neutral: var(--tone-neutral);
+  --color-tone-neutral-foreground: var(--tone-neutral-foreground);
+
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --animate-page-in: page-in 220ms cubic-bezier(0.25, 1, 0.5, 1) both;
+  --animate-shimmer: shimmer 1.4s ease-in-out infinite;
+
+  @keyframes page-in {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    /* `none`, not translateY(0): a lingering transform would trap fixed-position children of the page. */
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @keyframes shimmer {
+    from {
+      background-position: 100% 0;
+    }
+    to {
+      background-position: -100% 0;
+    }
+  }
+}
+
+html:has([data-admin-shell]) {
+  --font-sans-app: var(--font-inter);
+
+  --frame: #1a1a1a;
+  --frame-foreground: #e3e3e3;
+  --frame-muted: #a3a3a3;
+  --frame-accent: #2e2e2e;
+  --canvas: #f1f1f1;
+  --table-head: #f7f7f7;
+
+  --background: #ffffff;
+  --foreground: #303030;
+  --card: #ffffff;
+  --card-foreground: #303030;
+  --popover: #ffffff;
+  --popover-foreground: #303030;
+  --primary: #303030;
+  --primary-foreground: #ffffff;
+  --secondary: #f1f1f1;
+  --secondary-foreground: #303030;
+  --muted: #f1f1f1;
+  --muted-foreground: #616161;
+  --accent: #f1f1f1;
+  --accent-foreground: #303030;
+  --destructive: #c70a24;
+  --border: #e3e3e3;
+  --input: #c9c9c9;
+  --ring: #005bd3;
+  --radius: 0.5rem;
+  --success: #29845a;
+  --warning: #8a6116;
+
+  --tone-success: #b4fed2;
+  --tone-success-foreground: #0c5132;
+  --tone-attention: #ffef9d;
+  --tone-attention-foreground: #4f4700;
+  --tone-warning: #ffd6a4;
+  --tone-warning-foreground: #5e4200;
+  --tone-critical: #fedad9;
+  --tone-critical-foreground: #8e1f0b;
+  --tone-info: #e0f0ff;
+  --tone-info-foreground: #00527c;
+  --tone-neutral: #e3e3e3;
+  --tone-neutral-foreground: #4a4a4a;
+
+  --shadow-card: 0 0 0 1px rgb(26 26 26 / 0.07), 0 1px 0 1px rgb(26 26 26 / 0.05);
+  --shadow-button: inset 0 -1px 0 0 #b5b5b5, inset 0 0 0 1px rgb(0 0 0 / 0.1), inset 0 0.5px 0 1.5px #ffffff;
+  --shadow-button-pressed: inset 0 2px 1px 0 rgb(26 26 26 / 0.2), inset 0 0 0 1px rgb(0 0 0 / 0.1);
+  --shadow-button-primary:
+    inset 0 -1px 0 1px rgb(0 0 0 / 0.8), inset 0 0 0 1px #303030, inset 0 0.5px 0 1.5px rgb(255 255 255 / 0.25);
+  --shadow-button-primary-pressed: inset 0 3px 0 0 #000000;
+
+  /* Dense type scale: 13 px body, like the tools people use all day. */
+  --text-xs: 0.75rem;
+  --text-xs--line-height: 1rem;
+  --text-sm: 0.8125rem;
+  --text-sm--line-height: 1.25rem;
+  --text-base: 0.875rem;
+  --text-base--line-height: 1.25rem;
+
+  /* Overscroll and the phone browser chrome blend with the dark frame. */
+  background-color: var(--frame);
+}
+
+@layer utilities {
+  html:has([data-admin-shell]) [data-slot='card'] {
+    box-shadow: var(--shadow-card);
+  }
+
+  /* Beveled buttons that sink when pressed. */
+  html:has([data-admin-shell]) [data-slot='button'][data-variant='default'] {
+    background-color: var(--primary);
+    box-shadow: var(--shadow-button-primary);
+    &:hover {
+      background-color: #1a1a1a;
+    }
+    &:active {
+      box-shadow: var(--shadow-button-primary-pressed);
+    }
+  }
+  html:has([data-admin-shell]) [data-slot='button'][data-variant='outline'] {
+    border-color: transparent;
+    background-color: var(--background);
+    box-shadow: var(--shadow-button);
+    &:hover,
+    &[aria-expanded='true'] {
+      background-color: var(--table-head);
+    }
+    &:active {
+      box-shadow: var(--shadow-button-pressed);
+    }
+  }
+  html:has([data-admin-shell]) [data-slot='button']:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 1px;
+  }
+
+  /* Dialogs dim the page instead of blurring it: the content behind stays recognizable. */
+  html:has([data-admin-shell]) [data-slot='dialog-overlay'],
+  html:has([data-admin-shell]) [data-slot='sheet-overlay'] {
+    background-color: rgb(0 0 0 / 0.45);
+    backdrop-filter: none;
+  }
+
+  /* Loading placeholders sweep instead of blinking. */
+  html:has([data-admin-shell]) [data-slot='skeleton'] {
+    background-image: linear-gradient(90deg, #ebebeb 0%, #f7f7f7 50%, #ebebeb 100%);
+    background-size: 200% 100%;
+    @media (prefers-reduced-motion: no-preference) {
+      animation: var(--animate-shimmer);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      animation: none;
+    }
+  }
+}

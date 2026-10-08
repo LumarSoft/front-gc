@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next'
-import { Plus_Jakarta_Sans } from 'next/font/google'
+import { Inter, Plus_Jakarta_Sans } from 'next/font/google'
 import { SITE } from '@/src/lib/site-config'
 import { Providers } from './providers'
 import './globals.css'
@@ -7,6 +7,13 @@ import './globals.css'
 const jakarta = Plus_Jakarta_Sans({
   variable: '--font-jakarta',
   subsets: ['latin'],
+})
+
+// Admin panel font. Not preloaded: only /admin uses it, so store visitors never download it.
+const inter = Inter({
+  variable: '--font-inter',
+  subsets: ['latin'],
+  preload: false,
 })
 
 export const metadata: Metadata = {
@@ -24,7 +31,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: LayoutProps<'/'>) {
   return (
-    <html lang="es-AR" className={`${jakarta.variable} h-full`}>
+    <html lang="es-AR" className={`${jakarta.variable} ${inter.variable} h-full`}>
       <body className="flex min-h-full flex-col">
         <Providers>{children}</Providers>
       </body>
