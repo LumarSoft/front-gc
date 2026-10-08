@@ -7,7 +7,7 @@
  *
  * When a change needs a new manual step, add a check here and an entry in docs/upgrade-notes.md in the same PR.
  */
-import { existsSync, readFileSync } from 'node:fs'
+import { existsSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -136,6 +136,7 @@ try {
 
 // Report
 const problems = results.filter(result => result.level !== 'ok')
+writePendingSetupNotice(problems)
 if (brief) {
   if (problems.length === 0) console.log('front-gc doctor: environment OK.')
   else {
@@ -152,3 +153,45 @@ if (brief) {
   )
 }
 process.exitCode = results.some(result => result.level === 'fail') ? 1 : 0
+
+/**
+ * PENDING-SETUP.md (git-ignored) exists only while the doctor finds errors or an API older than this front: the next
+ * person or AI agent that opens the project sees what is missing before doing anything else (AGENTS.md tells agents to
+ * read it first). Every doctor run (manual, after a pull, Claude Code session start) rewrites it, and deletes it once
+ * those problems are gone. A stopped API alone does not count: starting it is part of normal work.
+ */
+function writePendingSetupNotice(problems) {
+  const notice = join(ROOT, 'PENDING-SETUP.md')
+  if (!problems.some(problem => problem.level === 'fail' || /older than/i.test(problem.message))) {
+    if (existsSync(notice)) rmSync(notice)
+    return
+  }
+  const notesPath = join(ROOT, 'docs', 'upgrade-notes.md')
+  const notes = existsSync(notesPath)
+    ? [...readFileSync(notesPath, 'utf-8').matchAll(/^## (.+)$/gm)]
+        .map(match => match[1])
+        .filter(title => !/^Always/i.test(title))
+        .slice(0, 3)
+    : []
+  const lines = [
+    '# Pending setup — fix this before any other work',
+    '',
+    '> Written by `npm run doctor` (git-ignored). It disappears when the doctor passes. **AI agents:** resolve these',
+    '> steps first (ask the user only for secrets or passwords), tell the user what you ran, then run `npm run doctor`',
+    '> again. An "API is older" step means updating `../api-gc` (pull, its own `npm run doctor`, restart it).',
+    '',
+    ...problems.map(
+      problem => `- **${problem.level === 'fail' ? 'ERROR' : 'WARN'}:** ${problem.message} → \`${problem.fix}\``,
+    ),
+    '',
+    'Context for each step: `docs/upgrade-notes.md`. Latest entries:',
+    '',
+    ...notes.map(title => `- ${title}`),
+    '',
+  ]
+  try {
+    writeFileSync(notice, lines.join('\n'))
+  } catch {
+    // A read-only checkout still gets the console report.
+  }
+}

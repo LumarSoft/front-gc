@@ -16,6 +16,15 @@ The store needs the API running: keep `api-gc` up to date too (its own `npm run 
 
 ---
 
+## 2026-10-08 — Pending setup notice for people and AI agents
+
+Nothing to run. While `npm run doctor` finds errors (or an API older than this front) it writes `PENDING-SETUP.md`
+(git-ignored) at the repository root with the missing steps; it deletes it once they are fixed. `AGENTS.md` (read by
+Claude Code, Codex, Cursor and Copilot; `.cursor/rules/` and `.github/copilot-instructions.md` point to it) tells AI
+agents to fix those steps before the user's task.
+
+---
+
 ## 2026-10-08 — Setup checks after pull
 
 Nothing to run. From now on, after `git pull` (also merge, rebase or switching branches) the git hooks show the new

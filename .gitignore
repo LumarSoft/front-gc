@@ -40,3 +40,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Written by npm run doctor while the setup has errors
+PENDING-SETUP.md

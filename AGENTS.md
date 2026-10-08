@@ -14,10 +14,19 @@ Guidance for AI coding agents (Claude Code, Cursor, Codex, Copilot…) and human
 **Read this file and every file in `docs/rules/` before writing code.** The block above is managed by Next.js — do
 not edit or remove it.
 
+> **AI agents — before the user's task:** if `PENDING-SETUP.md` exists at the repository root, this machine is missing
+> setup steps (a dependency, an env var, an API older than this front…). Read it, fix those steps first (ask the user
+> only for secrets or passwords), tell the user what you ran, and run `npm run doctor` until it passes (the file then
+> disappears). The API lives in `../api-gc` and has its own doctor; it refuses to start with pending migrations and says
+> how to apply them. When the user says "after pulling it doesn't work", start with `npm run doctor` here and in
+> `../api-gc`, and the newest entries of both `docs/upgrade-notes.md`.
+
 ## Start of every session (humans and AI agents)
 
 1. Run `npm run doctor`. It checks Node, dependencies, `.env.local` and that the API answers, and prints the exact
    command to fix each problem. (Claude Code runs it automatically on session start through `.claude/settings.json`.)
+   While it finds errors (or an API older than this front) it also writes `PENDING-SETUP.md` (git-ignored) for whoever
+   opens the project next, and deletes it once they are fixed.
 2. If it reports problems, fix them **before** any other work, using `docs/upgrade-notes.md` for context. The API has
    its own doctor: if the API is the problem, run it in `../api-gc`.
 3. When your change requires a manual step from the other developers, add an entry at the top of
