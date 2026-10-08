@@ -8,7 +8,7 @@ import { useCurrentUser } from '@/src/features/auth/hooks/use-current-user'
  * The logged-in user for account pages. Visitors who arrive without a session are sent to login;
  * after a logout nothing happens here, because the logout handler already navigates home.
  */
-export function useAccountUser() {
+export function useAccountUser(returnTo = '/mi-cuenta') {
   const router = useRouter()
   const query = useCurrentUser()
   const { data: user, isPending, isError } = query
@@ -19,8 +19,9 @@ export function useAccountUser() {
   }, [user])
 
   useEffect(() => {
-    if (!isPending && !isError && !user && !hadSession.current) router.replace('/ingresar?redirect=/mi-cuenta')
-  }, [isPending, isError, user, router])
+    if (!isPending && !isError && !user && !hadSession.current)
+      router.replace(`/ingresar?redirect=${encodeURIComponent(returnTo)}`)
+  }, [isPending, isError, user, router, returnTo])
 
   return query
 }

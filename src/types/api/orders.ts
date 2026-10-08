@@ -55,6 +55,9 @@ export type OrdersPage = {
   expiryJobFailed: boolean
 }
 
+/** The signed-in customer's own orders, newest first. */
+export type MyOrdersPage = Omit<OrdersPage, 'expiryJobFailed'>
+
 /** Admin list views: groups of states. */
 export type OrderStage = 'PENDING_PAYMENT' | 'TO_FULFILL' | 'READY' | 'CLOSED'
 export type AdminOrdersQuery = { page?: number; pageSize?: number; stage?: OrderStage; q?: string }

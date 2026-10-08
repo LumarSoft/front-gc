@@ -34,6 +34,7 @@ export function usePlaceOrder(checkout: Checkout) {
       router.replace(orderPath(order.number, accessToken))
       finishPendingOrder()
       void client.invalidateQueries({ queryKey: QUERY_KEYS.cart })
+      void client.invalidateQueries({ queryKey: QUERY_KEYS.myOrders })
     },
     onError: () => {
       void client.invalidateQueries({ queryKey: QUERY_KEYS.cart })
