@@ -50,7 +50,11 @@ export function ApplicationReviewCard({ application, pending, onDecide }: Applic
       </p>
       {application.reviewNote && (
         <div className="mt-3 rounded-lg bg-muted px-3 py-2 text-sm">
-          <p className="text-xs text-muted-foreground">Motivo informado al cliente</p>
+          <p className="text-xs text-muted-foreground">
+            {application.status === 'REJECTED' || application.status === 'PAUSED'
+              ? 'Motivo informado al cliente'
+              : 'Nota para el cliente'}
+          </p>
           <p className="mt-0.5 break-words">{application.reviewNote}</p>
         </div>
       )}
