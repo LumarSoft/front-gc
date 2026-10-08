@@ -8,6 +8,13 @@ import type { Money } from '@/src/types/api/money'
 /** Spanish URL values for the grouping (`?por=semana`). */
 export const GROUP_BY_PARAM: Record<AnalyticsGroupBy, string> = { day: 'dia', week: 'semana', month: 'mes' }
 
+/** Tabs of the stats page: sales (orders) and visits (anonymous store activity). */
+export type AnalyticsView = 'sales' | 'visits'
+
+export const VIEW_PARAM: Record<AnalyticsView, string> = { sales: 'ventas', visits: 'visitas' }
+
+export const viewFromParam = (value: string | null): AnalyticsView => (value === VIEW_PARAM.visits ? 'visits' : 'sales')
+
 export const GROUP_BY_LABEL: Record<AnalyticsGroupBy, string> = { day: 'Día', week: 'Semana', month: 'Mes' }
 
 export function groupByFromParam(value: string | null): AnalyticsGroupBy | undefined {

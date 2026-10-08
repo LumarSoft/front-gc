@@ -1,18 +1,10 @@
 'use client'
 
 import { useState } from 'react'
-import { ComparisonChart } from '@/src/features/admin/components/analytics/comparison-chart'
-import { ComparisonLegend } from '@/src/features/admin/components/analytics/comparison-legend'
+import { PeriodChart } from '@/src/features/admin/components/analytics/period-chart'
 import { AdminCard } from '@/src/features/admin/components/common/admin-card'
 import { SegmentedControl } from '@/src/features/admin/components/common/segmented-control'
-import {
-  bucketLabel,
-  bucketRange,
-  GROUP_BY_LABEL,
-  hasPartialEnds,
-  pluralize,
-  previousBucketRange,
-} from '@/src/features/admin/lib/analytics-display'
+import { GROUP_BY_LABEL, pluralize } from '@/src/features/admin/lib/analytics-display'
 import { formatHeadlineMoney } from '@/src/features/admin/lib/dashboard-metrics'
 import { formatMoneyExact } from '@/src/lib/format'
 import type { AdminAnalytics } from '@/src/types/api/admin-analytics'
@@ -47,22 +39,14 @@ export function SalesOverTimeCard({ analytics }: { analytics: AdminAnalytics }) 
       title={`${metric === 'sales' ? 'Ventas' : 'Pedidos pagados'} por ${GROUP_BY_LABEL[period.groupBy].toLowerCase()}`}
       aside={<SegmentedControl label="Qué mostrar" options={METRICS} value={metric} onChange={setMetric} />}
     >
-      <ComparisonChart
+      <PeriodChart
         title={`${metric === 'sales' ? 'Ventas' : 'Pedidos pagados'} del período y del anterior`}
-        values={series.current}
-        previous={series.previous}
-        labels={buckets.map(bucket => bucketLabel(bucket, period.groupBy))}
-        rangeOf={index => ({ current: bucketRange(buckets[index]), previous: previousBucketRange(buckets[index]) })}
+        period={period}
+        buckets={buckets}
+        series={series}
         formatValue={formatValue}
         formatAxis={formatAxis}
       />
-      <ComparisonLegend period={period} className="mt-3" />
-      {hasPartialEnds(buckets, period.groupBy) && (
-        <p className="mt-2 text-xs text-muted-foreground">
-          Un punto de los extremos cubre solo una parte {period.groupBy === 'week' ? 'de la semana' : 'del mes'}: tocalo
-          o pasá el mouse para ver qué días incluye.
-        </p>
-      )}
     </AdminCard>
   )
 }

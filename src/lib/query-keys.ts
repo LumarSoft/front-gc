@@ -37,6 +37,7 @@ export const QUERY_KEYS = {
     dashboard: ['admin', 'dashboard'],
     dashboardFor: (range: { from: string; to: string }) => ['admin', 'dashboard', range] as const,
     analytics: (query: AdminAnalyticsQuery) => ['admin', 'analytics', query] as const,
+    analyticsBehavior: (query: AdminAnalyticsQuery) => ['admin', 'analytics', 'behavior', query] as const,
     settings: ['admin', 'settings'],
     order: (id: number) => ['admin', 'orders', 'detail', id] as const,
   },
