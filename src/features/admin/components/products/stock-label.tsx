@@ -6,13 +6,12 @@ type StockLabelProps = {
   availability: Availability
 }
 
-/** "12 u.", "Pocas: 2 u." or "Sin stock", colored by availability. */
+/** "12 en stock" or "Sin stock", colored when it needs attention. */
 export function StockLabel({ available, availability }: StockLabelProps) {
-  if (availability === 'OUT_OF_STOCK') return <span className="text-sm text-destructive">Sin stock</span>
+  if (availability === 'OUT_OF_STOCK') return <span className="text-sm font-medium text-destructive">Sin stock</span>
   return (
     <span className={cn('text-sm tabular-nums', availability === 'LOW_STOCK' && 'font-medium text-warning')}>
-      {availability === 'LOW_STOCK' && 'Pocas: '}
-      {available ?? 0} u.
+      {available ?? 0} en stock
     </span>
   )
 }

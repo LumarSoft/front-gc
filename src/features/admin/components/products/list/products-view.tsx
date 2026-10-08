@@ -8,9 +8,9 @@ import { AdminPageHeader } from '@/src/features/admin/components/admin-page-head
 import { ListCard } from '@/src/features/admin/components/common/list-card'
 import { ListPagination } from '@/src/features/admin/components/common/list-pagination'
 import { CreateProductDialog } from '@/src/features/admin/components/products/list/create-product-dialog'
+import { ProductsFilters } from '@/src/features/admin/components/products/list/products-filters'
 import { ProductsMobileList } from '@/src/features/admin/components/products/list/products-mobile-list'
 import { ProductsTable } from '@/src/features/admin/components/products/list/products-table'
-import { ProductsToolbar } from '@/src/features/admin/components/products/list/products-toolbar'
 import { useAdminProducts } from '@/src/features/admin/hooks/use-admin-products'
 import { useProductListParams } from '@/src/features/admin/hooks/use-product-list-params'
 import { cn } from '@/src/lib/utils'
@@ -22,7 +22,7 @@ export function ProductsView() {
   const createButton = (
     <Button onClick={() => setCreating(true)}>
       <PlusIcon />
-      Nuevo producto
+      Agregar producto
     </Button>
   )
   const items = data?.items ?? []
@@ -31,11 +31,11 @@ export function ProductsView() {
     <>
       <AdminPageHeader
         title="Productos"
-        description={data ? `${data.total} ${data.total === 1 ? 'producto' : 'productos'} en el catálogo.` : undefined}
+        description={data ? `${data.total} ${data.total === 1 ? 'producto' : 'productos'}` : undefined}
         actions={createButton}
       />
-      <ProductsToolbar />
       <ListCard
+        toolbar={<ProductsFilters />}
         isPending={isPending}
         isError={isError}
         onRetry={() => void refetch()}
@@ -63,7 +63,7 @@ export function ProductsView() {
         }
       >
         {/* While another page loads, the current one fades instead of jumping to a skeleton. */}
-        <div className={cn('transition-opacity', isPlaceholderData && 'opacity-60')}>
+        <div className={cn('transition-opacity duration-200', isPlaceholderData && 'opacity-50')}>
           <ProductsTable products={items} />
           <ProductsMobileList products={items} />
           {data && <ListPagination {...data} onPageChange={page => update({ page })} />}

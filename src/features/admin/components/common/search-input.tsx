@@ -10,10 +10,11 @@ type SearchInputProps = {
   onSearch: (value: string) => void
   placeholder: string
   label: string
+  autoFocus?: boolean
 }
 
 /** Search box that reports the term once the admin stops typing. */
-export function SearchInput({ value, onSearch, placeholder, label }: SearchInputProps) {
+export function SearchInput({ value, onSearch, placeholder, label, autoFocus }: SearchInputProps) {
   const [term, setTerm] = useState(value)
   const debounced = useDebouncedValue(term)
 
@@ -33,14 +34,15 @@ export function SearchInput({ value, onSearch, placeholder, label }: SearchInput
 
   return (
     <div className="relative">
-      <MagnifyingGlassIcon className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
+      <MagnifyingGlassIcon className="pointer-events-none absolute top-1/2 left-2.5 size-4 -translate-y-1/2 text-muted-foreground" />
       <Input
         type="search"
         aria-label={label}
         placeholder={placeholder}
         value={term}
+        autoFocus={autoFocus}
         onChange={event => setTerm(event.target.value)}
-        className="bg-background pl-9"
+        className="h-8 bg-background pl-8"
       />
     </div>
   )

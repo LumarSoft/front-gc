@@ -9,13 +9,16 @@ type ListCardProps = {
   isEmpty: boolean
   /** Shown when the list has no rows. */
   empty: React.ReactNode
+  /** Views, search and filters on top of the list (IndexFilters); they stay while the rows load. */
+  toolbar?: React.ReactNode
   children?: React.ReactNode
 }
 
 /** White card that holds an admin list and its loading, error and empty states. */
-export function ListCard({ isPending, isError, onRetry, isEmpty, empty, children }: ListCardProps) {
+export function ListCard({ isPending, isError, onRetry, isEmpty, empty, toolbar, children }: ListCardProps) {
   return (
-    <Card className="gap-0 py-0 shadow-xs ring-foreground/8">
+    <Card className="gap-0 py-0">
+      {toolbar}
       {isPending ? <ListSkeleton /> : isError ? <QueryErrorState onRetry={onRetry} /> : isEmpty ? empty : children}
     </Card>
   )
