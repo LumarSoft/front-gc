@@ -52,6 +52,12 @@ export const ADMIN_SETTINGS_NAV: AdminNavItem = {
   children: [{ label: 'Cotización del dólar', href: '/admin/cotizacion' }],
 }
 
+/**
+ * Distance from a rail icon (36 px, centred in the 56 px rail) to its tooltip or flyout: they open clear of the rail's
+ * edge, over the page, like Shopify's.
+ */
+export const RAIL_POPOVER_OFFSET = 20
+
 export function isNavLinkActive(link: AdminNavLink, pathname: string): boolean {
   return link.exact ? pathname === link.href : pathname === link.href || pathname.startsWith(`${link.href}/`)
 }

@@ -25,14 +25,14 @@ export function AdminSidebar({ user }: { user: AuthUser }) {
         collapsed ? 'w-14' : 'w-55',
       )}
     >
-      <div className="flex flex-col gap-3 px-2.5 pt-3 pb-3">
+      <div className={cn('flex flex-col px-2.5 pt-3', collapsed ? 'gap-4 pb-4' : 'gap-3 pb-3')}>
         <AdminSidebarHeader />
         {collapsed ? <AdminSearchTrigger compact tooltip /> : <AdminSearchTrigger />}
       </div>
       <div className="flex-1 overflow-y-auto px-2.5">
         <AdminNav />
       </div>
-      <div className="flex flex-col gap-1 p-2.5">
+      <div className={cn('flex flex-col p-2.5', collapsed ? 'gap-2' : 'gap-1')}>
         <AdminSettingsLink />
         <StoreLink collapsed={collapsed} />
         <AdminAccountMenu user={user} variant={collapsed ? 'rail' : 'sidebar'} />
