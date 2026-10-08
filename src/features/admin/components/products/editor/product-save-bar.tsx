@@ -62,7 +62,7 @@ function SaveBar({ state, saving, saveHint, onSave, onDiscard }: SaveBarProps) {
       aria-label="Cambios sin guardar"
       data-state={state}
       inert={state === 'closed'}
-      className="fixed inset-x-3 top-3 z-50 mx-auto flex w-fit max-w-full items-center gap-2 rounded-xl bg-frame-raised py-1.5 pr-1.5 pl-3.5 text-white shadow-2xl ring-1 ring-white/10 duration-200 motion-safe:data-[state=closed]:animate-out motion-safe:data-[state=closed]:fade-out-0 motion-safe:data-[state=closed]:slide-out-to-top-3 motion-safe:data-[state=open]:animate-in motion-safe:data-[state=open]:fade-in-0 motion-safe:data-[state=open]:slide-in-from-top-3 data-[state=closed]:fill-mode-forwards lg:left-55"
+      className="fixed inset-x-3 top-3 z-50 mx-auto flex w-fit max-w-full items-center gap-2 rounded-xl bg-frame-raised py-1.5 pr-1.5 pl-3.5 text-white shadow-2xl ring-1 ring-white/10 motion-safe:data-[state=closed]:animate-lift-out motion-safe:data-[state=open]:animate-drop-in lg:left-55"
     >
       <WarningCircleIcon className="size-4.5 shrink-0 text-frame-muted max-sm:hidden" />
       <p className="mr-6 min-w-0 flex-1 truncate text-sm font-medium" role="status">

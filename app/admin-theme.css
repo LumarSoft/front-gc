@@ -34,6 +34,41 @@
   --animate-page-in: page-in 220ms cubic-bezier(0.25, 1, 0.5, 1) backwards;
   --animate-shimmer: shimmer 1.4s ease-in-out infinite;
 
+  /*
+   * Floating bars travel from outside the screen: the save bar drops from the top and lifts back up, the bulk bar
+   * rises from the bottom and sinks back. Soft deceleration in, quicker acceleration out (200 ms = EXIT_MS in
+   * use-presence.ts, which keeps them mounted while leaving).
+   */
+  --animate-drop-in: drop-in 320ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-lift-out: lift-out 200ms cubic-bezier(0.4, 0, 1, 1) forwards;
+  --animate-rise-in: rise-in 320ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-sink-out: sink-out 200ms cubic-bezier(0.4, 0, 1, 1) forwards;
+
+  @keyframes drop-in {
+    from {
+      opacity: 0.4;
+      transform: translateY(calc(-100% - 1.5rem));
+    }
+  }
+  @keyframes lift-out {
+    to {
+      opacity: 0.4;
+      transform: translateY(calc(-100% - 1.5rem));
+    }
+  }
+  @keyframes rise-in {
+    from {
+      opacity: 0.4;
+      transform: translateY(calc(100% + 6rem));
+    }
+  }
+  @keyframes sink-out {
+    to {
+      opacity: 0.4;
+      transform: translateY(calc(100% + 6rem));
+    }
+  }
+
   @keyframes page-in {
     from {
       opacity: 0;
