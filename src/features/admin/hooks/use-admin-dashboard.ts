@@ -1,10 +1,16 @@
 'use client'
 
-import { useQuery } from '@tanstack/react-query'
+import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { QUERY_KEYS } from '@/src/lib/query-keys'
+import type { DayRange } from '@/src/features/admin/lib/date-range'
 import { getAdminDashboard } from '@/src/services/admin-dashboard.service'
 
-/** The admin home summary; refreshed every minute while the home is open. */
-export function useAdminDashboard() {
-  return useQuery({ queryKey: QUERY_KEYS.admin.dashboard, queryFn: getAdminDashboard, refetchInterval: 60_000 })
+/** The admin home summary for a period; refreshed every minute, the previous period stays while another loads. */
+export function useAdminDashboard(range: DayRange) {
+  return useQuery({
+    queryKey: QUERY_KEYS.admin.dashboardFor(range),
+    queryFn: () => getAdminDashboard(range),
+    placeholderData: keepPreviousData,
+    refetchInterval: 60_000,
+  })
 }
