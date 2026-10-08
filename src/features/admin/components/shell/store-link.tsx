@@ -13,7 +13,7 @@ export function StoreLink({ className }: StoreLinkProps) {
       href="/"
       target="_blank"
       className={cn(
-        'flex h-8 items-center gap-2 rounded-lg px-2 text-sm font-medium text-frame-foreground transition-colors hover:bg-frame-accent hover:text-white focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none',
+        'flex h-8 items-center gap-2 rounded-lg px-2 text-sm font-medium text-frame-foreground transition-colors hover:bg-frame-hover hover:text-white focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none',
         className,
       )}
     >

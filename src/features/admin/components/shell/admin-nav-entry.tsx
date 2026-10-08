@@ -26,7 +26,7 @@ export function AdminNavEntry({ item, pathname, count }: AdminNavEntryProps) {
         aria-current={current ? 'page' : undefined}
         className={cn(
           LINK,
-          'h-8 gap-2 px-2 font-medium text-frame-foreground hover:bg-frame-accent hover:text-white',
+          'h-8 gap-2 px-2 font-medium text-frame-foreground hover:bg-frame-hover hover:text-white',
           current && 'bg-frame-accent text-white',
           open && 'text-white',
         )}
@@ -53,7 +53,7 @@ export function AdminNavEntry({ item, pathname, count }: AdminNavEntryProps) {
                     aria-current={active ? 'page' : undefined}
                     className={cn(
                       LINK,
-                      'h-7 pl-8.5 text-frame-muted hover:bg-frame-accent hover:text-white',
+                      'h-7 pl-8.5 text-frame-muted hover:bg-frame-hover hover:text-white',
                       active && 'bg-frame-accent font-medium text-white',
                     )}
                   >

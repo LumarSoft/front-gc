@@ -33,7 +33,7 @@ export function AdminAccountMenu({ user, variant = 'sidebar' }: AdminAccountMenu
       <DropdownMenuTrigger
         aria-label="Abrir el menú de tu cuenta"
         className={cn(
-          'flex items-center gap-2 rounded-lg text-left transition-colors hover:bg-frame-accent focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none aria-expanded:bg-frame-accent',
+          'flex items-center gap-2 rounded-lg text-left transition-colors hover:bg-frame-hover focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none aria-expanded:bg-frame-accent',
           compact ? 'p-1' : 'w-full p-1.5',
         )}
       >

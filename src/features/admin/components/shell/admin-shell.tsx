@@ -30,8 +30,8 @@ export function AdminShell({ user, children }: AdminShellProps) {
           <AdminSidebar user={user} />
           <div className="flex min-w-0 flex-1 flex-col">
             <AdminTopbar user={user} />
-            <div className="flex flex-1 flex-col bg-canvas lg:my-2 lg:mr-2 lg:rounded-xl">
-              <main className="mx-auto w-full max-w-7xl flex-1 px-4 pt-5 pb-28 sm:px-6 lg:px-8 lg:pt-7 lg:pb-12">
+            <div className="flex flex-1 flex-col bg-canvas lg:my-1 lg:mr-1 lg:rounded-xl">
+              <main className="mx-auto w-full max-w-7xl flex-1 px-4 pt-4 pb-28 sm:px-6 lg:px-8 lg:pt-5 lg:pb-12">
                 {children}
               </main>
             </div>
