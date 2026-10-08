@@ -9,6 +9,7 @@ import { CheckoutForm } from './checkout-form'
 import { CheckoutSummary } from './checkout-summary'
 import { CheckoutReview } from './checkout-review'
 import { useRecoverOrder } from '../hooks/use-recover-order'
+import { TrackActivity } from '@/src/features/activity/components/track-activity'
 
 export function CheckoutView() {
   const { query, preview, pending, user, error } = useCheckout()
@@ -47,6 +48,7 @@ export function CheckoutView() {
     )
   return (
     <div className="grid items-start gap-8 lg:grid-cols-3">
+      <TrackActivity event={{ type: 'CHECKOUT_STARTED' }} />
       <div className="rounded-3xl border p-5 sm:p-8 lg:col-span-2">
         {checkout.cart.hasIssues && (
           <p role="alert" className="mb-6 rounded-xl border border-destructive p-4 text-sm text-destructive">

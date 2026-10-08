@@ -19,7 +19,7 @@ type ProductHeroProps = {
 /** Gallery + buying panel. Both follow the selected variant (photos, price and stock change per color). */
 export function ProductHero({ product }: ProductHeroProps) {
   const { variant, selectVariant, images, price, compareAtPrice, availability } = useSelectedVariant(product)
-  const cart = useAddToCart(variant)
+  const cart = useAddToCart(variant, product.id)
   const inquiryHref = `/asistente?pregunta=${encodeURIComponent(`Quiero consultar por ${product.name}`)}`
 
   return (

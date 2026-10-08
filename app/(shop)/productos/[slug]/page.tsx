@@ -10,6 +10,7 @@ import { ProductJsonLd } from '@/src/features/catalog/components/product/product
 import { ProductSpecifications } from '@/src/features/catalog/components/product/product-specifications'
 import { ApiError } from '@/src/lib/api-client'
 import { getProduct } from '@/src/services/catalog.service'
+import { TrackActivity } from '@/src/features/activity/components/track-activity'
 
 async function loadProduct(slug: string): ReturnType<typeof getProduct> {
   try {
@@ -39,6 +40,7 @@ export default async function ProductPage({ params }: PageProps<'/productos/[slu
   return (
     <div className="mx-auto max-w-7xl px-4 pt-6 pb-28 sm:px-6 lg:pt-10 lg:pb-20">
       <SessionRefresh when={sessionExpired} />
+      <TrackActivity event={{ type: 'PRODUCT_VIEW', productId: product.id }} />
       <ProductJsonLd product={product} />
       <Breadcrumbs items={breadcrumbs} className="mb-6" />
 
