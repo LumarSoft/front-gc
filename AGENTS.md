@@ -120,7 +120,7 @@ The header and successful product additions open a lazy-loaded right-side cart d
 `src/features/checkout/`, with `/cart/checkout` and `/cart/checkout/preview` through `checkout.service.ts`.
 Contact details and delivery are validated before a server-calculated review. Guest confirmation now creates a pending manual-payment order and reserves stock through `/cart/checkout/orders`.
 `src/features/orders/` renders private fragment-link tracking at `/pedidos/[number]`, with a paste-link entry page
-at `/pedidos`. Admin orders at `/admin/pedidos` manage verified payment and lifecycle states. No external providers
+at `/pedidos`. Admin orders at `/admin/pedidos` (`src/features/admin/components/orders/`) list by stage with search and live counters (nav badge), and each order shows contextual next steps (mark paid with explicit verification, prepare, ready/shipped, delivered), cancellation with an internal reason and a staff history. No external providers
 or order emails are enabled. The provisional reservation window comes from the API (default 24 hours). **Frequent customers** ("clientes frecuentes", `wholesale` in code): `src/features/wholesale/` holds
 the application form and status (`/clientes-frecuentes/alta`) and shared labels; staff review at
 `/admin/clientes-frecuentes`. **Offers and favorites**: `/ofertas` reuses `CatalogView`

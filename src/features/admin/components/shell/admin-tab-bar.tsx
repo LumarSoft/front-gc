@@ -2,6 +2,8 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { NavCount } from '@/src/features/admin/components/shell/nav-count'
+import { useAdminNavBadges } from '@/src/features/admin/hooks/use-admin-nav-badges'
 import { AdminMobileMenu } from '@/src/features/admin/components/shell/admin-mobile-menu'
 import { isNavSectionActive, PINNED_NAV_ITEMS } from '@/src/features/admin/lib/admin-nav'
 import { cn } from '@/src/lib/utils'
@@ -9,6 +11,7 @@ import { cn } from '@/src/lib/utils'
 /** Phone navigation within thumb reach: pinned sections plus "Menú" with everything else. Hidden from lg up. */
 export function AdminTabBar() {
   const pathname = usePathname()
+  const badges = useAdminNavBadges()
 
   return (
     <nav
@@ -28,7 +31,13 @@ export function AdminTabBar() {
               active && 'text-foreground',
             )}
           >
-            <Icon weight={active ? 'fill' : 'regular'} className="size-5.5" />
+            <span className="relative">
+              <Icon weight={active ? 'fill' : 'regular'} className="size-5.5" />
+              <NavCount
+                count={item.badge && badges[item.badge]}
+                className="absolute -top-1.5 left-3.5 h-4 min-w-4 rounded-full bg-foreground px-1 text-xs text-background"
+              />
+            </span>
             {item.label}
           </Link>
         )

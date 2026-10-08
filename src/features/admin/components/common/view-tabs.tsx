@@ -2,7 +2,8 @@
 
 import { cn } from '@/src/lib/utils'
 
-export type ViewTabOption<T> = { value: T; label: string }
+/** `count` (e.g. orders waiting) shows next to the label when above zero. */
+export type ViewTabOption<T> = { value: T; label: string; count?: number }
 
 type ViewTabsProps<T> = {
   label: string
@@ -30,6 +31,11 @@ export function ViewTabs<T>({ label, options, value, onChange }: ViewTabsProps<T
             )}
           >
             {option.label}
+            {Boolean(option.count) && (
+              <span className="ml-1.5 rounded-md bg-background/70 px-1.5 text-xs text-muted-foreground tabular-nums">
+                {option.count}
+              </span>
+            )}
           </button>
         )
       })}

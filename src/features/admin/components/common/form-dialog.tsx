@@ -19,6 +19,10 @@ type FormDialogProps = {
   submitLabel: string
   pending: boolean
   onSubmit: (event: React.FormEvent<HTMLFormElement>) => void
+  /** Keeps the submit button off until a required confirmation is given. */
+  submitDisabled?: boolean
+  /** Red submit button, for actions that cannot be undone. */
+  destructive?: boolean
   children: React.ReactNode
 }
 
@@ -31,6 +35,8 @@ export function FormDialog({
   submitLabel,
   pending,
   onSubmit,
+  submitDisabled = false,
+  destructive = false,
   children,
 }: FormDialogProps) {
   return (
@@ -46,7 +52,11 @@ export function FormDialog({
             <Button type="button" variant="outline" disabled={pending} onClick={() => onOpenChange(false)}>
               Cancelar
             </Button>
-            <Button type="submit" disabled={pending}>
+            <Button
+              type="submit"
+              variant={destructive ? 'destructive' : 'default'}
+              disabled={pending || submitDisabled}
+            >
               {pending && <CircleNotchIcon className="size-4 animate-spin" />}
               {submitLabel}
             </Button>

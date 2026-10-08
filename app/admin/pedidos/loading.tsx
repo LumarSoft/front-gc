@@ -1,9 +1,10 @@
-import { CartSkeleton } from '@/src/features/cart/components/cart-skeleton'
+import { Card } from '@/src/components/ui/card'
+import { ListSkeleton } from '@/src/features/admin/components/common/list-skeleton'
 
 export default function Loading() {
   return (
-    <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6">
-      <CartSkeleton />
-    </div>
+    <Card className="py-0">
+      <ListSkeleton />
+    </Card>
   )
 }

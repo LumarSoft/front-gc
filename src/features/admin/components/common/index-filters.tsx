@@ -10,7 +10,7 @@ type IndexFiltersProps = {
   views: React.ReactNode
   search: { value: string; onSearch: (value: string) => void; placeholder: string; label: string }
   /** Filter pills, shown while searching. */
-  filters: React.ReactNode
+  filters?: React.ReactNode
   sort?: React.ReactNode
   /** Search or filters are applied: the search row stays open. */
   hasFilters: boolean
@@ -54,7 +54,7 @@ export function IndexFilters({ views, search, filters, sort, hasFilters, onClear
         )}
         {sort}
       </div>
-      {open && (
+      {open && filters && (
         <div className="flex flex-wrap items-center gap-1.5 px-2 pb-2 motion-safe:animate-in motion-safe:fade-in-0 motion-safe:slide-in-from-top-1">
           {filters}
         </div>
