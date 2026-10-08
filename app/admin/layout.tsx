@@ -1,7 +1,9 @@
 import type { Metadata } from 'next'
+import { cookies } from 'next/headers'
 import { notFound, redirect } from 'next/navigation'
 import { AdminSessionRenewal } from '@/src/features/admin/components/admin-session-renewal'
 import { AdminShell } from '@/src/features/admin/components/shell/admin-shell'
+import { isSidebarCollapsed, SIDEBAR_COOKIE } from '@/src/features/admin/lib/admin-sidebar'
 import { getServerSession } from '@/src/services/session.server'
 
 export const metadata: Metadata = {
@@ -20,5 +22,10 @@ export default async function AdminLayout({ children }: LayoutProps<'/admin'>) {
   if (session.status === 'expired') return <AdminSessionRenewal />
   if (session.user.role !== 'ADMIN') notFound()
 
-  return <AdminShell user={session.user}>{children}</AdminShell>
+  const sidebarCollapsed = isSidebarCollapsed((await cookies()).get(SIDEBAR_COOKIE)?.value)
+  return (
+    <AdminShell user={session.user} sidebarCollapsed={sidebarCollapsed}>
+      {children}
+    </AdminShell>
+  )
 }

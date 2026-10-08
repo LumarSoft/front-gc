@@ -1,5 +1,10 @@
+'use client'
+
 import Link from 'next/link'
+import { AdminTooltip } from '@/src/features/admin/components/common/admin-tooltip'
+import { AdminNavFlyout } from '@/src/features/admin/components/shell/admin-nav-flyout'
 import { NavCount } from '@/src/features/admin/components/shell/nav-count'
+import { useAdminSidebar } from '@/src/features/admin/hooks/use-admin-sidebar'
 import { isNavLinkActive, isNavSectionActive, type AdminNavItem } from '@/src/features/admin/lib/admin-nav'
 import { cn } from '@/src/lib/utils'
 
@@ -8,33 +13,61 @@ type AdminNavEntryProps = {
   pathname: string
   /** Waiting work in this section (e.g. orders to process). */
   count?: number
+  /** In the phone menu sheet the sidebar's folded state does not apply. */
+  inSheet?: boolean
 }
 
 const LINK =
   'flex items-center rounded-lg text-sm transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none'
 
-/** One section: its link and, while the admin is inside it, its sub-sections unfolding underneath. */
-export function AdminNavEntry({ item, pathname, count }: AdminNavEntryProps) {
+/**
+ * One section: its link and, while the admin is inside it, its sub-sections unfolding underneath. On the folded
+ * sidebar only the icon shows (the counter on its corner): a tooltip names it, or a flyout lists its sub-pages.
+ */
+export function AdminNavEntry({ item, pathname, count, inSheet = false }: AdminNavEntryProps) {
+  const collapsed = useAdminSidebar().collapsed && !inSheet
   const open = isNavSectionActive(item, pathname)
   const current = isNavLinkActive(item, pathname)
   const Icon = item.icon
 
+  const link = (
+    <Link
+      href={item.href}
+      aria-current={current ? 'page' : undefined}
+      className={cn(
+        LINK,
+        'relative h-8 gap-2 px-2 font-medium whitespace-nowrap text-frame-foreground hover:bg-frame-hover hover:text-white',
+        current && 'bg-frame-accent text-white',
+        open && 'text-white',
+        collapsed && open && 'bg-frame-accent',
+      )}
+    >
+      <Icon weight={open ? 'fill' : 'regular'} className="size-4.5 shrink-0" />
+      <span className={cn('truncate transition-opacity duration-150', collapsed && 'opacity-0')}>{item.label}</span>
+      <NavCount
+        count={count}
+        className={cn(
+          'bg-white/12 text-white',
+          collapsed ? 'absolute -top-1 left-4 h-4 min-w-4 bg-frame-accent px-1 ring-2 ring-frame' : 'ml-auto',
+        )}
+      />
+    </Link>
+  )
+
+  if (collapsed)
+    return item.children ? (
+      <AdminNavFlyout item={item} pathname={pathname} count={count}>
+        {link}
+      </AdminNavFlyout>
+    ) : (
+      <AdminTooltip label={item.label} count={count}>
+        {link}
+      </AdminTooltip>
+    )
+
   return (
     <div>
-      <Link
-        href={item.href}
-        aria-current={current ? 'page' : undefined}
-        className={cn(
-          LINK,
-          'h-8 gap-2 px-2 font-medium text-frame-foreground hover:bg-frame-hover hover:text-white',
-          current && 'bg-frame-accent text-white',
-          open && 'text-white',
-        )}
-      >
-        <Icon weight={open ? 'fill' : 'regular'} className="size-4.5 shrink-0" />
-        {item.label}
-        <NavCount count={count} className="ml-auto bg-white/12 text-white" />
-      </Link>
+      {link}
       {item.children && (
         <div
           className={cn(

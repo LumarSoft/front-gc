@@ -52,10 +52,10 @@ export function AdminMobileMenu() {
           className="flex-1 overflow-y-auto px-3 py-2"
           onClick={event => (event.target as HTMLElement).closest('a') && setOpen(false)}
         >
-          <AdminNav />
+          <AdminNav inSheet />
         </div>
         <div className="p-3 pb-safe-4">
-          <AdminSettingsLink />
+          <AdminSettingsLink inSheet />
           <StoreLink />
         </div>
       </SheetContent>
