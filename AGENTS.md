@@ -21,7 +21,14 @@ not edit or remove it.
 2. If it reports problems, fix them **before** any other work, using `docs/upgrade-notes.md` for context. The API has
    its own doctor: if the API is the problem, run it in `../api-gc`.
 3. When your change requires a manual step from the other developers, add an entry at the top of
-   `docs/upgrade-notes.md` and a check in `scripts/doctor.mjs` in the same PR.
+   `docs/upgrade-notes.md` and a check in `scripts/doctor.mjs` in the same PR, and fill the "Pasos después de mergear"
+   section of the PR template (`.github/pull_request_template.md`).
+
+How the team finds out about those steps without having to remember: after every `git pull`, merge, rebase or branch
+switch, the git hooks (`.husky/post-merge`, `post-checkout`, `post-rewrite` → `scripts/after-pull.mjs`) list the new
+`docs/upgrade-notes.md` entries and run the doctor whenever dependencies, `.env.example`, `next.config.ts` or the notes
+changed. The doctor also tells when the API is older than the front needs, and the API itself refuses to start with
+pending migrations (it says which and how to apply them).
 
 ## Project
 

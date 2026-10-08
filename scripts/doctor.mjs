@@ -111,9 +111,27 @@ try {
     if (wholesale.status === 401) ok('API has frequent-customer applications')
     else
       warn('API is older than frequent-customer applications', 'pull api-gc and restart it (see docs/upgrade-notes.md)')
+    // Stats and store activity (LumarSoft/api-gc#27, #28): the admin route answers 401 without a session and the
+    // activity route rejects an empty body with 400 (nothing is stored); an older API 404s both.
+    const behavior = await fetch(`${apiUrl}/admin/analytics/behavior`, { signal: AbortSignal.timeout(3000) })
+    const activity = await fetch(`${apiUrl}/activity`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: '{}',
+      signal: AbortSignal.timeout(3000),
+    })
+    if (behavior.status === 401 && activity.status === 400) ok('API has the stats and store activity endpoints')
+    else
+      warn(
+        'API is older than the stats page and store activity',
+        'pull api-gc, apply its migrations (npx prisma migrate dev) and restart it (see docs/upgrade-notes.md)',
+      )
   } else warn(`API at ${apiUrl} answered ${response.status}`, 'run `npm run doctor` in api-gc')
 } catch {
-  warn(`API not reachable at ${apiUrl} (the store will show errors)`, 'start it: cd ../api-gc && npm run dev')
+  warn(
+    `API not reachable at ${apiUrl} (the store will show errors)`,
+    'start it: cd ../api-gc && npm run dev — if it refuses to start, it says why (e.g. pending migrations)',
+  )
 }
 
 // Report
