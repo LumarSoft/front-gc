@@ -8,7 +8,7 @@ import { usePresence } from '@/src/features/admin/hooks/use-presence'
 import { useNavigationGuard } from '@/src/hooks/use-navigation-guard'
 import { useUnsavedChangesWarning } from '@/src/hooks/use-unsaved-changes-warning'
 
-type ProductSaveBarProps = {
+type ContextualSaveBarProps = {
   dirty: boolean
   saving: boolean
   onSave: () => void
@@ -19,7 +19,7 @@ type ProductSaveBarProps = {
  * Dark bar that drops in at the top while the page has unsaved changes. ⌘S / Ctrl+S saves; leaving the page (links,
  * ⌘K, reload or close) asks first.
  */
-export function ProductSaveBar({ dirty, saving, onSave, onDiscard }: ProductSaveBarProps) {
+export function ContextualSaveBar({ dirty, saving, onSave, onDiscard }: ContextualSaveBarProps) {
   const isMac = useIsMac()
   useUnsavedChangesWarning(dirty)
   const leave = useNavigationGuard(dirty)
@@ -52,7 +52,7 @@ export function ProductSaveBar({ dirty, saving, onSave, onDiscard }: ProductSave
   )
 }
 
-type SaveBarProps = Omit<ProductSaveBarProps, 'dirty'> & { saveHint: string; state: 'open' | 'closed' }
+type SaveBarProps = Omit<ContextualSaveBarProps, 'dirty'> & { saveHint: string; state: 'open' | 'closed' }
 
 /** Raised dark surface (lighter than the frame) so it reads apart from the sidebar behind it. */
 function SaveBar({ state, saving, saveHint, onSave, onDiscard }: SaveBarProps) {

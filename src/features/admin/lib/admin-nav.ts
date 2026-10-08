@@ -1,5 +1,5 @@
 import type { Icon } from '@phosphor-icons/react'
-import { BuildingsIcon, HouseIcon, PackageIcon, TrayIcon } from '@phosphor-icons/react'
+import { BuildingsIcon, GearSixIcon, HouseIcon, PackageIcon, TrayIcon } from '@phosphor-icons/react'
 
 export type AdminNavLink = {
   label: string
@@ -33,11 +33,18 @@ export const ADMIN_NAV: AdminNavItem[] = [
       { label: 'Categorías', href: '/admin/categorias' },
       { label: 'Marcas', href: '/admin/marcas' },
       { label: 'Etiquetas', href: '/admin/etiquetas' },
-      { label: 'Cotización del dólar', href: '/admin/cotizacion' },
     ],
   },
   { label: 'Clientes frecuentes', href: '/admin/clientes-frecuentes', icon: BuildingsIcon },
 ]
+
+/** Store settings, at the bottom of the sidebar like Shopify's "Configuración". */
+export const ADMIN_SETTINGS_NAV: AdminNavItem = {
+  label: 'Configuración',
+  href: '/admin/configuracion',
+  icon: GearSixIcon,
+  children: [{ label: 'Cotización del dólar', href: '/admin/cotizacion' }],
+}
 
 export function isNavLinkActive(link: AdminNavLink, pathname: string): boolean {
   return link.exact ? pathname === link.href : pathname === link.href || pathname.startsWith(`${link.href}/`)
@@ -49,6 +56,9 @@ export function isNavSectionActive(item: AdminNavItem, pathname: string): boolea
 }
 
 /** Every destination, flattened, for the search palette. */
-export const ADMIN_DESTINATIONS: AdminNavLink[] = ADMIN_NAV.flatMap(item => [item, ...(item.children ?? [])])
+export const ADMIN_DESTINATIONS: AdminNavLink[] = [...ADMIN_NAV, ADMIN_SETTINGS_NAV].flatMap(item => [
+  item,
+  ...(item.children ?? []),
+])
 
 export const PINNED_NAV_ITEMS: AdminNavItem[] = ADMIN_NAV.filter(item => item.pinned)

@@ -5,6 +5,7 @@ import { ListIcon } from '@phosphor-icons/react'
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from '@/src/components/ui/sheet'
 import { AdminBrand } from '@/src/features/admin/components/shell/admin-brand'
 import { AdminNav } from '@/src/features/admin/components/shell/admin-nav'
+import { AdminSettingsLink } from '@/src/features/admin/components/shell/admin-settings-link'
 import { StoreLink } from '@/src/features/admin/components/shell/store-link'
 
 /** "Menú" tab of the phone bottom bar: every section on the same dark frame as the desktop sidebar. */
@@ -30,6 +31,7 @@ export function AdminMobileMenu() {
           <AdminNav />
         </div>
         <div className="p-3 pb-safe-4">
+          <AdminSettingsLink />
           <StoreLink />
         </div>
       </SheetContent>

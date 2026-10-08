@@ -2,6 +2,7 @@ import { AdminAccountMenu } from '@/src/features/admin/components/shell/admin-ac
 import { AdminBrand } from '@/src/features/admin/components/shell/admin-brand'
 import { AdminNav } from '@/src/features/admin/components/shell/admin-nav'
 import { AdminSearchTrigger } from '@/src/features/admin/components/search/admin-search-trigger'
+import { AdminSettingsLink } from '@/src/features/admin/components/shell/admin-settings-link'
 import { StoreLink } from '@/src/features/admin/components/shell/store-link'
 import type { AuthUser } from '@/src/types/api/auth'
 
@@ -17,6 +18,7 @@ export function AdminSidebar({ user }: { user: AuthUser }) {
         <AdminNav />
       </div>
       <div className="flex flex-col gap-1 p-2.5">
+        <AdminSettingsLink />
         <StoreLink />
         <AdminAccountMenu user={user} />
       </div>

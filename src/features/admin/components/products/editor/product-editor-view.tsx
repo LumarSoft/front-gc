@@ -11,7 +11,7 @@ import { GallerySection } from '@/src/features/admin/components/products/editor/
 import { GeneralSection } from '@/src/features/admin/components/products/editor/general-section'
 import { OrganizationSection } from '@/src/features/admin/components/products/editor/organization-section'
 import { ProductEditorHeader } from '@/src/features/admin/components/products/editor/product-editor-header'
-import { ProductSaveBar } from '@/src/features/admin/components/products/editor/product-save-bar'
+import { ContextualSaveBar } from '@/src/features/admin/components/common/contextual-save-bar'
 import { ProductEditorSkeleton } from '@/src/features/admin/components/products/editor/product-editor-skeleton'
 import { SeoSection } from '@/src/features/admin/components/products/editor/seo-section'
 import { SpecificationsSection } from '@/src/features/admin/components/products/editor/specifications-section'
@@ -57,7 +57,7 @@ export function ProductEditorView({ productId }: { productId: number }) {
 
   return (
     <SaveBarContext.Provider value={saveBar.registry}>
-      <ProductSaveBar
+      <ContextualSaveBar
         dirty={saveBar.dirty}
         saving={saveBar.saving}
         onSave={() => void saveBar.save()}
