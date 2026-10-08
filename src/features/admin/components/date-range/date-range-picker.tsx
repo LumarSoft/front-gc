@@ -1,6 +1,6 @@
 'use client'
 
-import { CalendarBlankIcon } from '@phosphor-icons/react'
+import { CalendarIcon } from 'lucide-react'
 import { Button } from '@/src/components/ui/button'
 import { Popover, PopoverContent, PopoverTrigger } from '@/src/components/ui/popover'
 import { PresetOptions } from '@/src/features/admin/components/date-range/preset-options'
@@ -25,7 +25,7 @@ export function DateRangePicker({ value, onChange }: DateRangePickerProps) {
           type="button"
           className="inline-flex h-8 shrink-0 items-center gap-1.5 self-start rounded-lg px-2 text-sm font-medium transition-colors hover:bg-tone-neutral focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none aria-expanded:bg-tone-neutral"
         >
-          <CalendarBlankIcon className="size-4 text-muted-foreground" />
+          <CalendarIcon className="size-4 text-muted-foreground" />
           {describeRange(value, picker.today)}
         </button>
       </PopoverTrigger>

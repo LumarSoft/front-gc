@@ -1,5 +1,5 @@
+import { CircleCheckIcon } from 'lucide-react'
 import Link from 'next/link'
-import { CheckCircleIcon } from '@phosphor-icons/react/dist/ssr'
 import type { HomeTodo } from '@/src/features/admin/lib/home-todos'
 
 /** What is waiting, as pills that open the right filtered list (like "Preparar pedidos 50+"). */
@@ -7,7 +7,7 @@ export function HomeTodos({ todos }: { todos: HomeTodo[] }) {
   if (todos.length === 0) {
     return (
       <p className="inline-flex items-center gap-2 text-sm text-muted-foreground">
-        <CheckCircleIcon weight="fill" className="size-4 text-success" />
+        <CircleCheckIcon strokeWidth={2.25} className="size-4 text-success" />
         Todo al día: no hay pagos, pedidos ni solicitudes esperando.
       </p>
     )

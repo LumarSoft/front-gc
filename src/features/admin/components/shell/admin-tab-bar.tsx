@@ -32,7 +32,7 @@ export function AdminTabBar() {
             )}
           >
             <span className="relative">
-              <Icon weight={active ? 'fill' : 'regular'} className="size-5.5" />
+              <Icon strokeWidth={active ? 2.5 : 2} className="size-5.5" />
               <NavCount
                 count={item.badge && badges[item.badge]}
                 className="absolute -top-1.5 left-3.5 h-4 min-w-4 rounded-full bg-foreground px-1 text-xs text-background"

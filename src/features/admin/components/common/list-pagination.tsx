@@ -1,6 +1,6 @@
 'use client'
 
-import { CaretLeftIcon, CaretRightIcon } from '@phosphor-icons/react'
+import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react'
 import { Button } from '@/src/components/ui/button'
 
 type ListPaginationProps = {
@@ -26,7 +26,7 @@ export function ListPagination({ page, pageSize, total, totalPages, onPageChange
         onClick={() => onPageChange(page - 1)}
         aria-label="Página anterior"
       >
-        <CaretLeftIcon />
+        <ChevronLeftIcon />
       </Button>
       <span className="min-w-24 text-center text-sm text-muted-foreground tabular-nums">
         {from}–{to} de {total}
@@ -38,7 +38,7 @@ export function ListPagination({ page, pageSize, total, totalPages, onPageChange
         onClick={() => onPageChange(page + 1)}
         aria-label="Página siguiente"
       >
-        <CaretRightIcon />
+        <ChevronRightIcon />
       </Button>
     </nav>
   )

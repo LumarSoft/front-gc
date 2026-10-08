@@ -1,8 +1,8 @@
 'use client'
 
+import { MenuIcon } from 'lucide-react'
 import { useState } from 'react'
 import { usePathname } from 'next/navigation'
-import { ListIcon } from '@phosphor-icons/react'
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from '@/src/components/ui/sheet'
 import { AdminBrand } from '@/src/features/admin/components/shell/admin-brand'
 import { AdminNav } from '@/src/features/admin/components/shell/admin-nav'
@@ -31,7 +31,7 @@ export function AdminMobileMenu() {
         )}
       >
         <span className="relative">
-          <ListIcon weight={current ? 'bold' : 'regular'} className="size-5.5" />
+          <MenuIcon strokeWidth={current ? 2.5 : 2} className="size-5.5" />
           {waiting && (
             <span
               aria-hidden

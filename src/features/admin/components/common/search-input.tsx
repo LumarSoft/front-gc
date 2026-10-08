@@ -1,7 +1,7 @@
 'use client'
 
+import { SearchIcon } from 'lucide-react'
 import { useEffect, useState } from 'react'
-import { MagnifyingGlassIcon } from '@phosphor-icons/react'
 import { Input } from '@/src/components/ui/input'
 import { useDebouncedValue } from '@/src/hooks/use-debounced-value'
 
@@ -34,7 +34,7 @@ export function SearchInput({ value, onSearch, placeholder, label, autoFocus }: 
 
   return (
     <div className="relative">
-      <MagnifyingGlassIcon className="pointer-events-none absolute top-1/2 left-2.5 size-4 -translate-y-1/2 text-muted-foreground" />
+      <SearchIcon className="pointer-events-none absolute top-1/2 left-2.5 size-4 -translate-y-1/2 text-muted-foreground" />
       <Input
         type="search"
         aria-label={label}

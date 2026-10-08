@@ -1,8 +1,8 @@
 'use client'
 
+import { ImageIcon, LoaderCircleIcon, Trash2Icon, UploadIcon } from 'lucide-react'
 import { useState } from 'react'
 import Image from 'next/image'
-import { CircleNotchIcon, ImageSquareIcon, TrashIcon, UploadSimpleIcon } from '@phosphor-icons/react'
 import { Button } from '@/src/components/ui/button'
 import { useImageUpload } from '@/src/features/admin/hooks/use-image-upload'
 import { cn } from '@/src/lib/utils'
@@ -47,11 +47,11 @@ export function ImageUploadField({ id, label, hint, value, onChange }: ImageUplo
           {value ? (
             <Image src={value.url} alt="" fill sizes="96px" className="object-contain p-1.5" />
           ) : (
-            <ImageSquareIcon className="size-7" />
+            <ImageIcon className="size-7" />
           )}
           {isUploading && (
             <span className="absolute inset-0 grid place-items-center bg-background/80">
-              <CircleNotchIcon className="size-6 animate-spin text-primary" />
+              <LoaderCircleIcon className="size-6 animate-spin text-primary" />
             </span>
           )}
         </label>
@@ -62,13 +62,13 @@ export function ImageUploadField({ id, label, hint, value, onChange }: ImageUplo
               aria-disabled={isUploading}
               className="cursor-pointer aria-disabled:pointer-events-none aria-disabled:opacity-50"
             >
-              <UploadSimpleIcon />
+              <UploadIcon />
               {value ? 'Cambiar imagen' : 'Subir imagen'}
             </label>
           </Button>
           {value && (
             <Button type="button" variant="ghost" size="sm" disabled={isUploading} onClick={() => onChange(null)}>
-              <TrashIcon />
+              <Trash2Icon />
               Quitar
             </Button>
           )}

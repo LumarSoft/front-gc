@@ -1,6 +1,6 @@
 'use client'
 
-import { CircleNotchIcon, WarningCircleIcon } from '@phosphor-icons/react'
+import { CircleAlertIcon, LoaderCircleIcon } from 'lucide-react'
 import { ConfirmDialog } from '@/src/components/ui/confirm-dialog'
 import { useHotkey } from '@/src/features/admin/hooks/use-hotkey'
 import { useIsMac } from '@/src/features/admin/hooks/use-is-mac'
@@ -67,7 +67,7 @@ function SaveBar({ state, saving, saveHint, onSave, onDiscard }: SaveBarProps) {
       inert={state === 'closed'}
       className="fixed inset-x-0 top-0 z-50 flex h-13 items-center gap-2 bg-frame-raised pr-2 pl-4 text-white shadow-2xl motion-safe:data-[state=closed]:animate-lift-out motion-safe:data-[state=open]:animate-drop-in lg:inset-x-3 lg:top-3 lg:left-55 lg:mx-auto lg:h-auto lg:w-fit lg:max-w-full lg:rounded-xl lg:py-1.5 lg:pr-1.5 lg:pl-3.5 lg:ring-1 lg:ring-white/10"
     >
-      <WarningCircleIcon className="size-4.5 shrink-0 text-frame-muted max-sm:hidden" />
+      <CircleAlertIcon className="size-4.5 shrink-0 text-frame-muted max-sm:hidden" />
       <p className="mr-6 min-w-0 flex-1 truncate text-sm font-medium" role="status">
         <span className="sm:hidden">Sin guardar</span>
         <span className="max-sm:hidden">Cambios sin guardar</span>
@@ -87,7 +87,7 @@ function SaveBar({ state, saving, saveHint, onSave, onDiscard }: SaveBarProps) {
         title={saveHint}
         className="inline-flex h-8 shrink-0 items-center gap-1.5 rounded-lg bg-white px-3 text-sm font-medium text-frame transition-colors hover:bg-white/90 focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none disabled:opacity-70"
       >
-        {saving && <CircleNotchIcon className="size-4 animate-spin" />}
+        {saving && <LoaderCircleIcon className="size-4 animate-spin" />}
         Guardar
       </button>
     </div>

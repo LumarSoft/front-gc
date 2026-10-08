@@ -1,5 +1,5 @@
-import type { Icon } from '@phosphor-icons/react'
-import { BuildingsIcon, ChartLineIcon, GearSixIcon, HouseIcon, PackageIcon, TrayIcon } from '@phosphor-icons/react'
+import type { LucideIcon } from 'lucide-react'
+import { Building2Icon, ChartLineIcon, HouseIcon, InboxIcon, PackageIcon, SettingsIcon } from 'lucide-react'
 
 export type AdminNavLink = {
   label: string
@@ -9,7 +9,7 @@ export type AdminNavLink = {
 }
 
 export type AdminNavItem = AdminNavLink & {
-  icon: Icon
+  icon: LucideIcon
   /** Shown as its own tab in the phone bottom bar; the rest live in the "Menú" sheet. */
   pinned?: boolean
   /** Sub-sections, shown under the item while the admin is anywhere inside it. */
@@ -23,7 +23,7 @@ export type AdminNavBadge = 'ordersWaiting' | 'wholesalePending'
 /** Admin sections. Each admin PR adds its section here when its page exists, so there are no dead links. */
 export const ADMIN_NAV: AdminNavItem[] = [
   { label: 'Inicio', href: '/admin', icon: HouseIcon, exact: true, pinned: true },
-  { label: 'Pedidos', href: '/admin/pedidos', icon: TrayIcon, pinned: true, badge: 'ordersWaiting' },
+  { label: 'Pedidos', href: '/admin/pedidos', icon: InboxIcon, pinned: true, badge: 'ordersWaiting' },
   {
     label: 'Productos',
     href: '/admin/productos',
@@ -38,7 +38,7 @@ export const ADMIN_NAV: AdminNavItem[] = [
   {
     label: 'Clientes frecuentes',
     href: '/admin/clientes-frecuentes',
-    icon: BuildingsIcon,
+    icon: Building2Icon,
     badge: 'wholesalePending',
   },
   { label: 'Estadísticas', href: '/admin/estadisticas', icon: ChartLineIcon },
@@ -48,7 +48,7 @@ export const ADMIN_NAV: AdminNavItem[] = [
 export const ADMIN_SETTINGS_NAV: AdminNavItem = {
   label: 'Configuración',
   href: '/admin/configuracion',
-  icon: GearSixIcon,
+  icon: SettingsIcon,
   children: [{ label: 'Cotización del dólar', href: '/admin/cotizacion' }],
 }
 

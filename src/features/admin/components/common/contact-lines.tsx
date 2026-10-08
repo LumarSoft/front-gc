@@ -1,6 +1,6 @@
 'use client'
 
-import { CopyIcon, EnvelopeSimpleIcon, PhoneIcon } from '@phosphor-icons/react'
+import { CopyIcon, MailIcon, PhoneIcon } from 'lucide-react'
 import { toast } from 'sonner'
 
 const LINK = 'flex min-w-0 items-center gap-2 text-sm hover:underline'
@@ -15,7 +15,7 @@ export function EmailLine({ email }: { email: string }) {
   return (
     <div className="flex items-center gap-1">
       <a href={`mailto:${email}`} className={LINK}>
-        <EnvelopeSimpleIcon className="size-4 shrink-0 text-muted-foreground" />
+        <MailIcon className="size-4 shrink-0 text-muted-foreground" />
         <span className="truncate">{email}</span>
       </a>
       <button

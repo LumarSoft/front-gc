@@ -1,7 +1,7 @@
 'use client'
 
+import { FunnelIcon, SearchIcon } from 'lucide-react'
 import { useState } from 'react'
-import { FunnelSimpleIcon, MagnifyingGlassIcon } from '@phosphor-icons/react'
 import { Button } from '@/src/components/ui/button'
 import { SearchInput } from '@/src/features/admin/components/common/search-input'
 
@@ -47,8 +47,8 @@ export function IndexFilters({ views, search, filters, sort, hasFilters, onClear
           <>
             <div className="min-w-0 flex-1">{views}</div>
             <Button variant="outline" onClick={() => setSearching(true)} aria-label="Buscar y filtrar">
-              <MagnifyingGlassIcon />
-              <FunnelSimpleIcon />
+              <SearchIcon />
+              <FunnelIcon />
             </Button>
           </>
         )}

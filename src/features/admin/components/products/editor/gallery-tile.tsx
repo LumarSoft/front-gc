@@ -1,7 +1,7 @@
 'use client'
 
+import { ArrowLeftIcon, ArrowRightIcon, StarIcon, Trash2Icon } from 'lucide-react'
 import Image from 'next/image'
-import { ArrowLeftIcon, ArrowRightIcon, StarIcon, TrashIcon } from '@phosphor-icons/react'
 import { Button } from '@/src/components/ui/button'
 import { Input } from '@/src/components/ui/input'
 import type { GalleryItem } from '@/src/features/admin/lib/gallery-draft'
@@ -77,7 +77,7 @@ export function GalleryTile({ item, index, total, onMove, onMakeMain, onRemove, 
               onClick={onRemove}
               className="text-destructive"
             >
-              <TrashIcon />
+              <Trash2Icon />
             </Button>
           </div>
         </div>

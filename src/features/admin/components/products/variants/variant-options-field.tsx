@@ -1,7 +1,7 @@
 'use client'
 
+import { PlusIcon, Trash2Icon } from 'lucide-react'
 import { type UseFormReturn, useFieldArray } from 'react-hook-form'
-import { PlusIcon, TrashIcon } from '@phosphor-icons/react'
 import { Button } from '@/src/components/ui/button'
 import { Input } from '@/src/components/ui/input'
 import type { VariantDetailsValues } from '@/src/features/admin/lib/variant-details-form'
@@ -41,7 +41,7 @@ export function VariantOptionsField({ form }: { form: UseFormReturn<VariantDetai
             aria-label={`Quitar la opción ${index + 1}`}
             onClick={() => options.remove(index)}
           >
-            <TrashIcon />
+            <Trash2Icon />
           </Button>
         </div>
       ))}

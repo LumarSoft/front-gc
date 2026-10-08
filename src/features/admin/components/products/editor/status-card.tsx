@@ -1,6 +1,6 @@
 'use client'
 
-import { ArrowSquareOutIcon, EyeIcon, EyeSlashIcon, PencilLineIcon } from '@phosphor-icons/react'
+import { ExternalLinkIcon, EyeIcon, EyeOffIcon, PencilLineIcon } from 'lucide-react'
 import Link from 'next/link'
 import { Button } from '@/src/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/src/components/ui/card'
@@ -35,7 +35,7 @@ export function StatusCard({ product }: { product: AdminProduct }) {
         <div className="flex flex-col gap-2">
           {published ? (
             <Button variant="outline" disabled={setStatus.isPending} onClick={() => setStatus.mutate('HIDDEN')}>
-              <EyeSlashIcon />
+              <EyeOffIcon />
               Ocultar de la tienda
             </Button>
           ) : (
@@ -53,7 +53,7 @@ export function StatusCard({ product }: { product: AdminProduct }) {
           {published && (
             <Button asChild variant="ghost">
               <Link href={`/productos/${product.slug}`} target="_blank">
-                <ArrowSquareOutIcon />
+                <ExternalLinkIcon />
                 Ver en la tienda
               </Link>
             </Button>

@@ -1,6 +1,6 @@
 'use client'
 
-import { CheckIcon } from '@phosphor-icons/react'
+import { CheckIcon } from 'lucide-react'
 import Link from 'next/link'
 import { ProductEditorCard } from '@/src/features/admin/components/products/editor/product-editor-card'
 import { useAdminTags } from '@/src/features/admin/hooks/use-admin-tags'
@@ -44,7 +44,7 @@ export function TagsSection({ product }: { product: AdminProduct }) {
                         checked && 'border-primary bg-accent text-primary hover:bg-accent',
                       )}
                     >
-                      {checked && <CheckIcon weight="bold" className="size-3.5" />}
+                      {checked && <CheckIcon strokeWidth={3} className="size-3.5" />}
                       {tag.name}
                     </button>
                   )

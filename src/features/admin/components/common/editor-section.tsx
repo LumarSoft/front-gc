@@ -1,6 +1,6 @@
 'use client'
 
-import { CircleNotchIcon } from '@phosphor-icons/react'
+import { LoaderCircleIcon } from 'lucide-react'
 import { Button } from '@/src/components/ui/button'
 import {
   Card,
@@ -58,7 +58,7 @@ export function EditorSection({
           Descartar
         </Button>
         <Button type="button" size="sm" disabled={!dirty || pending} onClick={onSave}>
-          {pending && <CircleNotchIcon className="animate-spin" />}
+          {pending && <LoaderCircleIcon className="animate-spin" />}
           Guardar
         </Button>
       </CardFooter>

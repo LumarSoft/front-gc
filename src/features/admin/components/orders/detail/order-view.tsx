@@ -1,7 +1,7 @@
 'use client'
 
+import { InboxIcon } from 'lucide-react'
 import Link from 'next/link'
-import { TrayIcon } from '@phosphor-icons/react'
 import { Button } from '@/src/components/ui/button'
 import { Card } from '@/src/components/ui/card'
 import { DetailSkeleton } from '@/src/features/admin/components/common/detail-skeleton'
@@ -31,7 +31,7 @@ export function OrderView({ id }: { id: number }) {
       <Card className="py-0">
         {missing ? (
           <EmptyState
-            icon={<TrayIcon />}
+            icon={<InboxIcon />}
             title="No encontramos este pedido"
             description="Puede que el link esté mal escrito. Buscalo por número en la lista."
             action={

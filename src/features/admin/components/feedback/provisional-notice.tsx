@@ -1,5 +1,3 @@
-import { InfoIcon } from '@phosphor-icons/react/dist/ssr'
-
 type ProvisionalNoticeProps = {
   children: React.ReactNode
 }
@@ -16,3 +14,4 @@ export function ProvisionalNotice({ children }: ProvisionalNoticeProps) {
     </div>
   )
 }
+import { InfoIcon } from 'lucide-react'

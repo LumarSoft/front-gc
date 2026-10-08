@@ -1,6 +1,6 @@
 'use client'
 
-import { ArchiveIcon, PencilSimpleIcon, PlusIcon, TagIcon } from '@phosphor-icons/react'
+import { ArchiveIcon, PencilIcon, PlusIcon, TagIcon } from 'lucide-react'
 import { Button } from '@/src/components/ui/button'
 import { ListRow, ListRowButton } from '@/src/features/admin/components/common/list-row'
 import { ProductCount } from '@/src/features/admin/components/common/product-count'
@@ -42,7 +42,7 @@ export function TagGroupSection({ group, onAdd, onEdit, onArchive }: TagGroupSec
               <RowActions
                 itemName={tag.name}
                 actions={[
-                  { label: 'Editar', icon: PencilSimpleIcon, onSelect: () => onEdit(tag) },
+                  { label: 'Editar', icon: PencilIcon, onSelect: () => onEdit(tag) },
                   { label: 'Archivar…', icon: ArchiveIcon, onSelect: () => onArchive(tag), destructive: true },
                 ]}
               />

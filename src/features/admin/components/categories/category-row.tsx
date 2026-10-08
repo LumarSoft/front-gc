@@ -5,11 +5,11 @@ import {
   ArrowDownIcon,
   ArrowUpIcon,
   EyeIcon,
-  EyeSlashIcon,
+  EyeOffIcon,
+  FolderIcon,
   FolderPlusIcon,
-  FolderSimpleIcon,
-  PencilSimpleIcon,
-} from '@phosphor-icons/react'
+  PencilIcon,
+} from 'lucide-react'
 import { ItemThumb } from '@/src/features/admin/components/common/item-thumb'
 import { ListRow, ListRowButton } from '@/src/features/admin/components/common/list-row'
 import { ProductCount } from '@/src/features/admin/components/common/product-count'
@@ -39,7 +39,7 @@ export function CategoryRow({ category, index, siblingCount, reorderable, handle
   const isTopLevel = category.parentId === null
   const totalProducts = category.productCount + category.children.reduce((sum, child) => sum + child.productCount, 0)
   const actions: RowAction[] = [
-    { label: 'Editar', icon: PencilSimpleIcon, onSelect: () => handlers.edit(category) },
+    { label: 'Editar', icon: PencilIcon, onSelect: () => handlers.edit(category) },
     ...(isTopLevel
       ? [{ label: 'Agregar subcategoría', icon: FolderPlusIcon, onSelect: () => handlers.addChild(category) }]
       : []),
@@ -57,7 +57,7 @@ export function CategoryRow({ category, index, siblingCount, reorderable, handle
     },
     {
       label: category.isActive ? 'Ocultar de la tienda' : 'Mostrar en la tienda',
-      icon: category.isActive ? EyeSlashIcon : EyeIcon,
+      icon: category.isActive ? EyeOffIcon : EyeIcon,
       onSelect: () => handlers.toggleActive(category),
     },
     { label: 'Archivar…', icon: ArchiveIcon, onSelect: () => handlers.archive(category), destructive: true },
@@ -65,7 +65,7 @@ export function CategoryRow({ category, index, siblingCount, reorderable, handle
 
   return (
     <ListRow
-      leading={<ItemThumb url={category.imageUrl} fallbackIcon={FolderSimpleIcon} />}
+      leading={<ItemThumb url={category.imageUrl} fallbackIcon={FolderIcon} />}
       title={<ListRowButton onClick={() => handlers.edit(category)}>{category.name}</ListRowButton>}
       meta={`/categorias/${category.slug}`}
       details={

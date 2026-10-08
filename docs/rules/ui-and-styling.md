@@ -59,7 +59,17 @@ name) is still Comunicaciones Gráficas — Epson branding is used as the brand 
 
 - Images with `next/image`, with a descriptive `alt` and explicit sizes.
 - Fonts with `next/font`.
-- Icons from `lucide-react` (shadcn default).
+- Icons: see "Icons" below.
+
+## Icons
+
+- **Admin** (`src/features/admin/`, `app/admin/`): `lucide-react` only, enforced by ESLint. Default stroke; a thicker
+  stroke (`strokeWidth={2.5}`) marks the current section in the navigation, since Lucide has no filled variants. Small
+  check/minus marks inside checkboxes use `strokeWidth={3}`.
+- **Never `@shopify/polaris-icons`**: its license only allows apps that integrate with Shopify, or standalone apps
+  visually distinct from Shopify's admin, which ours deliberately resembles.
+- **Store**: still on `@phosphor-icons/react` for now (light weight in the header); move it to Lucide when the store
+  gets its next visual pass, then drop the Phosphor dependency.
 
 ## Accessibility
 

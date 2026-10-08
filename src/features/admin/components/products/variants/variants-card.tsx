@@ -1,6 +1,6 @@
 'use client'
 
-import { PlusIcon } from '@phosphor-icons/react'
+import { PlusIcon } from 'lucide-react'
 import { Button } from '@/src/components/ui/button'
 import { Card, CardAction, CardDescription, CardHeader, CardTitle } from '@/src/components/ui/card'
 import { ArchiveConfirmDialog } from '@/src/features/admin/components/common/archive-confirm-dialog'

@@ -1,6 +1,6 @@
 'use client'
 
-import { CircleNotchIcon } from '@phosphor-icons/react'
+import { LoaderCircleIcon } from 'lucide-react'
 import { Controller } from 'react-hook-form'
 import { Button } from '@/src/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/src/components/ui/card'
@@ -76,7 +76,7 @@ export function NewRateForm() {
             </FormField>
           )}
           <Button type="submit" disabled={isSaving}>
-            {isSaving && <CircleNotchIcon className="animate-spin" />}
+            {isSaving && <LoaderCircleIcon className="animate-spin" />}
             {scheduled ? 'Programar cotización' : 'Cargar cotización'}
           </Button>
         </form>

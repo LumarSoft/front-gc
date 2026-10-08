@@ -1,5 +1,5 @@
+import { PackageIcon } from 'lucide-react'
 import Link from 'next/link'
-import { PackageIcon } from '@phosphor-icons/react/dist/ssr'
 import { ItemThumb } from '@/src/features/admin/components/common/item-thumb'
 import type { AnalyticsProduct } from '@/src/types/api/admin-behavior'
 

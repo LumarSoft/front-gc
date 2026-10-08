@@ -1,7 +1,7 @@
 'use client'
 
+import { PackageIcon, PlusIcon } from 'lucide-react'
 import { useState } from 'react'
-import { PackageIcon, PlusIcon } from '@phosphor-icons/react'
 import { Button } from '@/src/components/ui/button'
 import { EmptyState } from '@/src/components/ui/empty-state'
 import { AdminPageHeader } from '@/src/features/admin/components/admin-page-header'
