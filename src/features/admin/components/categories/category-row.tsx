@@ -11,7 +11,7 @@ import {
   PencilSimpleIcon,
 } from '@phosphor-icons/react'
 import { ItemThumb } from '@/src/features/admin/components/common/item-thumb'
-import { ListRow } from '@/src/features/admin/components/common/list-row'
+import { ListRow, ListRowButton } from '@/src/features/admin/components/common/list-row'
 import { ProductCount } from '@/src/features/admin/components/common/product-count'
 import { type RowAction, RowActions } from '@/src/features/admin/components/common/row-actions'
 import { StatusBadge } from '@/src/features/admin/components/common/status-badge'
@@ -30,10 +30,12 @@ type CategoryRowProps = {
   /** Position among its siblings, to enable "Mover arriba/abajo". */
   index: number
   siblingCount: number
+  /** Off while the list is filtered: positions among the shown rows are not the real ones. */
+  reorderable: boolean
   handlers: CategoryHandlers
 }
 
-export function CategoryRow({ category, index, siblingCount, handlers }: CategoryRowProps) {
+export function CategoryRow({ category, index, siblingCount, reorderable, handlers }: CategoryRowProps) {
   const isTopLevel = category.parentId === null
   const totalProducts = category.productCount + category.children.reduce((sum, child) => sum + child.productCount, 0)
   const actions: RowAction[] = [
@@ -41,12 +43,17 @@ export function CategoryRow({ category, index, siblingCount, handlers }: Categor
     ...(isTopLevel
       ? [{ label: 'Agregar subcategoría', icon: FolderPlusIcon, onSelect: () => handlers.addChild(category) }]
       : []),
-    { label: 'Mover arriba', icon: ArrowUpIcon, onSelect: () => handlers.move(category, 'up'), disabled: index === 0 },
+    {
+      label: 'Mover arriba',
+      icon: ArrowUpIcon,
+      onSelect: () => handlers.move(category, 'up'),
+      disabled: !reorderable || index === 0,
+    },
     {
       label: 'Mover abajo',
       icon: ArrowDownIcon,
       onSelect: () => handlers.move(category, 'down'),
-      disabled: index === siblingCount - 1,
+      disabled: !reorderable || index === siblingCount - 1,
     },
     {
       label: category.isActive ? 'Ocultar de la tienda' : 'Mostrar en la tienda',
@@ -59,15 +66,7 @@ export function CategoryRow({ category, index, siblingCount, handlers }: Categor
   return (
     <ListRow
       leading={<ItemThumb url={category.imageUrl} fallbackIcon={FolderSimpleIcon} />}
-      title={
-        <button
-          type="button"
-          onClick={() => handlers.edit(category)}
-          className="truncate text-left hover:underline focus-visible:underline focus-visible:outline-none"
-        >
-          {category.name}
-        </button>
-      }
+      title={<ListRowButton onClick={() => handlers.edit(category)}>{category.name}</ListRowButton>}
       meta={`/categorias/${category.slug}`}
       details={
         <>

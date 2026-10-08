@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { usePathname } from 'next/navigation'
 import { ListIcon } from '@phosphor-icons/react'
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from '@/src/components/ui/sheet'
 import { AdminBrand } from '@/src/features/admin/components/shell/admin-brand'
@@ -8,7 +9,8 @@ import { AdminNav } from '@/src/features/admin/components/shell/admin-nav'
 import { AdminSettingsLink } from '@/src/features/admin/components/shell/admin-settings-link'
 import { StoreLink } from '@/src/features/admin/components/shell/store-link'
 import { useAdminNavBadges } from '@/src/features/admin/hooks/use-admin-nav-badges'
-import { ADMIN_NAV } from '@/src/features/admin/lib/admin-nav'
+import { ADMIN_NAV, isNavSectionActive, PINNED_NAV_ITEMS } from '@/src/features/admin/lib/admin-nav'
+import { cn } from '@/src/lib/utils'
 
 /** "Menú" tab of the phone bottom bar: every section on the same dark frame as the desktop sidebar. */
 export function AdminMobileMenu() {
@@ -16,12 +18,20 @@ export function AdminMobileMenu() {
   const badges = useAdminNavBadges()
   // Work waiting in a section that has no tab of its own (e.g. applications to review) marks the menu.
   const waiting = ADMIN_NAV.some(item => !item.pinned && item.badge && badges[item.badge])
+  // Inside a section without its own tab (frequent customers, settings…), the menu is the current tab.
+  const pathname = usePathname()
+  const current = !PINNED_NAV_ITEMS.some(item => isNavSectionActive(item, pathname))
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
-      <SheetTrigger className="flex flex-1 flex-col items-center gap-0.5 pt-2 pb-1.5 text-xs font-medium text-muted-foreground">
+      <SheetTrigger
+        className={cn(
+          'flex flex-1 flex-col items-center gap-0.5 pt-2 pb-1.5 text-xs font-medium text-muted-foreground',
+          current && 'text-foreground',
+        )}
+      >
         <span className="relative">
-          <ListIcon className="size-5.5" />
+          <ListIcon weight={current ? 'bold' : 'regular'} className="size-5.5" />
           {waiting && (
             <span
               aria-hidden

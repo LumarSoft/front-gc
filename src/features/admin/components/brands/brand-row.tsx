@@ -10,7 +10,7 @@ import {
   TrademarkIcon,
 } from '@phosphor-icons/react'
 import { ItemThumb } from '@/src/features/admin/components/common/item-thumb'
-import { ListRow } from '@/src/features/admin/components/common/list-row'
+import { ListRow, ListRowButton } from '@/src/features/admin/components/common/list-row'
 import { ProductCount } from '@/src/features/admin/components/common/product-count'
 import { RowActions } from '@/src/features/admin/components/common/row-actions'
 import { StatusBadge } from '@/src/features/admin/components/common/status-badge'
@@ -27,22 +27,16 @@ type BrandRowProps = {
   brand: AdminBrand
   index: number
   total: number
+  /** Off while the list is filtered: positions among the shown rows are not the real ones. */
+  reorderable: boolean
   handlers: BrandHandlers
 }
 
-export function BrandRow({ brand, index, total, handlers }: BrandRowProps) {
+export function BrandRow({ brand, index, total, reorderable, handlers }: BrandRowProps) {
   return (
     <ListRow
       leading={<ItemThumb url={brand.logoUrl} fallbackIcon={TrademarkIcon} />}
-      title={
-        <button
-          type="button"
-          onClick={() => handlers.edit(brand)}
-          className="truncate text-left hover:underline focus-visible:underline focus-visible:outline-none"
-        >
-          {brand.name}
-        </button>
-      }
+      title={<ListRowButton onClick={() => handlers.edit(brand)}>{brand.name}</ListRowButton>}
       meta={brand.slug}
       details={
         <>
@@ -59,13 +53,13 @@ export function BrandRow({ brand, index, total, handlers }: BrandRowProps) {
               label: 'Mover arriba',
               icon: ArrowUpIcon,
               onSelect: () => handlers.move(brand, 'up'),
-              disabled: index === 0,
+              disabled: !reorderable || index === 0,
             },
             {
               label: 'Mover abajo',
               icon: ArrowDownIcon,
               onSelect: () => handlers.move(brand, 'down'),
-              disabled: index === total - 1,
+              disabled: !reorderable || index === total - 1,
             },
             {
               label: brand.isActive ? 'Desactivar' : 'Activar',

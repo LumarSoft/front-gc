@@ -54,7 +54,10 @@ export function ContextualSaveBar({ dirty, saving, onSave, onDiscard }: Contextu
 
 type SaveBarProps = Omit<ContextualSaveBarProps, 'dirty'> & { saveHint: string; state: 'open' | 'closed' }
 
-/** Raised dark surface (lighter than the frame) so it reads apart from the sidebar behind it. */
+/**
+ * Raised dark surface (lighter than the frame) so it reads apart from the sidebar behind it. On phones and tablets it
+ * covers the whole top bar, so the logo and account do not peek out around it.
+ */
 function SaveBar({ state, saving, saveHint, onSave, onDiscard }: SaveBarProps) {
   return (
     <div
@@ -62,7 +65,7 @@ function SaveBar({ state, saving, saveHint, onSave, onDiscard }: SaveBarProps) {
       aria-label="Cambios sin guardar"
       data-state={state}
       inert={state === 'closed'}
-      className="fixed inset-x-3 top-3 z-50 mx-auto flex w-fit max-w-full items-center gap-2 rounded-xl bg-frame-raised py-1.5 pr-1.5 pl-3.5 text-white shadow-2xl ring-1 ring-white/10 motion-safe:data-[state=closed]:animate-lift-out motion-safe:data-[state=open]:animate-drop-in lg:left-55"
+      className="fixed inset-x-0 top-0 z-50 flex h-13 items-center gap-2 bg-frame-raised pr-2 pl-4 text-white shadow-2xl motion-safe:data-[state=closed]:animate-lift-out motion-safe:data-[state=open]:animate-drop-in lg:inset-x-3 lg:top-3 lg:left-55 lg:mx-auto lg:h-auto lg:w-fit lg:max-w-full lg:rounded-xl lg:py-1.5 lg:pr-1.5 lg:pl-3.5 lg:ring-1 lg:ring-white/10"
     >
       <WarningCircleIcon className="size-4.5 shrink-0 text-frame-muted max-sm:hidden" />
       <p className="mr-6 min-w-0 flex-1 truncate text-sm font-medium" role="status">

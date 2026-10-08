@@ -8,11 +8,15 @@ import { BrandFormDialog } from '@/src/features/admin/components/brands/brand-fo
 import { BrandRow } from '@/src/features/admin/components/brands/brand-row'
 import { ArchiveConfirmDialog } from '@/src/features/admin/components/common/archive-confirm-dialog'
 import { ListCard } from '@/src/features/admin/components/common/list-card'
+import { ListFilters } from '@/src/features/admin/components/common/list-filters'
+import { NoMatches } from '@/src/features/admin/components/common/no-matches'
 import { useAdminBrands } from '@/src/features/admin/hooks/use-admin-brands'
 import { useArchiveConfirm } from '@/src/features/admin/hooks/use-archive-confirm'
 import { useBrandHandlers } from '@/src/features/admin/hooks/use-brand-handlers'
 import { useEditorState } from '@/src/features/admin/hooks/use-editor-state'
+import { useListFilter } from '@/src/features/admin/hooks/use-list-filter'
 import { brandArchiveBlocker } from '@/src/features/admin/lib/brand-form'
+import { filterByVisibility, type VisibilityView, visibilityCounts } from '@/src/features/admin/lib/taxonomy-filter'
 import type { AdminBrand } from '@/src/types/api/admin-catalog'
 
 export function BrandsView() {
@@ -27,6 +31,9 @@ export function BrandsView() {
     </Button>
   )
   const { state } = editor
+  const filter = useListFilter<VisibilityView>()
+  const shown = filterByVisibility(brands, filter.view, filter.term)
+  const counts = visibilityCounts(brands)
 
   return (
     <>
@@ -36,22 +43,50 @@ export function BrandsView() {
         actions={createButton}
       />
       <ListCard
+        toolbar={
+          brands.length > 0 && (
+            <ListFilters
+              label="Marcas"
+              views={[
+                { value: undefined, label: 'Todas' },
+                { value: 'active', label: 'Activas', count: counts.active },
+                { value: 'inactive', label: 'Inactivas', count: counts.inactive },
+              ]}
+              view={filter.view}
+              onViewChange={filter.setView}
+              term={filter.term}
+              onTermChange={filter.setTerm}
+              placeholder="Buscá por nombre"
+            />
+          )
+        }
         isPending={isPending}
         isError={isError}
         onRetry={() => void refetch()}
-        isEmpty={brands.length === 0}
+        isEmpty={shown.length === 0}
         empty={
-          <EmptyState
-            icon={<TrademarkIcon />}
-            title="Todavía no hay marcas"
-            description="Agregá las marcas que vendés para poder asignarlas a los productos."
-            action={createButton}
-          />
+          filter.filtered ? (
+            <NoMatches icon={TrademarkIcon} title="Ninguna marca coincide" onClear={filter.clear} />
+          ) : (
+            <EmptyState
+              icon={<TrademarkIcon />}
+              title="Todavía no hay marcas"
+              description="Agregá las marcas que vendés para poder asignarlas a los productos."
+              action={createButton}
+            />
+          )
         }
       >
         <ul className="divide-y">
-          {brands.map((brand, index) => (
-            <BrandRow key={brand.id} brand={brand} index={index} total={brands.length} handlers={handlers} />
+          {shown.map((brand, index) => (
+            <BrandRow
+              key={brand.id}
+              brand={brand}
+              index={index}
+              total={shown.length}
+              reorderable={!filter.filtered}
+              handlers={handlers}
+            />
           ))}
         </ul>
       </ListCard>
