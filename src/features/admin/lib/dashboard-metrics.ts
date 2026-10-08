@@ -7,10 +7,10 @@ export function percentChange(current: number, previous: number): number | null 
   return Math.round(((current - previous) / previous) * 100)
 }
 
-/** "+72 %", "−7 %", "0 %" (true minus sign, Argentine spacing). */
-export function formatChange(change: number): string {
-  if (change === 0) return '0 %'
-  return `${change > 0 ? '+' : '−'}${Math.abs(change)} %`
+/** "+72 %", "−7 %", "0 %" (true minus sign, Argentine spacing); `unit` "pp" for a change between two shares. */
+export function formatChange(change: number, unit: '%' | 'pp' = '%'): string {
+  if (change === 0) return `0 ${unit}`
+  return `${change > 0 ? '+' : '−'}${Math.abs(change)} ${unit}`
 }
 
 const compact = new Intl.NumberFormat('es-AR', { notation: 'compact', maximumFractionDigits: 2 })

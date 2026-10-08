@@ -1,5 +1,5 @@
 import type { Icon } from '@phosphor-icons/react'
-import { BuildingsIcon, GearSixIcon, HouseIcon, PackageIcon, TrayIcon } from '@phosphor-icons/react'
+import { BuildingsIcon, ChartLineIcon, GearSixIcon, HouseIcon, PackageIcon, TrayIcon } from '@phosphor-icons/react'
 
 export type AdminNavLink = {
   label: string
@@ -41,6 +41,7 @@ export const ADMIN_NAV: AdminNavItem[] = [
     icon: BuildingsIcon,
     badge: 'wholesalePending',
   },
+  { label: 'Estadísticas', href: '/admin/estadisticas', icon: ChartLineIcon },
 ]
 
 /** Store settings, at the bottom of the sidebar like Shopify's "Configuración". */
