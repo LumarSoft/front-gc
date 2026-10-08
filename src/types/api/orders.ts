@@ -30,7 +30,16 @@ export type Order = {
     province: string | null
     postalCode: string | null
   } | null
-  items: { name: string; variantName: string | null; sku: string; quantity: number; unitPrice: Money; total: Money }[]
+  items: {
+    name: string
+    variantName: string | null
+    sku: string
+    quantity: number
+    unitPrice: Money
+    total: Money
+    /** The product's current first image (a thumbnail, not part of the snapshot); null without images. */
+    imageUrl: string | null
+  }[]
   /** `note` and `by` (staff name, null for the system) only come in admin responses. */
   history: { status: OrderStatus; at: string; note?: string | null; by?: string | null }[]
   allowedStatuses?: OrderStatus[]

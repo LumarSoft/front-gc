@@ -1,6 +1,7 @@
 import { CircleNotchIcon, PackageIcon } from '@phosphor-icons/react'
 import { Button } from '@/src/components/ui/button'
 import { AdminCard } from '@/src/features/admin/components/common/admin-card'
+import { ItemThumb } from '@/src/features/admin/components/common/item-thumb'
 import { OrderFulfillmentBadge } from '@/src/features/admin/components/orders/order-badges'
 import { DELIVERY_LABELS, NEXT_STEP_LABELS } from '@/src/features/admin/lib/order-display'
 import { formatMoneyExact } from '@/src/lib/format'
@@ -40,9 +41,7 @@ export function OrderItemsCard({ order, nextStep, pending, onStep }: OrderItemsC
       <ul className="flex flex-col gap-3">
         {order.items.map(item => (
           <li key={item.sku} className="flex items-start gap-3">
-            <span className="grid size-10 shrink-0 place-items-center rounded-lg border bg-background text-muted-foreground">
-              <PackageIcon className="size-5" />
-            </span>
+            <ItemThumb url={item.imageUrl} fallbackIcon={PackageIcon} />
             {/* Phones: price under the name. From sm: name, unit price and line total in one row. */}
             <div className="min-w-0 flex-1 sm:flex sm:items-start sm:gap-4">
               <div className="min-w-0 flex-1">
