@@ -1,3 +1,5 @@
+import { chartPoints, smoothPath } from '@/src/features/admin/lib/chart-scale'
+
 type SparklineProps = {
   values: number[]
   className?: string
@@ -5,14 +7,13 @@ type SparklineProps = {
 
 /** Tiny trend line next to a headline number. Decorative: the number and its change carry the information. */
 export function Sparkline({ values, className }: SparklineProps) {
-  const max = Math.max(...values, 1)
-  const step = values.length > 1 ? 100 / (values.length - 1) : 0
-  const points = values.map((value, index) => `${index * step},${28 - (value / max) * 26}`).join(' ')
+  // 2 px of room top and bottom so the 1.5 px stroke is never clipped.
+  const line = smoothPath(chartPoints(values, Math.max(...values, 1), 100, 26).map(([x, y]) => [x, y + 2] as const))
 
   return (
     <svg aria-hidden viewBox="0 0 100 30" preserveAspectRatio="none" className={className}>
-      <polyline
-        points={points}
+      <path
+        d={line}
         fill="none"
         stroke="var(--chart-series)"
         strokeWidth={1.5}

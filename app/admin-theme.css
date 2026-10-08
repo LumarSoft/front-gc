@@ -102,7 +102,8 @@ html:has([data-admin-shell]) {
   --frame-accent: #2d2d2d;
   /* Floating dark surfaces (save bar, bulk bar): lighter than the frame so they stand out against it. */
   --frame-raised: #262626;
-  --canvas: #f1f1f1;
+  /* White page around the cards, like Shopify's admin; cards separate with a hairline border and a soft shadow. */
+  --canvas: #ffffff;
   --table-head: #f7f7f7;
   /* Single-series charts (admin home). Validated against the white card: lightness, chroma, contrast ≥ 3:1. */
   --chart-series: #2c6ecb;
@@ -143,7 +144,9 @@ html:has([data-admin-shell]) {
   --tone-neutral: #e3e3e3;
   --tone-neutral-foreground: #4a4a4a;
 
-  --shadow-card: 0 0 0 1px rgb(26 26 26 / 0.07), 0 1px 0 1px rgb(26 26 26 / 0.05);
+  --shadow-card: 0 0 0 1px #e8e8e8, 0 1px 2px rgb(0 0 0 / 0.04), 0 3px 10px -2px rgb(0 0 0 / 0.06);
+  /* Card corners, measured on the reference (~20 px). */
+  --radius-card: 1.25rem;
   --shadow-button: inset 0 -1px 0 0 #b5b5b5, inset 0 0 0 1px rgb(0 0 0 / 0.1), inset 0 0.5px 0 1.5px #ffffff;
   --shadow-button-pressed: inset 0 2px 1px 0 rgb(26 26 26 / 0.2), inset 0 0 0 1px rgb(0 0 0 / 0.1);
   --shadow-button-primary:
@@ -164,6 +167,7 @@ html:has([data-admin-shell]) {
 
 @layer utilities {
   html:has([data-admin-shell]) [data-slot='card'] {
+    border-radius: var(--radius-card);
     box-shadow: var(--shadow-card);
   }
 
