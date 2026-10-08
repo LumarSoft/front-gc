@@ -16,6 +16,13 @@ The store needs the API running: keep `api-gc` up to date too (its own `npm run 
 
 ---
 
+## 2026-10-08 — Admin home
+
+Pull `api-gc` too (LumarSoft/api-gc#20: `GET /admin/dashboard`) and restart it. With an older API the admin home shows
+"No pudimos cargar el resumen" with a retry button; the rest of the panel works.
+
+---
+
 ## 2026-10-07 — Bulk actions in the admin product list
 
 Pull `api-gc` too (LumarSoft/api-gc#19: `POST /admin/products/bulk`) and restart it. With an older API the selection bar

@@ -28,9 +28,10 @@ export function AdminShell({ user, children }: AdminShellProps) {
       <AdminSearchProvider>
         <div data-admin-shell className="flex min-h-dvh flex-1 bg-frame text-foreground">
           <AdminSidebar user={user} />
-          <div className="flex min-w-0 flex-1 flex-col">
+          {/* Padding, not margins, around the panel: margins would add to the full-height frame and always scroll. */}
+          <div className="flex min-w-0 flex-1 flex-col lg:py-1 lg:pr-1">
             <AdminTopbar user={user} />
-            <div className="flex flex-1 flex-col bg-canvas lg:my-1 lg:mr-1 lg:rounded-xl">
+            <div className="flex flex-1 flex-col bg-canvas lg:rounded-xl">
               <main className="mx-auto w-full max-w-7xl flex-1 px-4 pt-4 pb-28 sm:px-6 lg:px-8 lg:pt-5 lg:pb-12">
                 {children}
               </main>
