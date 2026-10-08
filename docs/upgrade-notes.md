@@ -16,6 +16,13 @@ The store needs the API running: keep `api-gc` up to date too (its own `npm run 
 
 ---
 
+## 2026-10-08 — Photos on order lines
+
+Pull `api-gc` too (LumarSoft/api-gc#24: `items[].imageUrl` in order responses) and restart it. With an older API the
+order page keeps showing the generic box icon on each line.
+
+---
+
 ## 2026-10-08 — Frequent customers in the admin
 
 Pull `api-gc` too (LumarSoft/api-gc#23: `GET /admin/wholesale-applications?q=` and `/counts`) and restart it. With an
