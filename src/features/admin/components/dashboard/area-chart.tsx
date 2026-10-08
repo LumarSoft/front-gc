@@ -36,6 +36,7 @@ export function AreaChart({ title, values, labels, formatValue, formatAxis = for
         aria-label={`${title}. Usá las flechas para recorrer los días.`}
         tabIndex={0}
         onPointerMove={hover.onPointerMove}
+        onPointerDown={hover.onPointerMove}
         onPointerLeave={hover.clear}
         onKeyDown={hover.onKeyDown}
         onBlur={hover.clear}
@@ -74,9 +75,8 @@ export function AreaChart({ title, values, labels, formatValue, formatAxis = for
         {active !== null && (
           <ChartTooltip
             leftPercent={left(active)}
-            topPercent={100 - (values[active] / max) * 100}
-            label={labels[active]}
-            value={formatValue(values[active])}
+            points={[{ topPercent: 100 - (values[active] / max) * 100, tone: 'series' }]}
+            rows={[{ label: labels[active], value: formatValue(values[active]) }]}
           />
         )}
       </div>

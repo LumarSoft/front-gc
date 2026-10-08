@@ -15,6 +15,8 @@
   --color-table-head: var(--table-head);
   --color-chart-series: var(--chart-series);
   --color-chart-grid: var(--chart-grid);
+  --color-chart-comparison: var(--chart-comparison);
+  --color-chart-track: var(--chart-track);
 
   /* Status tones (badges, inline notices): background + readable text. */
   --color-tone-success: var(--tone-success);
@@ -108,6 +110,11 @@ html:has([data-admin-shell]) {
   /* Single-series charts (admin home). Validated against the white card: lightness, chroma, contrast ≥ 3:1. */
   --chart-series: #2c6ecb;
   --chart-grid: #ebebeb;
+  /* The previous period, drawn next to the current one: a de-emphasis gray, not a second hue (ΔE 16 from the series
+     under protanopia, contrast ≥ 3:1 on white). */
+  --chart-comparison: #8a8a8a;
+  /* Unfilled part of a bar in bar lists. */
+  --chart-track: #f1f1f1;
 
   --background: #ffffff;
   --foreground: #303030;

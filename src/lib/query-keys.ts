@@ -1,6 +1,7 @@
 import type { AdminProductsQuery } from '@/src/types/api/admin-products'
 import type { AdminOrdersQuery } from '@/src/types/api/orders'
 import type { AdminWholesaleQuery } from '@/src/types/api/wholesale'
+import type { AdminAnalyticsQuery } from '@/src/types/api/admin-analytics'
 
 export const QUERY_KEYS = {
   currentUser: ['auth', 'current-user'],
@@ -35,6 +36,7 @@ export const QUERY_KEYS = {
     orderCounts: ['admin', 'orders', 'counts'],
     dashboard: ['admin', 'dashboard'],
     dashboardFor: (range: { from: string; to: string }) => ['admin', 'dashboard', range] as const,
+    analytics: (query: AdminAnalyticsQuery) => ['admin', 'analytics', query] as const,
     settings: ['admin', 'settings'],
     order: (id: number) => ['admin', 'orders', 'detail', id] as const,
   },
