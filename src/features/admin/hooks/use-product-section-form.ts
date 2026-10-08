@@ -1,8 +1,9 @@
 'use client'
 
 import { type DefaultValues, type FieldValues, type Resolver, useForm } from 'react-hook-form'
-import type { AdminProduct, UpdateProductInput } from '@/src/types/api/admin-products'
 import { useProductMutations } from '@/src/features/admin/hooks/use-product-mutations'
+import { prepareForm } from '@/src/features/admin/lib/form-submit'
+import type { AdminProduct, UpdateProductInput } from '@/src/types/api/admin-products'
 
 type UseProductSectionFormOptions<TValues extends FieldValues> = {
   product: AdminProduct
@@ -14,8 +15,9 @@ type UseProductSectionFormOptions<TValues extends FieldValues> = {
 }
 
 /**
- * A product editor section backed by the general PATCH. The form follows the saved product (`values`), so after a
- * save it is clean again; other sections' saves do not touch its unsaved edits (their values are unchanged).
+ * A product editor section backed by the general PATCH, saved through the page's save bar. The form follows the saved
+ * product (`values`), so after a save it is clean again; other sections' saves do not touch its unsaved edits (their
+ * values are unchanged).
  */
 export function useProductSectionForm<TValues extends FieldValues>({
   product,
@@ -29,9 +31,10 @@ export function useProductSectionForm<TValues extends FieldValues>({
 
   return {
     form,
-    dirty: form.formState.isDirty,
-    pending: update.isPending,
-    save: form.handleSubmit(formValues => update.mutate(toInput(formValues))),
-    discard: () => form.reset(values),
+    section: {
+      dirty: form.formState.isDirty,
+      prepare: () => prepareForm(form, formValues => update.mutateAsync(toInput(formValues))),
+      discard: () => form.reset(values),
+    },
   }
 }

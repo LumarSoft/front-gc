@@ -1,7 +1,7 @@
 'use client'
 
 import { Controller } from 'react-hook-form'
-import { EditorSection } from '@/src/features/admin/components/common/editor-section'
+import { ProductEditorCard } from '@/src/features/admin/components/products/editor/product-editor-card'
 import { useProductSectionForm } from '@/src/features/admin/hooks/use-product-section-form'
 import { OUT_OF_STOCK_OPTIONS } from '@/src/features/admin/lib/product-labels'
 import { cn } from '@/src/lib/utils'
@@ -12,21 +12,14 @@ type AvailabilityValues = { outOfStockBehavior: OutOfStockBehavior }
 
 /** What the store does when the product runs out of stock. */
 export function AvailabilitySection({ product }: { product: AdminProduct }) {
-  const { form, dirty, pending, save, discard } = useProductSectionForm<AvailabilityValues>({
+  const { form, section } = useProductSectionForm<AvailabilityValues>({
     product,
     toValues: ({ outOfStockBehavior }) => ({ outOfStockBehavior }),
     toInput: values => values,
   })
 
   return (
-    <EditorSection
-      title="Sin stock"
-      description="Qué ve el cliente cuando se agota."
-      dirty={dirty}
-      pending={pending}
-      onSave={save}
-      onDiscard={discard}
-    >
+    <ProductEditorCard title="Sin stock" description="Qué ve el cliente cuando se agota." section={section}>
       <Controller
         control={form.control}
         name="outOfStockBehavior"
@@ -60,6 +53,6 @@ export function AvailabilitySection({ product }: { product: AdminProduct }) {
           </div>
         )}
       />
-    </EditorSection>
+    </ProductEditorCard>
   )
 }

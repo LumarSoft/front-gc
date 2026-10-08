@@ -1,6 +1,6 @@
 'use client'
 
-import { EditorSection } from '@/src/features/admin/components/common/editor-section'
+import { ProductEditorCard } from '@/src/features/admin/components/products/editor/product-editor-card'
 import { GalleryDropzone } from '@/src/features/admin/components/products/editor/gallery-dropzone'
 import { GalleryTile } from '@/src/features/admin/components/products/editor/gallery-tile'
 import { useGalleryDraft } from '@/src/features/admin/hooks/use-gallery-draft'
@@ -13,13 +13,16 @@ export function GallerySection({ product }: { product: AdminProduct }) {
   const uploader = useMultiImageUpload(gallery.add)
 
   return (
-    <EditorSection
+    <ProductEditorCard
       title="Imágenes"
       description="La primera es la principal. JPG, PNG, WebP o AVIF de hasta 5 MB."
-      dirty={gallery.dirty}
-      pending={gallery.pending || uploader.isUploading}
-      onSave={gallery.save}
-      onDiscard={gallery.discard}
+      section={{
+        ...gallery.section,
+        prepare: () =>
+          uploader.isUploading
+            ? Promise.resolve('Esperá a que terminen de subir las fotos.')
+            : gallery.section.prepare(),
+      }}
     >
       <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
         {gallery.items.map((item, index) => (
@@ -43,6 +46,6 @@ export function GallerySection({ product }: { product: AdminProduct }) {
           ))}
         </ul>
       )}
-    </EditorSection>
+    </ProductEditorCard>
   )
 }

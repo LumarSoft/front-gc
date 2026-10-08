@@ -5,7 +5,7 @@ import { FieldGroup } from '@/src/components/ui/field'
 import { FormField } from '@/src/components/ui/form-field'
 import { Input } from '@/src/components/ui/input'
 import { Textarea } from '@/src/components/ui/textarea'
-import { EditorSection } from '@/src/features/admin/components/common/editor-section'
+import { ProductEditorCard } from '@/src/features/admin/components/products/editor/product-editor-card'
 import { useProductSectionForm } from '@/src/features/admin/hooks/use-product-section-form'
 import {
   productGeneralSchema,
@@ -16,7 +16,7 @@ import type { AdminProduct } from '@/src/types/api/admin-products'
 
 /** Name, URL, descriptions and warranty. */
 export function GeneralSection({ product }: { product: AdminProduct }) {
-  const { form, dirty, pending, save, discard } = useProductSectionForm({
+  const { form, section } = useProductSectionForm({
     product,
     resolver: zodResolver(productGeneralSchema),
     toValues: productGeneralValues,
@@ -25,7 +25,7 @@ export function GeneralSection({ product }: { product: AdminProduct }) {
   const { errors } = form.formState
 
   return (
-    <EditorSection title="Información" dirty={dirty} pending={pending} onSave={save} onDiscard={discard}>
+    <ProductEditorCard title="Información" section={section}>
       <FieldGroup className="gap-5">
         <FormField id="product-name" label="Nombre" error={errors.name}>
           <Input id="product-name" aria-invalid={!!errors.name} {...form.register('name')} />
@@ -63,6 +63,6 @@ export function GeneralSection({ product }: { product: AdminProduct }) {
           <Input id="product-warranty" inputMode="numeric" className="sm:w-32" {...form.register('warrantyMonths')} />
         </FormField>
       </FieldGroup>
-    </EditorSection>
+    </ProductEditorCard>
   )
 }
