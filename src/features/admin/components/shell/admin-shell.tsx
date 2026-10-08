@@ -15,6 +15,7 @@ const TOAST_STYLE = {
   '--normal-bg': 'var(--frame)',
   '--normal-text': 'white',
   '--normal-border': 'var(--frame)',
+  '--border-radius': 'var(--radius)',
 } as React.CSSProperties
 
 /**
