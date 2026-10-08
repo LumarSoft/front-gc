@@ -16,6 +16,15 @@ The store needs the API running: keep `api-gc` up to date too (its own `npm run 
 
 ---
 
+## 2026-10-07 — Admin orders views, search and counters
+
+Pull `api-gc` too (LumarSoft/api-gc#18: `GET /admin/orders?stage=&q=` and `GET /admin/orders/counts`) and restart it.
+With an older API, choosing a view or searching shows an error (it rejects the new parameters) and the "Pedidos"
+counter stays hidden. No doctor
+check: every `/admin` route answers 401 without a session, old or new, so the version cannot be told apart.
+
+---
+
 ## 2026-10-06 — Frequent customers
 
 Needs the matching `api-gc` change (`/wholesale-applications`): pull it and restart the API. `npm run doctor` checks

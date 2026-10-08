@@ -1,17 +1,20 @@
 import Link from 'next/link'
+import { NavCount } from '@/src/features/admin/components/shell/nav-count'
 import { isNavLinkActive, isNavSectionActive, type AdminNavItem } from '@/src/features/admin/lib/admin-nav'
 import { cn } from '@/src/lib/utils'
 
 type AdminNavEntryProps = {
   item: AdminNavItem
   pathname: string
+  /** Waiting work in this section (e.g. orders to process). */
+  count?: number
 }
 
 const LINK =
   'flex items-center rounded-lg text-sm transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none'
 
 /** One section: its link and, while the admin is inside it, its sub-sections unfolding underneath. */
-export function AdminNavEntry({ item, pathname }: AdminNavEntryProps) {
+export function AdminNavEntry({ item, pathname, count }: AdminNavEntryProps) {
   const open = isNavSectionActive(item, pathname)
   const current = isNavLinkActive(item, pathname)
   const Icon = item.icon
@@ -30,6 +33,7 @@ export function AdminNavEntry({ item, pathname }: AdminNavEntryProps) {
       >
         <Icon weight={open ? 'fill' : 'regular'} className="size-4.5 shrink-0" />
         {item.label}
+        <NavCount count={count} className="ml-auto bg-white/12 text-white" />
       </Link>
       {item.children && (
         <div

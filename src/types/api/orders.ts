@@ -31,8 +31,11 @@ export type Order = {
     postalCode: string | null
   } | null
   items: { name: string; variantName: string | null; sku: string; quantity: number; unitPrice: Money; total: Money }[]
-  history: { status: OrderStatus; at: string }[]
+  /** `note` and `by` (staff name, null for the system) only come in admin responses. */
+  history: { status: OrderStatus; at: string; note?: string | null; by?: string | null }[]
   allowedStatuses?: OrderStatus[]
+  /** Placed without an account. Admin responses only. */
+  guest?: boolean
 }
 export type OrdersPage = {
   items: Order[]
@@ -42,3 +45,9 @@ export type OrdersPage = {
   totalPages: number
   expiryJobFailed: boolean
 }
+
+/** Admin list views: groups of states. */
+export type OrderStage = 'PENDING_PAYMENT' | 'TO_FULFILL' | 'READY' | 'CLOSED'
+export type AdminOrdersQuery = { page?: number; pageSize?: number; stage?: OrderStage; q?: string }
+/** Orders waiting in each open stage. */
+export type OrderCounts = Record<Exclude<OrderStage, 'CLOSED'>, number>

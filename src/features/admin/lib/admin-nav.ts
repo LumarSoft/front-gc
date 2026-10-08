@@ -14,12 +14,16 @@ export type AdminNavItem = AdminNavLink & {
   pinned?: boolean
   /** Sub-sections, shown under the item while the admin is anywhere inside it. */
   children?: AdminNavLink[]
+  /** Counter next to the label (work waiting in that section). */
+  badge?: AdminNavBadge
 }
+
+export type AdminNavBadge = 'ordersWaiting'
 
 /** Admin sections. Each admin PR adds its section here when its page exists, so there are no dead links. */
 export const ADMIN_NAV: AdminNavItem[] = [
   { label: 'Inicio', href: '/admin', icon: HouseIcon, exact: true, pinned: true },
-  { label: 'Pedidos', href: '/admin/pedidos', icon: TrayIcon, pinned: true },
+  { label: 'Pedidos', href: '/admin/pedidos', icon: TrayIcon, pinned: true, badge: 'ordersWaiting' },
   {
     label: 'Productos',
     href: '/admin/productos',
