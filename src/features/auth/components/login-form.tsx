@@ -13,6 +13,7 @@ import { PasswordInput } from '@/src/features/auth/components/password-input'
 import { SubmitButton } from '@/src/features/auth/components/submit-button'
 import { useLogin } from '@/src/features/auth/hooks/use-auth-mutations'
 import { getAuthErrorMessage } from '@/src/features/auth/lib/auth-error-message'
+import { afterLoginPath } from '@/src/features/auth/lib/safe-redirect'
 import { loginSchema, type LoginValues } from '@/src/features/auth/lib/auth-schemas'
 import { AUTH_INPUT_CLASS } from '@/src/features/auth/lib/field-styles'
 
@@ -27,7 +28,7 @@ export function LoginForm({ redirectTo }: LoginFormProps) {
   const { errors } = form.formState
 
   const onSubmit = form.handleSubmit(values =>
-    loginMutation.mutate(values, { onSuccess: () => router.replace(redirectTo) }),
+    loginMutation.mutate(values, { onSuccess: user => router.replace(afterLoginPath(user.role, redirectTo)) }),
   )
 
   const registerHref = `/registro${redirectTo === '/' ? '' : `?redirect=${encodeURIComponent(redirectTo)}`}`
