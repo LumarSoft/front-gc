@@ -4,8 +4,8 @@ import { useState } from 'react'
 import { FormField } from '@/src/components/ui/form-field'
 import { Textarea } from '@/src/components/ui/textarea'
 import type { WholesaleDecision } from '@/src/types/api/wholesale'
-import { FormDialog } from '../common/form-dialog'
-import { DECISIONS_WITH_REASON } from '../../hooks/use-admin-wholesale'
+import { FormDialog } from '@/src/features/admin/components/common/form-dialog'
+import { DECISIONS_WITH_REASON } from '@/src/features/admin/lib/wholesale-display'
 
 const COPY: Record<WholesaleDecision, { title: string; description: string; submit: string }> = {
   approve: {

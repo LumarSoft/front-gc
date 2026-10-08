@@ -50,6 +50,17 @@ export type AdminWholesaleApplication = WholesaleApplication & {
   allowedDecisions: WholesaleDecision[]
 }
 
+/** GET /admin/wholesale-applications query; `q` matches names, CUIT and emails. */
+export type AdminWholesaleQuery = {
+  status?: WholesaleStatus
+  q?: string
+  page?: number
+  pageSize: number
+}
+
+/** Applications in each status (superseded ones included), for the list views and the nav badge. */
+export type WholesaleApplicationCounts = Record<WholesaleStatus, number>
+
 export type WholesaleApplicationsPage = {
   items: AdminWholesaleApplication[]
   page: number

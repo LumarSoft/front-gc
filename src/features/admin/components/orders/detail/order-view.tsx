@@ -4,13 +4,13 @@ import Link from 'next/link'
 import { TrayIcon } from '@phosphor-icons/react'
 import { Button } from '@/src/components/ui/button'
 import { Card } from '@/src/components/ui/card'
+import { DetailSkeleton } from '@/src/features/admin/components/common/detail-skeleton'
 import { EmptyState } from '@/src/components/ui/empty-state'
 import { QueryErrorState } from '@/src/features/admin/components/feedback/query-error-state'
 import { CancelOrderDialog } from '@/src/features/admin/components/orders/detail/cancel-order-dialog'
 import { ConfirmPaymentDialog } from '@/src/features/admin/components/orders/detail/confirm-payment-dialog'
 import { OrderCustomerCard } from '@/src/features/admin/components/orders/detail/order-customer-card'
 import { OrderDeliveryCard } from '@/src/features/admin/components/orders/detail/order-delivery-card'
-import { OrderDetailSkeleton } from '@/src/features/admin/components/orders/detail/order-detail-skeleton'
 import { OrderHeader } from '@/src/features/admin/components/orders/detail/order-header'
 import { OrderItemsCard } from '@/src/features/admin/components/orders/detail/order-items-card'
 import { OrderPaymentCard } from '@/src/features/admin/components/orders/detail/order-payment-card'
@@ -24,7 +24,7 @@ export function OrderView({ id }: { id: number }) {
   const { query, mutation } = useAdminOrder(id)
   const actions = useOrderActions(query.data, mutation)
 
-  if (query.isPending) return <OrderDetailSkeleton />
+  if (query.isPending) return <DetailSkeleton label="Cargando pedido" />
   if (query.isError) {
     const missing = query.error instanceof ApiError && query.error.status === 404
     return (

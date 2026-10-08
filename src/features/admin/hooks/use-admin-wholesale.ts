@@ -1,30 +1,35 @@
 'use client'
 
 import { useState } from 'react'
-import { useQuery } from '@tanstack/react-query'
+import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { QUERY_KEYS } from '@/src/lib/query-keys'
 import {
   decideWholesaleApplication,
   getAdminWholesaleApplication,
   getAdminWholesaleApplications,
+  getAdminWholesaleCounts,
 } from '@/src/services/wholesale.service'
-import type { WholesaleStatus } from '@/src/types/api/auth'
-import type { WholesaleDecision } from '@/src/types/api/wholesale'
+import type { AdminWholesaleQuery, WholesaleDecision } from '@/src/types/api/wholesale'
 import { useAdminMutation } from './use-admin-mutation'
 
-export function useAdminWholesaleApplications() {
-  const [page, setPage] = useState(1)
-  // Pending first: that is the staff's to-do list.
-  const [status, setStatus] = useState<WholesaleStatus | ''>('PENDING')
-  const query = useQuery({
-    queryKey: QUERY_KEYS.admin.wholesaleApplicationList(page, status),
-    queryFn: () => getAdminWholesaleApplications(page, status),
+/** Customers apply on their own: the counters refresh every minute while the panel is open. */
+const REFRESH_MS = 60_000
+
+export function useAdminWholesaleApplications(query: AdminWholesaleQuery) {
+  return useQuery({
+    queryKey: QUERY_KEYS.admin.wholesaleApplicationList(query),
+    queryFn: () => getAdminWholesaleApplications(query),
+    placeholderData: keepPreviousData,
   })
-  const filter = (value: WholesaleStatus | ''): void => {
-    setPage(1)
-    setStatus(value)
-  }
-  return { query, status, filter, setPage }
+}
+
+/** Applications per status: the list views and the "Clientes frecuentes" badge (pending ones). */
+export function useAdminWholesaleCounts() {
+  return useQuery({
+    queryKey: QUERY_KEYS.admin.wholesaleCounts,
+    queryFn: getAdminWholesaleCounts,
+    refetchInterval: REFRESH_MS,
+  })
 }
 
 const SUCCESS: Record<WholesaleDecision, string> = {
@@ -33,9 +38,6 @@ const SUCCESS: Record<WholesaleDecision, string> = {
   pause: 'Cuenta pausada',
   resume: 'Cuenta reactivada',
 }
-
-/** Decisions that must tell the customer why. */
-export const DECISIONS_WITH_REASON: WholesaleDecision[] = ['reject', 'pause']
 
 export function useAdminWholesaleApplication(id: number) {
   const [pendingDecision, setPendingDecision] = useState<WholesaleDecision | null>(null)
@@ -46,7 +48,8 @@ export function useAdminWholesaleApplication(id: number) {
   const mutation = useAdminMutation({
     mutationFn: ({ decision, note }: { decision: WholesaleDecision; note?: string }) =>
       decideWholesaleApplication(id, decision, note),
-    invalidate: [QUERY_KEYS.admin.wholesaleApplications],
+    // The prefix covers the lists, the counters and this application; the home's to-dos read the dashboard.
+    invalidate: [QUERY_KEYS.admin.wholesaleApplications, QUERY_KEYS.admin.dashboard],
     successMessage: (_, { decision }) => SUCCESS[decision],
     onSuccess: () => setPendingDecision(null),
   })

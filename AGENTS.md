@@ -123,7 +123,8 @@ Contact details and delivery are validated before a server-calculated review. Gu
 at `/pedidos`. Admin orders at `/admin/pedidos` (`src/features/admin/components/orders/`) list by stage with search and live counters (nav badge), and each order shows contextual next steps (mark paid with explicit verification, prepare, ready/shipped, delivered), cancellation with an internal reason and a staff history. No external providers
 or order emails are enabled. The provisional reservation window comes from the API (default 24 hours). **Frequent customers** ("clientes frecuentes", `wholesale` in code): `src/features/wholesale/` holds
 the application form and status (`/clientes-frecuentes/alta`) and shared labels; staff review at
-`/admin/clientes-frecuentes`. **Offers and favorites**: `/ofertas` reuses `CatalogView`
+`/admin/clientes-frecuentes` (`components/wholesale/`: status views with counters and a nav badge, search, and a detail
+page whose "Revisión" card holds the approve/reject/pause/resume decisions). **Offers and favorites**: `/ofertas` reuses `CatalogView`
 with `onSale`; `src/features/favorites/` holds the heart button (cards and product page) and `/favoritos`, for
 signed-in customers only (browser calls through `favorites.service.ts`). Linked
 sections that are not ready (legal, help, about/contact, assistant, configurator, frequent customers) render

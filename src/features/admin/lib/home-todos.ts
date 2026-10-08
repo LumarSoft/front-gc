@@ -9,7 +9,11 @@ export function homeTodos(orders: OrderCounts | undefined, todo: AdminDashboard[
     { label: 'Verificar pagos', count: orders?.PENDING_PAYMENT ?? 0, href: '/admin/pedidos?stage=PENDING_PAYMENT' },
     { label: 'Preparar pedidos', count: orders?.TO_FULFILL ?? 0, href: '/admin/pedidos?stage=TO_FULFILL' },
     { label: 'Entregar pedidos', count: orders?.READY ?? 0, href: '/admin/pedidos?stage=READY' },
-    { label: 'Revisar solicitudes', count: todo?.wholesalePending ?? 0, href: '/admin/clientes-frecuentes' },
+    {
+      label: 'Revisar solicitudes',
+      count: todo?.wholesalePending ?? 0,
+      href: '/admin/clientes-frecuentes?status=PENDING',
+    },
     {
       label: 'Reponer stock',
       count: todo?.publishedOutOfStock ?? 0,

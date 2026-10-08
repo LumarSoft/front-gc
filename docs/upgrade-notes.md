@@ -16,6 +16,14 @@ The store needs the API running: keep `api-gc` up to date too (its own `npm run 
 
 ---
 
+## 2026-10-08 — Frequent customers in the admin
+
+Pull `api-gc` too (LumarSoft/api-gc#23: `GET /admin/wholesale-applications?q=` and `/counts`) and restart it. With an
+older API the status counters and the "Clientes frecuentes" badge stay empty and the search is ignored (`npm run
+doctor` cannot tell: both API versions answer 401 without a session).
+
+---
+
 ## 2026-10-08 — Period picker on the admin home
 
 Pull `api-gc` too (LumarSoft/api-gc#22: `GET /admin/dashboard?from=&to=`) and restart it. With an older API the home
