@@ -16,6 +16,14 @@ The store needs the API running: keep `api-gc` up to date too (its own `npm run 
 
 ---
 
+## 2026-10-08 — Admin settings
+
+Pull `api-gc` too (LumarSoft/api-gc#21: `/admin/settings`) and restart it. "Configuración" moved to the bottom of the
+sidebar; "Cotización del dólar" now lives under it (same URL, `/admin/cotizacion`). Rosario delivery stays off until
+someone sets its rate there — the client has to provide the real rate and free-shipping amount.
+
+---
+
 ## 2026-10-08 — Admin home
 
 Pull `api-gc` too (LumarSoft/api-gc#20: `GET /admin/dashboard`) and restart it. With an older API the admin home shows
