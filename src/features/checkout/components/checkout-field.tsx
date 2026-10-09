@@ -11,9 +11,10 @@ type Props = {
   type?: 'text' | 'email' | 'tel'
   autoComplete: string
   description?: string
+  inputMode?: 'text' | 'numeric' | 'tel'
 }
 
-export function CheckoutField({ name, label, type = 'text', autoComplete, description }: Props) {
+export function CheckoutField({ name, label, type = 'text', autoComplete, description, inputMode }: Props) {
   const { register, getFieldState, formState } = useFormContext<CheckoutValues>()
   const { error } = getFieldState(name, formState)
   const id = `checkout-${name.replace('.', '-')}`
@@ -23,6 +24,7 @@ export function CheckoutField({ name, label, type = 'text', autoComplete, descri
         id={id}
         type={type}
         autoComplete={autoComplete}
+        inputMode={inputMode}
         aria-invalid={Boolean(error)}
         className="h-12 rounded-xl px-4"
         {...register(name)}

@@ -5,13 +5,13 @@ import type { Checkout } from '@/src/types/api/checkout'
 import { useCheckoutReviewFocus } from '../hooks/use-checkout-review-focus'
 import { usePlaceOrder } from '../hooks/use-place-order'
 import { useCartBusy } from '@/src/features/cart/hooks/use-cart'
+import { CheckoutDeliveryReview } from './checkout-delivery-review'
 
 export function CheckoutReview({ checkout, onEdit }: { checkout: Checkout; onEdit: () => void }) {
   const heading = useCheckoutReviewFocus()
   const { confirm, pending, error } = usePlaceOrder(checkout)
   const busy = useCartBusy()
   const customer = checkout.customer!
-  const delivery = checkout.deliveryOptions.find(option => option.code === checkout.deliveryMethod)
   return (
     <section className="space-y-6" aria-label="Revisión de la compra">
       <div>
@@ -26,17 +26,7 @@ export function CheckoutReview({ checkout, onEdit }: { checkout: Checkout; onEdi
         <p className="break-all text-sm text-muted-foreground">{customer.email}</p>
         {customer.phone && <p className="text-sm text-muted-foreground">{customer.phone}</p>}
       </div>
-      <div className="rounded-2xl border p-5">
-        <h3 className="font-bold">{delivery?.name}</h3>
-        {checkout.shippingAddress ? (
-          <p className="mt-3 text-sm">
-            {checkout.shippingAddress.street} {checkout.shippingAddress.streetNumber}, {checkout.shippingAddress.city},{' '}
-            {checkout.shippingAddress.province} · CP {checkout.shippingAddress.postalCode}
-          </p>
-        ) : (
-          <p className="mt-3 text-sm text-muted-foreground">Retiro sin costo en nuestro local de Rosario.</p>
-        )}
-      </div>
+      <CheckoutDeliveryReview checkout={checkout} />
       <div className="rounded-2xl bg-surface p-5">
         <h3 className="font-bold">Pago a coordinar con el local</h3>
         <p className="mt-2 text-sm text-muted-foreground">

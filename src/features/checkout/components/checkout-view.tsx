@@ -68,7 +68,7 @@ export function CheckoutView() {
             user={user}
             pending={pending || query.isFetching}
             error={error}
-            onPreview={input => preview.mutate(input)}
+            onPreview={(input, options) => preview.mutate(input, options)}
           />
         </div>
       </div>

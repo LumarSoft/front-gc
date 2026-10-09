@@ -4,21 +4,23 @@ import Link from 'next/link'
 import { FormProvider } from 'react-hook-form'
 import { Button } from '@/src/components/ui/button'
 import type { AuthUser } from '@/src/types/api/auth'
-import type { Checkout, PreviewCheckoutRequest } from '@/src/types/api/checkout'
-import { useCheckoutForm } from '../hooks/use-checkout-form'
+import type { Checkout } from '@/src/types/api/checkout'
+import { useCheckoutForm, type PreviewHandler } from '../hooks/use-checkout-form'
+import { CarrierShipping } from './carrier/carrier-shipping'
 import { CheckoutField } from './checkout-field'
 import { CheckoutDelivery } from './checkout-delivery'
+import { CheckoutPhoneField } from './checkout-phone-field'
 
 type Props = {
   checkout: Checkout
   user: AuthUser | null | undefined
   pending: boolean
   error: string | null
-  onPreview: (input: PreviewCheckoutRequest) => void
+  onPreview: PreviewHandler
 }
 
 export function CheckoutForm({ checkout, user, pending, error, onPreview }: Props) {
-  const { form, submit } = useCheckoutForm(user, onPreview)
+  const { form, quotes, submit } = useCheckoutForm(user, onPreview)
   return (
     <FormProvider {...form}>
       <form onSubmit={submit} noValidate className="space-y-8">
@@ -42,15 +44,11 @@ export function CheckoutForm({ checkout, user, pending, error, onPreview }: Prop
               autoComplete="email"
               description="Queda como contacto del pedido. Por ahora, las novedades se consultan con tu enlace privado."
             />
-            <CheckoutField
-              name="phone"
-              label="Teléfono (opcional)"
-              type="tel"
-              autoComplete="tel"
-              description="Para coordinar el envío o el retiro."
-            />
+            <CheckoutPhoneField />
           </section>
-          <CheckoutDelivery options={checkout.deliveryOptions} />
+          <CheckoutDelivery options={checkout.deliveryOptions}>
+            <CarrierShipping quotes={quotes} />
+          </CheckoutDelivery>
           {error && (
             <p role="alert" className="rounded-xl border border-destructive p-4 text-sm text-destructive">
               {error}
