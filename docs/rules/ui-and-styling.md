@@ -28,8 +28,8 @@ Product photos on colored surfaces (the home hero shortcuts, `public/images/home
 the white background removed (cropped above the mirror reflection under the product), saved as WebP with transparency.
 Only dark products cut out cleanly; white printers keep their photo on a white card. The home promo banners
 (`promo-*.webp`) are finished artwork that already carries its text: the card only adds the button, so a new banner
-must keep its copy on the left with free space under it. The home hero (`hero-ecotank-l5590.webp`) is a full scene photo with an empty left third: the copy, badges
-and buttons go over it from `xl`, and under it on smaller screens.
+must keep its copy on the left with free space under it. The home hero (`hero-home.webp`) is a full scene photo with empty space on both sides of the printer: from `xl` the
+copy goes over the left side and the category shortcuts over the right; below `xl` the photo sits under the copy.
 
 ## Store logo
 
