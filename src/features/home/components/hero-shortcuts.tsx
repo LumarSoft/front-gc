@@ -24,7 +24,7 @@ const SHORTCUTS = [
   },
 ]
 
-/** Category shortcuts beside the hero carousel (stacked on desktop, a swipeable row on phones). */
+/** Category shortcuts beside the hero banner (stacked on desktop, a swipeable row on phones). */
 export function HeroShortcuts() {
   return (
     <ul className="no-scrollbar -mx-4 flex snap-x snap-mandatory scroll-px-4 gap-3 overflow-x-auto px-4 sm:-mx-6 sm:scroll-px-6 sm:px-6 lg:mx-0 lg:grid lg:grid-cols-1 lg:overflow-visible lg:px-0">
