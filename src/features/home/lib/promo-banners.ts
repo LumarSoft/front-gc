@@ -26,7 +26,7 @@ export const PROMO_BANNERS: PromoBanner[] = [
   {
     eyebrow: 'Soluciones',
     title: 'para tu negocio.',
-    text: 'Oficina, diseño, cartelería y más.',
+    text: 'Oficina, diseño y cartelería.',
     cta: { label: 'Ver soluciones', href: '/categorias/impresoras-oficina' },
     image: '/images/home/ecotank-l6270.webp',
     tone: 'muted',
@@ -34,7 +34,7 @@ export const PROMO_BANNERS: PromoBanner[] = [
   {
     eyebrow: 'Ofertas',
     title: 'destacadas',
-    text: 'Equipos e insumos al mejor precio.',
+    text: 'Equipos e insumos en oferta.',
     cta: { label: 'Ver ofertas', href: '/ofertas' },
     image: '/images/home/ecotank-l8180.webp',
     tone: 'dark',
