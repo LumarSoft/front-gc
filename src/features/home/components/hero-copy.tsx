@@ -1,11 +1,10 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
-import { HeroBadges } from '@/src/features/home/components/hero-badges'
 
 // TODO(admin): hero copy will be managed from the admin panel (banners).
 
-/** Hero text: the page's h1, badges and the two calls to action. */
+/** Hero text: the page's h1 and the two calls to action. */
 export function HeroCopy() {
   return (
     <div className="max-w-md">
@@ -19,15 +18,14 @@ export function HeroCopy() {
           className="h-4 w-auto brightness-0 invert"
         />
       </p>
-      <h1 className="mt-4 text-5xl leading-none font-extrabold tracking-tight sm:text-6xl xl:text-7xl">
+      <h1 className="mt-3 text-5xl leading-none font-extrabold tracking-tight sm:text-6xl xl:text-7xl">
         <span className="block">Imprimí</span>
         <span className="block text-highlight-soft">tus ideas.</span>
       </h1>
-      <p className="mt-5 text-base text-pretty text-navy-foreground/85 lg:text-lg">
+      <p className="mt-4 text-base text-pretty text-navy-foreground/85 lg:text-lg">
         Equipos, insumos y asesoramiento para que tu impresión siempre sea un paso más grande.
       </p>
-      <HeroBadges className="mt-6" />
-      <div className="mt-8 flex flex-wrap gap-3">
+      <div className="mt-6 flex flex-wrap gap-3">
         <Link
           href="/productos"
           className="group inline-flex h-12 items-center gap-2 rounded-full bg-background px-6 text-base font-bold text-primary transition-colors hover:bg-accent"
