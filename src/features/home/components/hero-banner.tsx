@@ -16,7 +16,7 @@ export function HeroBanner() {
           alt="Impresora Epson EcoTank L5590 imprimiendo una ilustración a todo color"
           fill
           preload
-          quality={85}
+          quality={90}
           sizes="(min-width: 1536px) 1536px, 100vw"
           className="object-cover object-center"
         />
