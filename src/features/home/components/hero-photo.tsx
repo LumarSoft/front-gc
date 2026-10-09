@@ -10,6 +10,7 @@ type HeroPhotoProps = {
 /**
  * Hero photo: empty blue on the left (copy), the printer in the middle, empty room on the right (shortcuts).
  * Up to xl it is a block under the copy; from xl it fills the hero, capped at 8xl with its edges faded into navy.
+ * The hero is shorter than the photo on desktop: anchoring it to the bottom keeps the printed sheet in frame.
  */
 export function HeroPhoto({ className }: HeroPhotoProps) {
   return (
@@ -22,7 +23,7 @@ export function HeroPhoto({ className }: HeroPhotoProps) {
           preload
           quality={90}
           sizes="(min-width: 1536px) 1536px, 100vw"
-          className="object-cover object-center"
+          className="object-cover object-center xl:object-bottom"
         />
         <div aria-hidden className="absolute inset-x-0 top-0 h-1/3 bg-linear-to-b from-navy to-transparent xl:hidden" />
         <div
