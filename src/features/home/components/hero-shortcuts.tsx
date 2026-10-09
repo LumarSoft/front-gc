@@ -24,15 +24,15 @@ const SHORTCUTS = [
   },
 ]
 
-/** Category shortcuts beside the hero banner (stacked on desktop, a swipeable row on phones). */
+/** Category shortcuts on the hero's bottom edge (a row on desktop, swipeable on phones and tablets). */
 export function HeroShortcuts() {
   return (
-    <ul className="no-scrollbar -mx-4 flex snap-x snap-mandatory scroll-px-4 gap-3 overflow-x-auto px-4 sm:-mx-6 sm:scroll-px-6 sm:px-6 lg:mx-0 lg:grid lg:grid-cols-1 lg:overflow-visible lg:px-0">
+    <ul className="no-scrollbar -mx-4 flex snap-x snap-mandatory scroll-px-4 gap-3 overflow-x-auto px-4 sm:-mx-6 sm:scroll-px-6 sm:px-6 lg:mx-0 lg:grid lg:grid-cols-3 lg:gap-4 lg:overflow-visible lg:px-0">
       {SHORTCUTS.map(shortcut => (
         <li key={shortcut.href} className="w-64 shrink-0 snap-start sm:w-72 lg:w-auto">
           <Link
             href={shortcut.href}
-            className="group flex min-h-24 items-center gap-2 overflow-hidden rounded-2xl bg-background py-2 pl-4 text-foreground shadow-lg shadow-navy/30 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl sm:min-h-28 sm:pl-5 xl:min-h-29 xl:pl-6"
+            className="group flex min-h-24 items-center gap-2 overflow-hidden rounded-2xl bg-background py-2 pl-4 text-foreground shadow-xl ring-1 shadow-navy/15 ring-border transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl sm:min-h-28 sm:pl-5 xl:min-h-29 xl:pl-6"
           >
             <span className="flex min-w-0 flex-1 flex-col">
               <span className="text-base leading-tight font-extrabold tracking-tight text-primary sm:text-lg xl:text-xl">

@@ -24,11 +24,12 @@ Comunicaciones Gráficas is an **official Epson distributor** and has the right 
 images, logos, banners and other brand assets can be taken from Epson's sites. The store's own identity (logo,
 name) is still Comunicaciones Gráficas — Epson branding is used as the brand it sells, not as the store's.
 
-Product photos on colored surfaces (home hero and its shortcuts, `public/images/home/`) are Epson's studio shots with
+Product photos on colored surfaces (the home hero shortcuts, `public/images/home/`) are Epson's studio shots with
 the white background removed (cropped above the mirror reflection under the product), saved as WebP with transparency.
 Only dark products cut out cleanly; white printers keep their photo on a white card. The home promo banners
 (`promo-*.webp`) are finished artwork that already carries its text: the card only adds the button, so a new banner
-must keep its copy on the left with free space under it.
+must keep its copy on the left with free space under it. The home hero (`hero-ecotank-l5590.webp`) is a full scene photo with an empty left third: the copy, badges
+and buttons go over it from `xl`, and under it on smaller screens.
 
 ## Store logo
 

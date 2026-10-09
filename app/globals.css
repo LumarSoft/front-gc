@@ -43,6 +43,9 @@
   --color-success: var(--success);
   --color-warning: var(--warning);
 
+  /* Widest hero photo; past it the photo's edges fade into navy. */
+  --container-8xl: 96rem;
+
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
   --radius-lg: var(--radius);
