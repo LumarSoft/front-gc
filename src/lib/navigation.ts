@@ -5,16 +5,18 @@
 export type NavLink = {
   label: string
   href: string
+  /** Shorter label for the desktop category bar, where every link must fit in one row. */
+  shortLabel?: string
 }
 
 export const CATEGORY_LINKS: NavLink[] = [
   { label: 'Impresoras', href: '/categorias/impresoras' },
-  { label: 'Tintas y consumibles', href: '/categorias/tintas' },
+  { label: 'Tintas y consumibles', shortLabel: 'Tintas', href: '/categorias/tintas' },
   { label: 'Papeles', href: '/categorias/papeles' },
   { label: 'Escáneres', href: '/categorias/escaneres' },
   { label: 'Proyectores', href: '/categorias/proyectores' },
   { label: 'Gran formato', href: '/categorias/gran-formato' },
-  { label: 'Sublimación y textil', href: '/categorias/sublimacion' },
+  { label: 'Sublimación y textil', shortLabel: 'Sublimación', href: '/categorias/sublimacion' },
   { label: 'Puntos de venta', href: '/categorias/puntos-de-venta' },
 ]
 
@@ -25,6 +27,17 @@ export const HIGHLIGHT_LINKS: NavLink[] = [
   { label: 'Ayudame a elegir', href: '/configurador' },
   { label: 'Clientes frecuentes', href: '/clientes-frecuentes' },
 ]
+
+/** Secondary links on the right of the top bar (desktop). */
+export const TOP_BAR_LINKS: NavLink[] = [
+  { label: 'Clientes frecuentes', href: '/clientes-frecuentes' },
+  { label: 'Sobre nosotros', href: '/nosotros' },
+  { label: 'Ayuda', href: '/ayuda/preguntas-frecuentes' },
+  { label: 'Contacto', href: '/contacto' },
+]
+
+/** Call to action at the end of the category bar. */
+export const SUPPORT_LINK: NavLink = { label: 'Soporte y asesoramiento', href: '/asistente' }
 
 export const HELP_LINKS: NavLink[] = [
   { label: 'Envíos y retiro', href: '/ayuda/envios' },

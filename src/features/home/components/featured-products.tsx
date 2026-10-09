@@ -1,3 +1,4 @@
+import { ScrollRail } from '@/src/components/ui/scroll-rail'
 import { SectionHeading } from '@/src/components/ui/section-heading'
 import { ProductCard } from '@/src/features/catalog/components/product-card'
 import type { ProductSummary } from '@/src/types/api/catalog'
@@ -11,24 +12,23 @@ export function FeaturedProducts({ products }: FeaturedProductsProps) {
   if (products?.length === 0) return null
 
   return (
-    <section className="bg-surface py-16 lg:py-24">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6">
-        <SectionHeading
-          eyebrow="Los más elegidos"
-          title="Equipos que nuestros clientes recomiendan"
-          action={{ label: 'Ver todos los productos', href: '/productos' }}
-        />
-      </div>
+    <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:py-16">
+      <SectionHeading
+        title="Productos"
+        highlight="destacados"
+        size="compact"
+        action={{ label: 'Ver todos los productos', href: '/productos' }}
+      />
       {products ? (
-        <ul className="no-scrollbar mx-auto mt-10 flex max-w-7xl snap-x snap-mandatory scroll-px-4 gap-4 overflow-x-auto px-4 pb-4 sm:scroll-px-6 sm:px-6 lg:grid lg:grid-cols-4 lg:overflow-visible">
+        <ScrollRail label="Productos destacados" className="mt-6">
           {products.map(product => (
-            <li key={product.id} className="w-64 shrink-0 snap-start lg:w-auto">
+            <li key={product.id} className="w-3/5 shrink-0 snap-start px-2 sm:w-1/3 lg:w-1/5 xl:w-1/6">
               <ProductCard product={product} />
             </li>
           ))}
-        </ul>
+        </ScrollRail>
       ) : (
-        <p className="mx-auto mt-10 max-w-7xl px-4 text-muted-foreground sm:px-6">
+        <p className="mt-6 text-muted-foreground">
           No pudimos cargar los productos destacados. Probá recargar la página en unos segundos.
         </p>
       )}

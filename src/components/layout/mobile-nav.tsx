@@ -1,10 +1,10 @@
 'use client'
 
 import Link from 'next/link'
-import { ListIcon } from '@phosphor-icons/react'
+import { Menu } from 'lucide-react'
 import { Button } from '@/src/components/ui/button'
 import { Sheet, SheetClose, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/src/components/ui/sheet'
-import { CATEGORY_LINKS, HIGHLIGHT_LINKS, type NavLink } from '@/src/lib/navigation'
+import { CATEGORY_LINKS, HIGHLIGHT_LINKS, SUPPORT_LINK, type NavLink } from '@/src/lib/navigation'
 
 type MobileNavSectionProps = {
   title: string
@@ -31,7 +31,7 @@ export function MobileNav() {
     <Sheet>
       <SheetTrigger asChild>
         <Button variant="ghost" size="icon-lg" className="xl:hidden" aria-label="Abrir menú">
-          <ListIcon weight="light" className="size-6" />
+          <Menu strokeWidth={1.5} className="size-6" />
         </Button>
       </SheetTrigger>
       <SheetContent side="left" className="w-80 overflow-y-auto">
@@ -39,7 +39,7 @@ export function MobileNav() {
           <SheetTitle>Menú</SheetTitle>
         </SheetHeader>
         <nav className="flex flex-col gap-6 px-1 pb-8" aria-label="Menú principal">
-          <MobileNavSection title="Destacados" links={HIGHLIGHT_LINKS} />
+          <MobileNavSection title="Destacados" links={[...HIGHLIGHT_LINKS, SUPPORT_LINK]} />
           <MobileNavSection title="Categorías" links={CATEGORY_LINKS} />
         </nav>
       </SheetContent>

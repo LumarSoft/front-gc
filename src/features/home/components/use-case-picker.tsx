@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { ArrowRightIcon } from '@phosphor-icons/react/dist/ssr'
+import { ArrowRight } from 'lucide-react'
 import { cn } from '@/src/lib/utils'
 import { USE_CASES } from '../lib/use-cases'
 
@@ -30,8 +30,7 @@ export function UseCasePicker() {
               </span>
               <span className="flex flex-1 items-end justify-between gap-3 p-4">
                 <span className="text-sm text-muted-foreground">{useCase.text}</span>
-                <ArrowRightIcon
-                  weight="regular"
+                <ArrowRight
                   className="size-4 shrink-0 text-muted-foreground transition-all group-hover:translate-x-1 group-hover:text-primary"
                   aria-hidden
                 />

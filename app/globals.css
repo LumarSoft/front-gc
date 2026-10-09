@@ -31,6 +31,9 @@
   /* Brand extras: deep sections, CMYK accents (print motif), commerce states */
   --color-navy: var(--navy);
   --color-navy-foreground: var(--navy-foreground);
+  --color-highlight: var(--highlight);
+  --color-highlight-foreground: var(--highlight-foreground);
+  --color-highlight-soft: var(--highlight-soft);
   --color-surface: var(--surface);
   --color-cyan: var(--cyan);
   --color-magenta: var(--magenta);
@@ -53,7 +56,6 @@
   --animate-fade-up: fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
   --animate-fade-up-late: fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both;
   --animate-blob: blob 14s ease-in-out infinite;
-  --animate-ken-burns: ken-burns 18s ease-out both;
   --animate-blob-reverse: blob 18s ease-in-out infinite reverse;
   --animate-blob-fast: blob 10s ease-in-out infinite;
 
@@ -82,14 +84,6 @@
     to {
       opacity: 1;
       transform: translateY(0);
-    }
-  }
-  @keyframes ken-burns {
-    from {
-      transform: scale(1.08);
-    }
-    to {
-      transform: scale(1);
     }
   }
   @keyframes blob {
@@ -131,6 +125,10 @@
 
   --navy: #001a4d;
   --navy-foreground: #ffffff;
+  /* Bright blue for accents: highlighted words, badges, arrows, the support button. Soft = the same on navy. */
+  --highlight: #1961e6;
+  --highlight-foreground: #ffffff;
+  --highlight-soft: #5c9bff;
   --surface: #ebf0f5;
   --cyan: #00a3e0;
   --magenta: #e5007e;
@@ -180,11 +178,6 @@
       animation-range: entry 0% entry 40%;
     }
   }
-}
-
-/* Hero photo focal point on narrow screens: keeps the person and the printer in frame. */
-@utility object-hero-focus {
-  object-position: 78% 40%;
 }
 
 @utility no-scrollbar {

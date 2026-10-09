@@ -24,6 +24,10 @@ Comunicaciones Gráficas is an **official Epson distributor** and has the right 
 images, logos, banners and other brand assets can be taken from Epson's sites. The store's own identity (logo,
 name) is still Comunicaciones Gráficas — Epson branding is used as the brand it sells, not as the store's.
 
+Product photos on colored surfaces (home hero and banners, `public/images/home/`) are Epson's studio shots with the
+white background removed, saved as WebP with transparency. Only dark products cut out cleanly; white printers keep their
+photo on a white card.
+
 ## Store logo
 
 - The Comunicaciones Gráficas logo ("CG" with cyan, magenta and yellow waves) was provided by the client on
@@ -68,8 +72,9 @@ name) is still Comunicaciones Gráficas — Epson branding is used as the brand 
   check/minus marks inside checkboxes use `strokeWidth={3}`.
 - **Never `@shopify/polaris-icons`**: its license only allows apps that integrate with Shopify, or standalone apps
   visually distinct from Shopify's admin, which ours deliberately resembles.
-- **Store**: still on `@phosphor-icons/react` for now (light weight in the header); move it to Lucide when the store
-  gets its next visual pass, then drop the Phosphor dependency.
+- **Store**: moving to `lucide-react` page by page. The header, the home and the shared `SectionHeading`/`ScrollRail`
+  already use Lucide (`strokeWidth={1.5}` in the header); the rest still uses `@phosphor-icons/react`. Migrate each page
+  when it gets its visual pass, and drop the Phosphor dependency once nothing imports it.
 
 ## Accessibility
 

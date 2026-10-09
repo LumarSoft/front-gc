@@ -1,29 +1,34 @@
-import { MagnifyingGlassIcon } from '@phosphor-icons/react/dist/ssr'
+import { Search } from 'lucide-react'
 import { Input } from '@/src/components/ui/input'
 import { cn } from '@/src/lib/utils'
 
 type SearchFormProps = {
+  /** The header renders two forms (desktop and phone): each needs its own input id for its label. */
+  id?: string
   className?: string
 }
 
 /** Plain GET form: works without JavaScript and keeps the query in the URL. */
-export function SearchForm({ className }: SearchFormProps) {
+export function SearchForm({ id = 'site-search', className }: SearchFormProps) {
   return (
     <form action="/productos" role="search" className={cn('relative', className)}>
-      <label htmlFor="site-search" className="sr-only">
+      <label htmlFor={id} className="sr-only">
         Buscar productos
       </label>
-      <MagnifyingGlassIcon
-        weight="regular"
-        className="pointer-events-none absolute top-1/2 left-4 size-4 -translate-y-1/2 text-muted-foreground"
-      />
       <Input
-        id="site-search"
+        id={id}
         name="q"
         type="search"
-        placeholder="Buscá impresoras, tintas, papeles…"
-        className="h-11 rounded-full border-transparent bg-muted pr-4 pl-11 text-sm focus-visible:border-primary focus-visible:bg-background"
+        placeholder="¿Qué estás buscando?"
+        className="h-11 rounded-xl border-border bg-muted/60 pr-12 pl-4 text-sm focus-visible:border-primary focus-visible:bg-background"
       />
+      <button
+        type="submit"
+        aria-label="Buscar"
+        className="absolute top-1/2 right-1.5 grid size-8 -translate-y-1/2 place-items-center rounded-lg text-muted-foreground transition-colors hover:bg-accent hover:text-primary"
+      >
+        <Search className="size-4.5" aria-hidden />
+      </button>
     </form>
   )
 }
