@@ -1,17 +1,12 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
-import type { HeroSlide } from '@/src/features/home/lib/hero-slides'
 
-type HeroSlideContentProps = {
-  slide: HeroSlide
-  /** The first slide is the page's LCP: load its photo first and use the page's h1. */
-  isFirst: boolean
-}
+// TODO(admin): hero copy and image will be managed from the admin panel (banners).
+// The photo is Epson's, with the white studio background removed so it sits on the navy hero.
 
-export function HeroSlideContent({ slide, isFirst }: HeroSlideContentProps) {
-  const Heading = isFirst ? 'h1' : 'h2'
-
+/** Main banner of the home: the page's h1 and its LCP image. */
+export function HeroBanner() {
   return (
     <div className="grid items-center gap-6 sm:grid-cols-5 lg:gap-4">
       <div className="relative z-10 sm:col-span-3">
@@ -25,18 +20,18 @@ export function HeroSlideContent({ slide, isFirst }: HeroSlideContentProps) {
             className="h-4 w-auto brightness-0 invert"
           />
         </p>
-        <Heading className="mt-3 text-4xl leading-none font-extrabold tracking-tight sm:text-6xl">
-          <span className="block">{slide.title}</span>
-          <span className="block text-highlight-soft">{slide.highlight}</span>
-        </Heading>
-        <p className="mt-4 max-w-md text-sm sm:text-base text-pretty text-navy-foreground/85 lg:text-lg">
-          {slide.text}
+        <h1 className="mt-3 text-4xl leading-none font-extrabold tracking-tight sm:text-6xl">
+          <span className="block">Imprimí</span>
+          <span className="block text-highlight-soft">tus ideas.</span>
+        </h1>
+        <p className="mt-4 max-w-md text-sm text-pretty text-navy-foreground/85 sm:text-base lg:text-lg">
+          Equipos, insumos y asesoramiento para que tu impresión siempre sea un paso más grande.
         </p>
         <Link
-          href={slide.cta.href}
-          className="group mt-6 inline-flex h-11 items-center gap-2 rounded-full bg-background px-6 text-base font-bold sm:h-12 text-primary transition-colors hover:bg-accent"
+          href="/productos"
+          className="group mt-6 inline-flex h-11 items-center gap-2 rounded-full bg-background px-6 text-base font-bold text-primary transition-colors hover:bg-accent sm:h-12"
         >
-          {slide.cta.label}
+          Ver productos
           <ArrowRight className="size-5 transition-transform group-hover:translate-x-1" aria-hidden />
         </Link>
       </div>
@@ -47,10 +42,10 @@ export function HeroSlideContent({ slide, isFirst }: HeroSlideContentProps) {
           className="absolute inset-x-0 bottom-0 h-3/4 rounded-full bg-radial from-highlight/45 via-highlight/10 to-transparent to-70% blur-2xl"
         />
         <Image
-          src={slide.image.src}
-          alt={slide.image.alt}
+          src="/images/home/hero-ecotank-l8050.webp"
+          alt="Impresora fotográfica Epson EcoTank L8050 imprimiendo una foto"
           fill
-          preload={isFirst}
+          preload
           sizes="(min-width: 1280px) 480px, (min-width: 640px) 40vw, 90vw"
           className="object-contain object-bottom drop-shadow-2xl"
         />
