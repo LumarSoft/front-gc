@@ -27,6 +27,8 @@ export type Shipment = {
   pickupPoint: string | null
   /** Admin responses only. */
   actions?: ShipmentAction[]
+  /** How the store hands the parcel over: carrier branch, Zipnova's hub or pickup. Admin responses only. */
+  dispatch?: 'CARRIER_BRANCH' | 'PROVIDER_HUB' | 'PICKUP' | null
 }
 export type Order = {
   id: number

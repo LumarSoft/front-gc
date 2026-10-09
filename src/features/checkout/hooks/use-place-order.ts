@@ -9,6 +9,8 @@ import { QUERY_KEYS } from '@/src/lib/query-keys'
 import { placeOrder } from '@/src/services/orders.service'
 import type { Checkout } from '@/src/types/api/checkout'
 
+const isCheckoutQuery = (key: readonly unknown[]): boolean => key.includes('checkout')
+
 export function usePlaceOrder(checkout: Checkout) {
   const client = useQueryClient()
   const router = useRouter()
@@ -37,7 +39,14 @@ export function usePlaceOrder(checkout: Checkout) {
       // Keep the retry token until navigation: even a failure here can safely recover the created order.
       router.replace(orderPath(order.number, accessToken))
       finishPendingOrder()
-      void client.invalidateQueries({ queryKey: QUERY_KEYS.cart })
+      // The cart is now an order. Refetching the checkout while this page is still shown would flash "Tu carrito
+      // está vacío" before the navigation lands, so it is only marked stale; the header's cart updates right away.
+      void client.invalidateQueries({ queryKey: QUERY_KEYS.cart, predicate: query => !isCheckoutQuery(query.queryKey) })
+      void client.invalidateQueries({
+        queryKey: QUERY_KEYS.cart,
+        predicate: query => isCheckoutQuery(query.queryKey),
+        refetchType: 'none',
+      })
       void client.invalidateQueries({ queryKey: QUERY_KEYS.myOrders })
     },
     onError: () => {

@@ -6,22 +6,10 @@ import { ConfirmDialog } from '@/src/components/ui/confirm-dialog'
 import { AdminCard } from '@/src/features/admin/components/common/admin-card'
 import { ToneBadge } from '@/src/features/admin/components/common/tone-badge'
 import { useShipmentActions } from '@/src/features/admin/hooks/use-shipment-actions'
-import { shipmentBadge } from '@/src/features/admin/lib/shipment-display'
+import { shipmentBadge, shipmentHint } from '@/src/features/admin/lib/shipment-display'
 import type { Order, Shipment } from '@/src/types/api/orders'
 import { ShipmentDetails } from './shipment-details'
 import { ShipmentDocumentsMenu } from './shipment-documents-menu'
-
-function shipmentHint(order: Order, shipment: Shipment, canCreate: boolean): string | null {
-  if (canCreate)
-    return shipment.status === 'CANCELLED'
-      ? 'El envío se canceló. Podés generarlo de nuevo; Zipnova lo cobra del saldo de la cuenta.'
-      : 'Al generarlo, Zipnova lo cobra del saldo de la cuenta y prepara la etiqueta.'
-  if (shipment.status === 'PENDING' && !shipment.actions?.length)
-    return order.status === 'PENDING_PAYMENT' || order.status === 'PAYMENT_UNDER_REVIEW'
-      ? 'Se genera en Zipnova cuando verifiques el pago.'
-      : null
-  return null
-}
 
 /** The order's carrier shipment at Zipnova: book it, print its documents, cancel it before dispatch or refresh it. */
 export function OrderShipmentCard({ order, shipment }: { order: Order; shipment: Shipment }) {
