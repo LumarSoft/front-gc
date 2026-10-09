@@ -1,5 +1,7 @@
 import { formatDateTime, formatMoneyExact } from '@/src/lib/format'
 import type { Order } from '@/src/types/api/orders'
+import { DELIVERY_NAMES } from '../lib/shipment-labels'
+import { OrderShipment } from './order-shipment'
 
 type Props = { order: Order; staff?: boolean }
 
@@ -42,15 +44,14 @@ export function OrderDetails({ order, staff = false }: Props) {
         <p className="mt-3">{order.customer.name}</p>
         <p className="break-all text-sm text-muted-foreground">{order.customer.email}</p>
         {order.customer.phone && <p className="text-sm text-muted-foreground">{order.customer.phone}</p>}
-        <p className="mt-4 font-semibold">
-          {order.deliveryMethod === 'STORE_PICKUP' ? 'Retiro en el local' : 'Entrega en Rosario'}
-        </p>
+        <p className="mt-4 font-semibold">{DELIVERY_NAMES[order.deliveryMethod]}</p>
         {order.shippingAddress && (
           <p className="mt-1 text-sm text-muted-foreground">
             {order.shippingAddress.street} {order.shippingAddress.streetNumber}, {order.shippingAddress.city},{' '}
             {order.shippingAddress.province} · CP {order.shippingAddress.postalCode}
           </p>
         )}
+        {order.shipment && <OrderShipment shipment={order.shipment} />}
         <p className="mt-4 text-xs text-muted-foreground">Registrado el {formatDateTime(order.placedAt)}</p>
       </section>
     </div>

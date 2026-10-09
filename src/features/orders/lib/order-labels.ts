@@ -1,3 +1,4 @@
+import type { DeliveryMethod } from '@/src/types/api/checkout'
 import type { OrderStatus } from '@/src/types/api/orders'
 
 export const ORDER_LABELS: Record<OrderStatus, { label: string; description: string }> = {
@@ -20,4 +21,11 @@ export const ORDER_LABELS: Record<OrderStatus, { label: string; description: str
     description:
       'Venció la reserva sin confirmar el pago. Podés hacer un nuevo pedido con el precio y stock disponibles.',
   },
+}
+
+/** Carrier orders are handed over and delivered by the carrier, whose updates arrive on their own. */
+export function orderDescription(status: OrderStatus, delivery: DeliveryMethod): string {
+  if (delivery === 'CARRIER' && status === 'SHIPPED')
+    return 'Tu pedido ya está en manos del transporte. Abajo tenés el seguimiento del envío.'
+  return ORDER_LABELS[status].description
 }

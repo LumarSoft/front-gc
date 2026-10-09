@@ -1,7 +1,7 @@
 import { CheckCircle2, Clock3 } from 'lucide-react'
 import { formatDateTime } from '@/src/lib/format'
 import type { Order } from '@/src/types/api/orders'
-import { ORDER_LABELS } from '../lib/order-labels'
+import { ORDER_LABELS, orderDescription } from '../lib/order-labels'
 
 type Props = { order: Order; staff?: boolean }
 
@@ -11,7 +11,9 @@ export function OrderProgress({ order, staff = false }: Props) {
     <section className="rounded-2xl bg-surface p-5 sm:p-6" aria-label="Estado del pedido">
       <p className="text-sm font-semibold text-primary">Estado actual</p>
       <h2 className="mt-2 text-2xl font-extrabold">{current.label}</h2>
-      {!staff && <p className="mt-3 text-sm text-muted-foreground">{current.description}</p>}
+      {!staff && (
+        <p className="mt-3 text-sm text-muted-foreground">{orderDescription(order.status, order.deliveryMethod)}</p>
+      )}
       {order.status === 'PENDING_PAYMENT' && order.expiresAt && (
         <p className="mt-4 rounded-xl border bg-background p-4 text-sm">
           Si el pago no se confirma antes del <strong>{formatDateTime(order.expiresAt)}</strong>,{' '}
