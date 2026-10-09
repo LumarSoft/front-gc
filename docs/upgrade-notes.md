@@ -16,6 +16,17 @@ The store needs the API running: keep `api-gc` up to date too (its own `npm run 
 
 ---
 
+## 2026-10-09 — Carrier shipping (rest of the country)
+
+Pull `api-gc` (LumarSoft/api-gc#32), apply its migrations and restart it: checkout now quotes shipping to the rest of
+the country and the admin books shipments at Zipnova. `npm run doctor` warns while the API is older.
+
+The option stays unavailable ("todavía no está disponible") until the API has Zipnova credentials, and products need
+weight and measurements (admin → product → variants) to be quoted: see the 2026-10-09 entry of
+`api-gc/docs/upgrade-notes.md`.
+
+---
+
 ## 2026-10-08 — Pending setup notice for people and AI agents
 
 Nothing to run. While `npm run doctor` finds errors (or an API older than this front) it writes `PENDING-SETUP.md`
