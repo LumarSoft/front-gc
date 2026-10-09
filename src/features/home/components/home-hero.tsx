@@ -10,7 +10,6 @@ import { HeroShortcuts } from '@/src/features/home/components/hero-shortcuts'
 export function HomeHero() {
   return (
     <section className="relative isolate flex flex-col xl:block xl:bg-navy">
-      <HeroPhoto className="order-2 xl:absolute xl:inset-0 xl:-z-10" />
       <div className="contents xl:mx-auto xl:flex xl:max-w-7xl xl:items-center xl:justify-between xl:gap-10 xl:px-6 xl:py-12">
         <div className="order-1 bg-navy px-4 pt-10 pb-8 text-navy-foreground sm:px-6 lg:pt-14 xl:bg-transparent xl:p-0">
           <div className="mx-auto max-w-7xl">
@@ -23,6 +22,8 @@ export function HomeHero() {
           </div>
         </div>
       </div>
+      {/* Last in the DOM so screen readers reach the h1 first; `order` places it visually. */}
+      <HeroPhoto className="order-2 xl:absolute xl:inset-0 xl:-z-10" />
     </section>
   )
 }
