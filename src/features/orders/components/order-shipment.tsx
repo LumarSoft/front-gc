@@ -8,15 +8,18 @@ export function OrderShipment({ shipment }: { shipment: Shipment }) {
   const trackingUrl = safeTrackingUrl(shipment.trackingUrl)
   const branch = shipment.pickupPoint ? splitPickupPoint(shipment.pickupPoint) : null
   const carrier = [shipment.carrier, shipment.service].filter(Boolean).join(' · ')
+  const label = SHIPMENT_LABELS[shipment.status]
+  const carrierStatus =
+    shipment.carrierStatus && shipment.carrierStatus.toLowerCase() !== label.toLowerCase()
+      ? shipment.carrierStatus
+      : null
   return (
     <div className="mt-4 rounded-xl border p-4">
       <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-        <p className="font-semibold">{SHIPMENT_LABELS[shipment.status]}</p>
+        <p className="font-semibold">{label}</p>
         {carrier && <p className="text-sm text-muted-foreground">{carrier}</p>}
       </div>
-      {shipment.carrierStatus && (
-        <p className="mt-1 text-sm text-muted-foreground">Según el transporte: {shipment.carrierStatus}</p>
-      )}
+      {carrierStatus && <p className="mt-1 text-sm text-muted-foreground">Según el transporte: {carrierStatus}</p>}
       {branch && (
         <p className="mt-3 text-sm">
           Retirás en <span className="font-semibold">{branch.name}</span>
@@ -35,7 +38,7 @@ export function OrderShipment({ shipment }: { shipment: Shipment }) {
           rel="noopener noreferrer"
           className="mt-3 inline-flex items-center gap-1.5 text-sm font-semibold text-primary underline-offset-4 hover:underline"
         >
-          Seguir el envío en el sitio del transporte
+          Seguir el envío
           <ExternalLinkIcon className="size-4" aria-hidden />
         </a>
       )}
