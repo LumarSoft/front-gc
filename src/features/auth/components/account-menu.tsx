@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { GearSixIcon, HeartIcon, PackageIcon, SignOutIcon, UserCircleIcon, UserIcon } from '@phosphor-icons/react'
+import { CircleUser, Heart, LogOut, Package, Settings, User } from 'lucide-react'
 import { Button } from '@/src/components/ui/button'
 import {
   DropdownMenu,
@@ -26,10 +26,10 @@ export function AccountMenu() {
 
   if (!user) {
     return (
-      <Button asChild variant="ghost" className="h-10 gap-2 px-2.5 sm:px-3">
+      <Button asChild variant="ghost" className="h-10 gap-2 px-2 text-sm font-medium sm:px-2.5">
         <Link href="/ingresar" aria-label="Ingresá a tu cuenta">
-          <UserIcon weight="light" className="size-6" />
-          <span className="hidden text-sm lg:inline">Ingresá</span>
+          <User strokeWidth={1.5} className="size-6" />
+          <span className="hidden xl:inline">Mi cuenta</span>
         </Link>
       </Button>
     )
@@ -57,33 +57,33 @@ export function AccountMenu() {
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
           <Link href="/mi-cuenta">
-            <UserCircleIcon weight="light" className="size-5" />
+            <CircleUser strokeWidth={1.5} className="size-5" />
             Mi cuenta
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
           <Link href="/mi-cuenta/pedidos">
-            <PackageIcon weight="light" className="size-5" />
+            <Package strokeWidth={1.5} className="size-5" />
             Mis pedidos
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
           <Link href="/favoritos">
-            <HeartIcon weight="light" className="size-5" />
+            <Heart strokeWidth={1.5} className="size-5" />
             Mis favoritos
           </Link>
         </DropdownMenuItem>
         {user.role === 'ADMIN' && (
           <DropdownMenuItem asChild>
             <Link href="/admin">
-              <GearSixIcon weight="light" className="size-5" />
+              <Settings strokeWidth={1.5} className="size-5" />
               Administración
             </Link>
           </DropdownMenuItem>
         )}
         <DropdownMenuSeparator />
         <DropdownMenuItem disabled={logoutMutation.isPending} onSelect={() => handleLogout()}>
-          <SignOutIcon weight="light" className="size-5" />
+          <LogOut strokeWidth={1.5} className="size-5" />
           Cerrar sesión
         </DropdownMenuItem>
       </DropdownMenuContent>

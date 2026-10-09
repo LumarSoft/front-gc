@@ -8,16 +8,25 @@ type BrandLogoProps = {
   inverted?: boolean
   /** Above the fold (store header): load the image first. */
   priority?: boolean
+  /** Adds the store's tagline under the name (store header, wide screens). */
+  withTagline?: boolean
 }
 
 /** Store logo with the company name, back to the home page. */
-export function BrandLogo({ className, inverted = false, priority = false }: BrandLogoProps) {
+export function BrandLogo({ className, inverted = false, priority = false, withTagline = false }: BrandLogoProps) {
   return (
     <Link href="/" aria-label={`${SITE.name} — inicio`} className={cn('flex items-center gap-3', className)}>
-      <BrandLogoImage inverted={inverted} priority={priority} className="h-8 lg:h-9" />
+      <BrandLogoImage inverted={inverted} priority={priority} className="h-8 lg:h-10" />
       <span className="flex flex-col text-sm leading-tight font-extrabold tracking-tight">
-        <span>Comunicaciones</span>
-        <span>Gráficas</span>
+        <span className={cn('flex flex-col', withTagline && 'xl:flex-row xl:gap-1')}>
+          <span>Comunicaciones</span>
+          <span>Gráficas</span>
+        </span>
+        {withTagline && (
+          <span className="mt-1 hidden text-xs font-medium tracking-wide text-muted-foreground uppercase xl:block">
+            {SITE.tagline}
+          </span>
+        )}
       </span>
     </Link>
   )

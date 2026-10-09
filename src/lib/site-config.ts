@@ -5,6 +5,7 @@
 export const SITE = {
   name: 'Comunicaciones Gráficas',
   shortName: 'CG',
+  tagline: 'Equipos e insumos gráficos',
   description:
     'Distribuidor oficial Epson en Rosario. Impresoras EcoTank, tintas originales, papeles e insumos gráficos con envío a todo el país.',
   city: 'Rosario, Santa Fe',

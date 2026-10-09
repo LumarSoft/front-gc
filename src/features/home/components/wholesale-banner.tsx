@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { ArrowRightIcon } from '@phosphor-icons/react/dist/ssr'
+import { ArrowRight } from 'lucide-react'
 import { Button } from '@/src/components/ui/button'
 import { CmykStripe } from '@/src/components/layout/cmyk-stripe'
 
@@ -33,7 +33,7 @@ export function WholesaleBanner() {
               >
                 <Link href="/clientes-frecuentes/alta">
                   Solicitá tu cuenta
-                  <ArrowRightIcon weight="regular" className="size-5" />
+                  <ArrowRight className="size-5" />
                 </Link>
               </Button>
               <Button
