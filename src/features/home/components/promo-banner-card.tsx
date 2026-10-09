@@ -52,7 +52,7 @@ export function PromoBannerCard({ banner }: PromoBannerCardProps) {
           {banner.title}
         </p>
         <p className={cn('mt-1 mb-4 text-sm', tone.text)}>{banner.text}</p>
-        <span className="mt-auto inline-flex h-8 items-center gap-1.5 rounded-full bg-background px-4 text-xs font-bold text-primary shadow-sm">
+        <span className="mt-auto inline-flex h-8 items-center whitespace-nowrap gap-1.5 rounded-full bg-background px-4 text-xs font-bold text-primary shadow-sm">
           {banner.cta.label}
           <ArrowRight className="size-3.5 transition-transform group-hover:translate-x-0.5" aria-hidden />
         </span>

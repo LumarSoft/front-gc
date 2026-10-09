@@ -23,10 +23,10 @@ export function SiteHeader() {
             <Button asChild variant="ghost" className="hidden h-10 gap-2 px-2.5 text-sm font-medium sm:inline-flex">
               <Link href="/favoritos" aria-label="Favoritos">
                 <Heart strokeWidth={1.5} className="size-6" />
-                <span className="hidden lg:inline">Favoritos</span>
+                <span className="hidden xl:inline">Favoritos</span>
               </Link>
             </Button>
-            <span aria-hidden className="mx-1 hidden h-6 w-px bg-border lg:block" />
+            <span aria-hidden className="mx-1 hidden h-6 w-px bg-border xl:block" />
             <CartLink />
           </div>
         </div>

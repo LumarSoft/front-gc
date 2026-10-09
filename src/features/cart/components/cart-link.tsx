@@ -28,7 +28,7 @@ export function CartLink() {
           </span>
         )}
       </span>
-      <span className="hidden pl-1 lg:inline">Carrito</span>
+      <span className="hidden pl-1 xl:inline">Carrito</span>
     </Button>
   )
 }

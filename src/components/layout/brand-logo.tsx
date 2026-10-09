@@ -18,12 +18,12 @@ export function BrandLogo({ className, inverted = false, priority = false, withT
     <Link href="/" aria-label={`${SITE.name} — inicio`} className={cn('flex items-center gap-3', className)}>
       <BrandLogoImage inverted={inverted} priority={priority} className="h-8 lg:h-10" />
       <span className="flex flex-col text-sm leading-tight font-extrabold tracking-tight">
-        <span className={cn('flex flex-col', withTagline && 'lg:flex-row lg:gap-1')}>
+        <span className={cn('flex flex-col', withTagline && 'xl:flex-row xl:gap-1')}>
           <span>Comunicaciones</span>
           <span>Gráficas</span>
         </span>
         {withTagline && (
-          <span className="mt-1 hidden text-xs font-medium tracking-wide text-muted-foreground uppercase lg:block">
+          <span className="mt-1 hidden text-xs font-medium tracking-wide text-muted-foreground uppercase xl:block">
             {SITE.tagline}
           </span>
         )}

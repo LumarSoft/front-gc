@@ -29,7 +29,7 @@ export function AccountMenu() {
       <Button asChild variant="ghost" className="h-10 gap-2 px-2 text-sm font-medium sm:px-2.5">
         <Link href="/ingresar" aria-label="Ingresá a tu cuenta">
           <User strokeWidth={1.5} className="size-6" />
-          <span className="hidden lg:inline">Mi cuenta</span>
+          <span className="hidden xl:inline">Mi cuenta</span>
         </Link>
       </Button>
     )
