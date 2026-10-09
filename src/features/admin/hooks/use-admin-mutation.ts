@@ -13,6 +13,8 @@ type AdminMutationOptions<TVariables, TData> = {
   successMessage?: string | ((data: TData, variables: TVariables) => string)
   /** Extra work after success, e.g. storing the returned record in the cache. */
   onSuccess?: (data: TData, variables: TVariables) => void
+  /** Error toast wording; defaults to `adminErrorMessage`. */
+  errorMessage?: (error: unknown) => string
 }
 
 /** Every admin write: toast on success or with the reason on error, then refresh the affected lists. */
@@ -21,6 +23,7 @@ export function useAdminMutation<TVariables, TData>({
   invalidate,
   successMessage,
   onSuccess,
+  errorMessage = adminErrorMessage,
 }: AdminMutationOptions<TVariables, TData>) {
   const queryClient = useQueryClient()
   return useMutation({
@@ -31,6 +34,6 @@ export function useAdminMutation<TVariables, TData>({
         toast.success(typeof successMessage === 'function' ? successMessage(data, variables) : successMessage)
       await Promise.all(invalidate.map(queryKey => queryClient.invalidateQueries({ queryKey })))
     },
-    onError: error => toast.error(adminErrorMessage(error)),
+    onError: error => toast.error(errorMessage(error)),
   })
 }

@@ -15,6 +15,7 @@ import { OrderHeader } from '@/src/features/admin/components/orders/detail/order
 import { OrderItemsCard } from '@/src/features/admin/components/orders/detail/order-items-card'
 import { OrderPaymentCard } from '@/src/features/admin/components/orders/detail/order-payment-card'
 import { OrderTimelineCard } from '@/src/features/admin/components/orders/detail/order-timeline-card'
+import { OrderShipmentCard } from '@/src/features/admin/components/orders/detail/shipment/order-shipment-card'
 import { useAdminOrder } from '@/src/features/admin/hooks/use-admin-order'
 import { useOrderActions } from '@/src/features/admin/hooks/use-order-actions'
 import { ApiError } from '@/src/lib/api-client'
@@ -59,6 +60,7 @@ export function OrderView({ id }: { id: number }) {
             pending={actions.pending}
             onStep={actions.runStep}
           />
+          {order.shipment && <OrderShipmentCard order={order} shipment={order.shipment} />}
           <OrderPaymentCard
             order={order}
             canConfirm={actions.nextStep === 'CONFIRMED'}

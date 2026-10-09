@@ -48,36 +48,45 @@ async function readErrorMessage(response: Response): Promise<string> {
   return response.statusText
 }
 
+/** Sends the request; on a 401 it refreshes the session once and sends it again. */
+async function send(path: string, init: RequestInit, skipRefresh: boolean): Promise<Response> {
+  const request = (): Promise<Response> => fetch(`${API_URL}${path}`, { ...init, credentials: 'include' })
+  try {
+    const response = await request()
+    if (response.status !== 401 || skipRefresh) return response
+    // Retry even if this refresh lost a race with another tab: that tab already stored the new session cookies.
+    await refreshSession()
+    return await request()
+  } catch {
+    throw new ApiError(0, 'Network error')
+  }
+}
+
 /**
  * Browser-side fetch to the API. Session cookies travel automatically (`credentials: 'include'`).
  * On a 401 it tries to refresh the session once and retries the request.
  */
 export async function apiRequest<T>(path: string, options: ApiRequestOptions = {}): Promise<T> {
   const { method = 'GET', body, skipRefresh = false, keepalive } = options
-
-  const send = (): Promise<Response> =>
-    fetch(`${API_URL}${path}`, {
+  const response = await send(
+    path,
+    {
       method,
-      credentials: 'include',
       keepalive,
       // FormData (file uploads) sets its own multipart Content-Type with the boundary.
       headers: body === undefined || body instanceof FormData ? undefined : { 'Content-Type': 'application/json' },
       body: body === undefined ? undefined : body instanceof FormData ? body : JSON.stringify(body),
-    })
-
-  let response: Response
-  try {
-    response = await send()
-    if (response.status === 401 && !skipRefresh) {
-      // Retry even if this refresh lost a race with another tab: that tab already stored the new session cookies.
-      await refreshSession()
-      response = await send()
-    }
-  } catch {
-    throw new ApiError(0, 'Network error')
-  }
-
+    },
+    skipRefresh,
+  )
   if (!response.ok) throw new ApiError(response.status, await readErrorMessage(response))
   if (response.status === 204) return undefined as T
   return (await response.json()) as T
+}
+
+/** Browser-side GET of a file (PDF, labels…) with the same session handling as `apiRequest`. */
+export async function apiDownload(path: string): Promise<Blob> {
+  const response = await send(path, { method: 'GET' }, false)
+  if (!response.ok) throw new ApiError(response.status, await readErrorMessage(response))
+  return response.blob()
 }
