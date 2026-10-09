@@ -45,7 +45,8 @@ export function shipmentHint(order: Order, shipment: Shipment, canCreate: boolea
     return shipment.status === 'CANCELLED'
       ? 'El envío se canceló. Podés generarlo de nuevo; Zipnova lo cobra del saldo de la cuenta.'
       : 'Al generarlo, Zipnova lo cobra del saldo de la cuenta y prepara la etiqueta.'
-  if (shipment.status === 'PENDING' && shipment.actions?.includes('DOCUMENTS')) return handOverHint(shipment)
+  if (shipment.status === 'PENDING' && shipment.actions?.includes('DOCUMENTS'))
+    return `${handOverHint(shipment)} El pedido pasa solo a Despachado cuando el transporte lo recibe.`
   if (shipment.status === 'PENDING' && !shipment.actions?.length)
     return order.status === 'PENDING_PAYMENT' || order.status === 'PAYMENT_UNDER_REVIEW'
       ? 'Se genera en Zipnova cuando verifiques el pago.'
