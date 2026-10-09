@@ -32,25 +32,27 @@ export function ShipmentDetails({ shipment }: { shipment: Shipment }) {
       </dd>
       {shipment.carrierStatus && (
         <>
-          <dt className="text-muted-foreground">Según Zipnova</dt>
+          <dt className="text-muted-foreground">Estado en Zipnova</dt>
           <dd>{shipment.carrierStatus}</dd>
         </>
       )}
-      {shipment.trackingNumber && (
+      {(shipment.trackingNumber || trackingUrl) && (
         <>
           <dt className="text-muted-foreground">Seguimiento</dt>
           <dd className="flex flex-wrap items-center gap-x-3 gap-y-1">
-            <span className="flex items-center gap-1">
-              <span className="tabular-nums">{shipment.trackingNumber}</span>
-              <button
-                type="button"
-                onClick={() => void copyTracking(shipment.trackingNumber!)}
-                aria-label="Copiar número de seguimiento"
-                className="grid size-7 place-items-center rounded-md text-muted-foreground hover:bg-muted hover:text-foreground"
-              >
-                <CopyIcon className="size-4" />
-              </button>
-            </span>
+            {shipment.trackingNumber && (
+              <span className="flex items-center gap-1">
+                <span className="tabular-nums">{shipment.trackingNumber}</span>
+                <button
+                  type="button"
+                  onClick={() => void copyTracking(shipment.trackingNumber!)}
+                  aria-label="Copiar número de seguimiento"
+                  className="grid size-7 place-items-center rounded-md text-muted-foreground hover:bg-muted hover:text-foreground"
+                >
+                  <CopyIcon className="size-4" />
+                </button>
+              </span>
+            )}
             {trackingUrl && (
               <a
                 href={trackingUrl}
@@ -58,7 +60,7 @@ export function ShipmentDetails({ shipment }: { shipment: Shipment }) {
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1 text-primary hover:underline"
               >
-                Ver en el transporte
+                Ver seguimiento
                 <ExternalLinkIcon className="size-3.5" />
               </a>
             )}
