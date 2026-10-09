@@ -7,7 +7,18 @@ import type { CheckoutDelivery as DeliveryOption } from '@/src/types/api/checkou
 import type { CheckoutValues } from '../lib/checkout-schema'
 import { CheckoutField } from './checkout-field'
 
-export function CheckoutDelivery({ options }: { options: DeliveryOption[] }) {
+function costLabel(option: DeliveryOption): string {
+  if (option.cost) return option.cost.amount === '0.00' ? 'Gratis' : formatMoneyExact(option.cost)
+  return option.code === 'CARRIER' && option.enabled ? 'Según destino' : 'A confirmar'
+}
+
+type CheckoutDeliveryProps = {
+  options: DeliveryOption[]
+  /** Shipping to the rest of the country, shown when the buyer picks it. */
+  children: React.ReactNode
+}
+
+export function CheckoutDelivery({ options, children }: CheckoutDeliveryProps) {
   const { register, control } = useFormContext<CheckoutValues>()
   const method = useWatch({ control, name: 'deliveryMethod' })
   return (
@@ -33,13 +44,7 @@ export function CheckoutDelivery({ options }: { options: DeliveryOption[] }) {
             <span className="min-w-0 flex-1">
               <span className="flex flex-wrap justify-between gap-2 font-bold">
                 <span>{option.name}</span>
-                <span>
-                  {option.cost
-                    ? option.cost.amount === '0.00'
-                      ? 'Gratis'
-                      : formatMoneyExact(option.cost)
-                    : 'A confirmar'}
-                </span>
+                <span>{costLabel(option)}</span>
               </span>
               <span className="mt-1 block text-sm text-muted-foreground">{option.description}</span>
               {option.unavailableReason && <span className="mt-2 block text-xs">{option.unavailableReason}</span>}
@@ -56,6 +61,7 @@ export function CheckoutDelivery({ options }: { options: DeliveryOption[] }) {
           <CheckoutField name="shippingAddress.postalCode" label="Código postal" autoComplete="postal-code" />
         </div>
       )}
+      {method === 'CARRIER' && children}
     </section>
   )
 }

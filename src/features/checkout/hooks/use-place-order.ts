@@ -25,6 +25,7 @@ export function usePlaceOrder(checkout: Checkout) {
         ...(customer.phone ? { phone: customer.phone } : {}),
         deliveryMethod: checkout.deliveryMethod,
         ...(checkout.shippingAddress ? { shippingAddress: checkout.shippingAddress } : {}),
+        ...(checkout.shippingQuote ? { shippingQuoteId: checkout.shippingQuote.id } : {}),
         reviewToken: checkout.reviewToken!,
         accessToken,
       })

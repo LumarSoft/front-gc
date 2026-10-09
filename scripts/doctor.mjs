@@ -126,6 +126,18 @@ try {
         'API is older than the stats page and store activity',
         'pull api-gc, apply its migrations (npx prisma migrate dev) and restart it (see docs/upgrade-notes.md)',
       )
+    // Carrier shipping (LumarSoft/api-gc#32): the admin shipment route answers 401 without a session (nothing is
+    // booked); an older API 404s it.
+    const shipment = await fetch(`${apiUrl}/admin/orders/1/shipment/refresh`, {
+      method: 'POST',
+      signal: AbortSignal.timeout(3000),
+    })
+    if (shipment.status === 401) ok('API has carrier shipping')
+    else
+      warn(
+        'API is older than carrier shipping',
+        'pull api-gc, apply its migrations (npx prisma migrate dev) and restart it (see docs/upgrade-notes.md)',
+      )
   } else warn(`API at ${apiUrl} answered ${response.status}`, 'run `npm run doctor` in api-gc')
 } catch {
   warn(

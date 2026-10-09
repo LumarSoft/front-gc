@@ -11,6 +11,23 @@ export type OrderStatus =
   | 'DELIVERED'
   | 'CANCELLED'
   | 'EXPIRED'
+export type ShipmentStatus =
+  'PENDING' | 'IN_TRANSIT' | 'READY_FOR_PICKUP' | 'DELIVERED' | 'RETURNED' | 'CANCELLED' | 'LOST'
+/** What staff can do with a carrier shipment, computed by the API. */
+export type ShipmentAction = 'CREATE' | 'DOCUMENTS' | 'CANCEL' | 'REFRESH'
+export type Shipment = {
+  status: ShipmentStatus
+  carrier: string | null
+  service: string | null
+  /** The carrier's own wording of the status. */
+  carrierStatus: string | null
+  trackingNumber: string | null
+  trackingUrl: string | null
+  /** Branch where the buyer picks it up (branch delivery). */
+  pickupPoint: string | null
+  /** Admin responses only. */
+  actions?: ShipmentAction[]
+}
 export type Order = {
   id: number
   number: string
@@ -30,6 +47,8 @@ export type Order = {
     province: string | null
     postalCode: string | null
   } | null
+  /** Carrier delivery only; null for pickup and Rosario delivery. */
+  shipment: Shipment | null
   items: {
     name: string
     variantName: string | null
