@@ -3,13 +3,15 @@
 import Link from 'next/link'
 import { Button } from '@/src/components/ui/button'
 import { CartSkeleton } from '@/src/features/cart/components/cart-skeleton'
+import { OrderOnlinePayment } from '@/src/features/payments/components/order-online-payment'
+import { canPayOnline } from '@/src/features/payments/lib/payment-window'
 import { useOrderTracking } from '../hooks/use-order-tracking'
 import { OrderDetails } from './order-details'
 import { OrderProgress } from './order-progress'
 
 export function OrderTrackingView({ number }: { number: string }) {
-  const { query, hasAccess, copied, copyLink } = useOrderTracking(number)
-  if (!hasAccess)
+  const { query, token, copied, copyLink } = useOrderTracking(number)
+  if (!token)
     return (
       <div className="rounded-2xl border p-6">
         <h2 className="text-xl font-bold">Necesitás el enlace privado de tu pedido</h2>
@@ -31,6 +33,7 @@ export function OrderTrackingView({ number }: { number: string }) {
     )
   return (
     <div className="space-y-8">
+      {canPayOnline(query.data) && <OrderOnlinePayment order={query.data} accessToken={token} />}
       <section className="rounded-2xl border border-primary/20 bg-primary/5 p-5 sm:p-6">
         <h2 className="font-bold">Guardá tu enlace de seguimiento</h2>
         <p className="mt-2 max-w-2xl text-sm text-muted-foreground">

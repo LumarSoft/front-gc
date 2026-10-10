@@ -1,15 +1,21 @@
 'use client'
 
+import { useState } from 'react'
 import { Button } from '@/src/components/ui/button'
-import type { Checkout } from '@/src/types/api/checkout'
+import type { Checkout, CheckoutPaymentMethod } from '@/src/types/api/checkout'
+import { defaultPaymentMethod } from '../lib/payment-options'
 import { useCheckoutReviewFocus } from '../hooks/use-checkout-review-focus'
 import { usePlaceOrder } from '../hooks/use-place-order'
 import { useCartBusy } from '@/src/features/cart/hooks/use-cart'
 import { CheckoutDeliveryReview } from './checkout-delivery-review'
+import { CheckoutPayment } from './checkout-payment'
 
 export function CheckoutReview({ checkout, onEdit }: { checkout: Checkout; onEdit: () => void }) {
   const heading = useCheckoutReviewFocus()
-  const { confirm, pending, error } = usePlaceOrder(checkout)
+  const [paymentMethod, setPaymentMethod] = useState<CheckoutPaymentMethod>(() =>
+    defaultPaymentMethod(checkout.paymentOptions),
+  )
+  const { confirm, pending, error } = usePlaceOrder(checkout, paymentMethod)
   const busy = useCartBusy()
   const customer = checkout.customer!
   return (
@@ -27,14 +33,12 @@ export function CheckoutReview({ checkout, onEdit }: { checkout: Checkout; onEdi
         {customer.phone && <p className="text-sm text-muted-foreground">{customer.phone}</p>}
       </div>
       <CheckoutDeliveryReview checkout={checkout} />
-      <div className="rounded-2xl bg-surface p-5">
-        <h3 className="font-bold">Pago a coordinar con el local</h3>
-        <p className="mt-2 text-sm text-muted-foreground">
-          Al confirmar, reservamos tus productos durante {checkout.reservationHours} horas. El pedido queda pendiente
-          hasta que el equipo verifique el pago. Podés consultar sus avances con un enlace privado, sin crear una
-          cuenta.
-        </p>
-      </div>
+      <CheckoutPayment
+        options={checkout.paymentOptions}
+        value={paymentMethod}
+        onChange={setPaymentMethod}
+        disabled={pending}
+      />
       {error && (
         <p role="alert" className="text-sm text-destructive">
           {error} Podés volver a revisar la compra o reintentar.
@@ -46,7 +50,13 @@ export function CheckoutReview({ checkout, onEdit }: { checkout: Checkout; onEdi
           disabled={pending || busy || !checkout.reviewToken}
           onClick={confirm}
         >
-          {pending ? 'Confirmando…' : 'Confirmar pedido'}
+          {paymentMethod === 'MERCADO_PAGO'
+            ? pending
+              ? 'Abriendo Mercado Pago…'
+              : 'Pagar con Mercado Pago'
+            : pending
+              ? 'Confirmando…'
+              : 'Confirmar pedido'}
         </Button>
         <Button variant="outline" className="h-12 rounded-full" disabled={pending || busy} onClick={onEdit}>
           Editar mis datos

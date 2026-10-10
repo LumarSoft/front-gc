@@ -16,6 +16,17 @@ The store needs the API running: keep `api-gc` up to date too (its own `npm run 
 
 ---
 
+## 2026-10-10 — Online payment with Mercado Pago
+
+Pull `api-gc` (LumarSoft/api-gc#38), apply its migration and restart it: checkout now lets the buyer pay with Mercado
+Pago (Checkout Pro) or keep "Pago a coordinar con el local", and `/pedidos/<número>/pago` is where Mercado Pago sends
+the buyer back. `npm run doctor` warns while the API is older.
+
+The Mercado Pago option only shows when the API has Mercado Pago credentials: see the 2026-10-10 entry of
+`api-gc/docs/upgrade-notes.md` (sandbox test users and test cards). Nothing to set in this repo.
+
+---
+
 ## 2026-10-09 — Carrier shipping (rest of the country)
 
 Pull `api-gc` (LumarSoft/api-gc#32), apply its migrations and restart it: checkout now quotes shipping to the rest of

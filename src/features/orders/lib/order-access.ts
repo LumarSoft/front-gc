@@ -18,6 +18,34 @@ export function storedPendingOrderToken(): string | null {
   const token = sessionStorage.getItem(PENDING_KEY)
   return token && TOKEN_PATTERN.test(token) ? token : null
 }
+const RETURN_KEY = 'cg-order-access'
+const MAX_REMEMBERED = 10
+
+function rememberedOrders(): Record<string, string> {
+  try {
+    const value: unknown = JSON.parse(localStorage.getItem(RETURN_KEY) ?? '{}')
+    return value && typeof value === 'object' ? (value as Record<string, string>) : {}
+  } catch {
+    return {}
+  }
+}
+/**
+ * Kept before going to Mercado Pago, which sends the buyer back to `/pedidos/<number>/pago` without the token (it
+ * never leaves this browser). Local storage, because the buyer may come back in another tab or from Mercado Pago's app.
+ */
+export function rememberOrderAccess(number: string, token: string): void {
+  try {
+    const entries = Object.entries(rememberedOrders()).filter(([key]) => key !== number)
+    const kept = [...entries.slice(-(MAX_REMEMBERED - 1)), [number, token]]
+    localStorage.setItem(RETURN_KEY, JSON.stringify(Object.fromEntries(kept)))
+  } catch {
+    // Without storage the buyer still has the private link of the order.
+  }
+}
+export function rememberedOrderAccess(number: string): string | null {
+  const token = rememberedOrders()[number]
+  return token && TOKEN_PATTERN.test(token) ? token : null
+}
 export function orderPath(number: string, token: string): string {
   return `/pedidos/${number}#acceso=${token}`
 }

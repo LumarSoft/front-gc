@@ -1,5 +1,5 @@
 import { apiRequest } from '@/src/lib/api-client'
-import type { PreviewCheckoutRequest } from '@/src/types/api/checkout'
+import type { CheckoutPaymentMethod, PreviewCheckoutRequest } from '@/src/types/api/checkout'
 import type {
   AdminOrdersQuery,
   MyOrdersPage,
@@ -9,7 +9,11 @@ import type {
   OrdersPage,
 } from '@/src/types/api/orders'
 
-export type PlaceOrderRequest = PreviewCheckoutRequest & { accessToken: string; reviewToken: string }
+export type PlaceOrderRequest = PreviewCheckoutRequest & {
+  accessToken: string
+  reviewToken: string
+  paymentMethod: CheckoutPaymentMethod
+}
 export function placeOrder(input: PlaceOrderRequest): Promise<Order> {
   return apiRequest<Order>('/cart/checkout/orders', { method: 'POST', body: input })
 }
@@ -18,6 +22,22 @@ export function recoverOrder(accessToken: string): Promise<Order> {
 }
 export function trackOrder(number: string, accessToken: string): Promise<Order> {
   return apiRequest<Order>(`/orders/${encodeURIComponent(number)}/track`, {
+    method: 'POST',
+    body: { accessToken },
+    skipRefresh: true,
+  })
+}
+/** A new Mercado Pago checkout for the order; the browser goes to `checkoutUrl`. */
+export function startMercadoPagoPayment(number: string, accessToken: string): Promise<{ checkoutUrl: string }> {
+  return apiRequest<{ checkoutUrl: string }>(`/orders/${encodeURIComponent(number)}/mercado-pago`, {
+    method: 'POST',
+    body: { accessToken },
+    skipRefresh: true,
+  })
+}
+/** Reads the order's payments from Mercado Pago (never from the redirect) and returns the order. */
+export function refreshMercadoPagoPayment(number: string, accessToken: string): Promise<Order> {
+  return apiRequest<Order>(`/orders/${encodeURIComponent(number)}/mercado-pago/refresh`, {
     method: 'POST',
     body: { accessToken },
     skipRefresh: true,

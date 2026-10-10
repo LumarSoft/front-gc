@@ -30,6 +30,17 @@ export type Shipment = {
   /** How the store hands the parcel over: carrier branch, Zipnova's hub or pickup. Admin responses only. */
   dispatch?: 'CARRIER_BRANCH' | 'PROVIDER_HUB' | 'PICKUP' | null
 }
+export type PaymentProvider = 'MERCADO_PAGO' | 'BANK_TRANSFER' | 'MANUAL'
+export type PaymentStatus = 'PENDING' | 'IN_REVIEW' | 'APPROVED' | 'REJECTED' | 'CANCELLED' | 'REFUNDED'
+/** A payment of the order: a Mercado Pago attempt (as read from Mercado Pago) or the staff confirmation. */
+export type OrderPayment = { provider: PaymentProvider; status: PaymentStatus; at: string }
+export type AdminOrderPayment = OrderPayment & {
+  /** Mercado Pago's operation id. */
+  externalId: string | null
+  amount: Money
+  /** Mercado Pago's reason, e.g. `cc_rejected_insufficient_amount`. */
+  statusDetail: string | null
+}
 export type Order = {
   id: number
   number: string
@@ -61,6 +72,12 @@ export type Order = {
     /** The product's current first image (a thumbnail, not part of the snapshot); null without images. */
     imageUrl: string | null
   }[]
+  /** The latest payment; null before any. */
+  payment: OrderPayment | null
+  /** Every payment, newest first. Admin responses only. */
+  payments?: AdminOrderPayment[]
+  /** An approved payment the order was not paid with: refund it from Mercado Pago. Admin responses only. */
+  refundNeeded?: boolean
   /** `note` and `by` (staff name, null for the system) only come in admin responses. */
   history: { status: OrderStatus; at: string; note?: string | null; by?: string | null }[]
   allowedStatuses?: OrderStatus[]

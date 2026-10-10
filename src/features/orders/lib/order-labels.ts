@@ -1,5 +1,4 @@
-import type { DeliveryMethod } from '@/src/types/api/checkout'
-import type { OrderStatus } from '@/src/types/api/orders'
+import type { Order, OrderStatus } from '@/src/types/api/orders'
 
 export const ORDER_LABELS: Record<OrderStatus, { label: string; description: string }> = {
   PENDING_PAYMENT: {
@@ -23,9 +22,17 @@ export const ORDER_LABELS: Record<OrderStatus, { label: string; description: str
   },
 }
 
-/** Carrier orders are handed over and delivered by the carrier, whose updates arrive on their own. */
-export function orderDescription(status: OrderStatus, delivery: DeliveryMethod): string {
-  if (delivery === 'CARRIER' && status === 'SHIPPED')
+/**
+ * Carrier orders are handed over and delivered by the carrier, whose updates arrive on their own; Mercado Pago orders
+ * are paid online and confirmed when Mercado Pago approves the payment.
+ */
+export function orderDescription(order: Pick<Order, 'status' | 'deliveryMethod' | 'paymentMethod'>): string {
+  if (order.deliveryMethod === 'CARRIER' && order.status === 'SHIPPED')
     return 'Tu pedido ya está en manos del transporte. Abajo tenés el seguimiento del envío.'
-  return ORDER_LABELS[status].description
+  if (order.paymentMethod === 'MERCADO_PAGO') {
+    if (order.status === 'PENDING_PAYMENT')
+      return 'Tu pedido está registrado. Pagalo con Mercado Pago para confirmarlo.'
+    if (order.status === 'CONFIRMED') return 'Mercado Pago aprobó tu pago. Ya estamos con tu pedido.'
+  }
+  return ORDER_LABELS[order.status].description
 }
