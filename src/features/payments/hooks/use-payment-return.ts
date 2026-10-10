@@ -8,7 +8,7 @@ import { refreshMercadoPagoPayment } from '@/src/services/orders.service'
 import { paymentOutcome } from '../lib/payment-outcome'
 
 /** While Mercado Pago has not answered yet, ask again every few seconds for about a minute. */
-const POLL_MS = 4000
+const POLL_MS = 5000
 const POLL_WINDOW_MS = 60_000
 
 const subscribe = (callback: () => void): (() => void) => {
