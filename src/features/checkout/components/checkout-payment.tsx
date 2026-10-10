@@ -1,6 +1,7 @@
 'use client'
 
 import { useFormContext, useWatch } from 'react-hook-form'
+import { MercadoPagoLogo } from '@/src/features/payments/components/mercado-pago-logo'
 import type { CheckoutPaymentOption } from '@/src/types/api/checkout'
 import type { CheckoutValues } from '../lib/checkout-schema'
 import { PAYMENT_OPTION_COPY, formatReservation, sortPaymentOptions } from '../lib/payment-options'
@@ -30,6 +31,7 @@ export function CheckoutPayment({ options }: { options: CheckoutPaymentOption[] 
               onSelect={() => setValue('paymentMethod', option.method)}
               title={copy.name}
               description={copy.hint}
+              aside={option.method === 'MERCADO_PAGO' ? <MercadoPagoLogo className="-my-3.5 -mr-2" /> : undefined}
             >
               <p className="text-sm text-muted-foreground">
                 {copy.details} Reservamos tus productos durante {formatReservation(option.reservationMinutes)}.
