@@ -20,6 +20,10 @@ export function formatReservation(minutes: number): string {
 }
 
 /** Online payment first when the store offers it: it needs no one to check the payment by hand. */
+export function sortPaymentOptions(options: CheckoutPaymentOption[]): CheckoutPaymentOption[] {
+  return [...options].sort((a, b) => Number(b.method === 'MERCADO_PAGO') - Number(a.method === 'MERCADO_PAGO'))
+}
+
 export function defaultPaymentMethod(options: CheckoutPaymentOption[]): CheckoutPaymentMethod {
-  return options.some(option => option.method === 'MERCADO_PAGO') ? 'MERCADO_PAGO' : 'MANUAL'
+  return sortPaymentOptions(options)[0]?.method ?? 'MANUAL'
 }

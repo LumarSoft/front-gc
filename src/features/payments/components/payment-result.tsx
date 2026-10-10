@@ -55,7 +55,7 @@ export function PaymentResult({ order, accessToken, polling, onCheckAgain }: Pay
           ? 'Le estamos preguntando a Mercado Pago por tu pago. No cierres esta página.'
           : copy.text}
         {payable && outcome !== 'APPROVED' && deadline && !polling && (
-          <> Podés pagar hasta el {formatDateTime(deadline)}.</>
+          <> Tenés hasta el {formatDateTime(deadline)} para pagar.</>
         )}
       </p>
       <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-start">

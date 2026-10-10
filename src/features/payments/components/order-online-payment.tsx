@@ -18,7 +18,7 @@ export function OrderOnlinePayment({ order, accessToken }: { order: Order; acces
         {deadline && (
           <>
             {' '}
-            Podés pagar hasta el <strong className="text-foreground">{formatDateTime(deadline)}</strong>.
+            Tenés hasta el <strong className="text-foreground">{formatDateTime(deadline)}</strong> para pagar.
           </>
         )}
       </p>

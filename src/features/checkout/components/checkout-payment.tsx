@@ -2,7 +2,7 @@
 
 import { cn } from '@/src/lib/utils'
 import type { CheckoutPaymentMethod, CheckoutPaymentOption } from '@/src/types/api/checkout'
-import { PAYMENT_OPTION_COPY, formatReservation } from '../lib/payment-options'
+import { PAYMENT_OPTION_COPY, formatReservation, sortPaymentOptions } from '../lib/payment-options'
 
 type CheckoutPaymentProps = {
   options: CheckoutPaymentOption[]
@@ -17,7 +17,7 @@ export function CheckoutPayment({ options, value, onChange, disabled }: Checkout
     <fieldset className="rounded-2xl border p-5">
       <legend className="px-1 font-bold">Cómo pagás</legend>
       <div className="mt-2 space-y-3">
-        {options.map(option => {
+        {sortPaymentOptions(options).map(option => {
           const copy = PAYMENT_OPTION_COPY[option.method]
           return (
             <label
