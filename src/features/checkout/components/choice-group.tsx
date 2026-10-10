@@ -39,7 +39,13 @@ export function ChoiceOption({
   children,
 }: ChoiceOptionProps) {
   return (
-    <div className={cn('relative', checked && 'z-10 bg-accent/40 outline-1 -outline-offset-1 outline-primary')}>
+    // The rounded ends follow the group's corners, so the selected outline never shows square corners.
+    <div
+      className={cn(
+        'relative first:rounded-t-lg last:rounded-b-lg',
+        checked && 'z-10 bg-accent/40 outline-1 -outline-offset-1 outline-primary',
+      )}
+    >
       <label
         className={cn(
           'flex items-start gap-3 px-4 py-3.5',
