@@ -1,14 +1,16 @@
 import type { CheckoutPaymentMethod, CheckoutPaymentOption } from '@/src/types/api/checkout'
 
-export const PAYMENT_OPTION_COPY: Record<CheckoutPaymentMethod, { name: string; description: string }> = {
+export const PAYMENT_OPTION_COPY: Record<CheckoutPaymentMethod, { name: string; hint: string; details: string }> = {
   MERCADO_PAGO: {
     name: 'Mercado Pago',
-    description:
-      'Pagá con tarjeta de crédito, débito o dinero en tu cuenta de Mercado Pago. Tu pedido se confirma apenas se aprueba el pago.',
+    hint: 'Crédito, débito o dinero en cuenta',
+    details:
+      'Al tocar "Pagar ahora" te llevamos a Mercado Pago para pagar de forma segura. Tu pedido se confirma apenas se aprueba el pago.',
   },
   MANUAL: {
     name: 'Pago a coordinar con el local',
-    description: 'El pedido queda pendiente hasta que el equipo verifique el pago.',
+    hint: 'Te contactamos para cobrarte',
+    details: 'El pedido queda pendiente hasta que el equipo verifique el pago.',
   },
 }
 

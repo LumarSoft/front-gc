@@ -1,67 +1,43 @@
 'use client'
 
 import Link from 'next/link'
-import { FormProvider } from 'react-hook-form'
-import { Button } from '@/src/components/ui/button'
 import type { AuthUser } from '@/src/types/api/auth'
 import type { Checkout } from '@/src/types/api/checkout'
-import { useCheckoutForm, type PreviewHandler } from '../hooks/use-checkout-form'
-import { CarrierShipping } from './carrier/carrier-shipping'
-import { CheckoutField } from './checkout-field'
+import type { CheckoutTotals } from '../hooks/use-checkout-totals'
+import type { ShippingQuotesState } from '../hooks/use-shipping-quotes'
+import { CheckoutContact } from './checkout-contact'
 import { CheckoutDelivery } from './checkout-delivery'
-import { CheckoutPhoneField } from './checkout-phone-field'
+import { CheckoutPayment } from './checkout-payment'
+import { CheckoutSubmit } from './checkout-submit'
 
-type Props = {
+type CheckoutFormProps = {
   checkout: Checkout
   user: AuthUser | null | undefined
-  pending: boolean
-  error: string | null
-  onPreview: PreviewHandler
+  quotes: ShippingQuotesState
+  totals: CheckoutTotals
+  submit: { onSubmit: (event: React.FormEvent<HTMLFormElement>) => void; pending: boolean; error: string | null }
 }
 
-export function CheckoutForm({ checkout, user, pending, error, onPreview }: Props) {
-  const { form, quotes, submit } = useCheckoutForm(user, onPreview)
+/** The whole purchase on one page: contact, delivery, payment and the pay button. */
+export function CheckoutForm({ checkout, user, quotes, totals, submit }: CheckoutFormProps) {
   return (
-    <FormProvider {...form}>
-      <form onSubmit={submit} noValidate className="space-y-8">
-        <fieldset disabled={pending} className="space-y-8">
-          <section className="space-y-5">
-            <h2 className="text-xl font-extrabold">1. Tus datos</h2>
-            {!user && (
-              <p className="text-sm text-muted-foreground">
-                ¿Ya tenés una cuenta?{' '}
-                <Link href="/ingresar?redirect=%2Ffinalizar-compra" className="font-semibold text-primary underline">
-                  Ingresá para usar tus datos
-                </Link>
-                .
-              </p>
-            )}
-            <CheckoutField name="name" label="Nombre y apellido" autoComplete="name" />
-            <CheckoutField
-              name="email"
-              label="Email"
-              type="email"
-              autoComplete="email"
-              description="Queda como contacto del pedido. Por ahora, las novedades se consultan con tu enlace privado."
-            />
-            <CheckoutPhoneField />
-          </section>
-          <CheckoutDelivery options={checkout.deliveryOptions}>
-            <CarrierShipping quotes={quotes} />
-          </CheckoutDelivery>
-          {error && (
-            <p role="alert" className="rounded-xl border border-destructive p-4 text-sm text-destructive">
-              {error}
-            </p>
-          )}
-          <Button type="submit" disabled={!checkout.canReview} className="h-12 w-full rounded-full text-base font-bold">
-            {pending ? 'Revisando…' : 'Revisar mi compra'}
-          </Button>
-        </fieldset>
-        <p className="text-xs text-muted-foreground">
-          Este paso no confirma tu compra. Podés revisar los datos y el total antes de pagar.
+    // POST: even before the page is interactive, a native submit never puts personal data in the URL.
+    <form method="post" onSubmit={submit.onSubmit} noValidate className="space-y-10">
+      {checkout.cart.hasIssues && (
+        <p role="alert" className="rounded-lg border border-destructive px-4 py-3 text-sm text-destructive">
+          Hay productos cuyo precio o stock cambió.{' '}
+          <Link href="/carrito" className="font-semibold underline">
+            Revisá tu carrito
+          </Link>{' '}
+          para continuar.
         </p>
-      </form>
-    </FormProvider>
+      )}
+      <fieldset disabled={submit.pending} className="space-y-10">
+        <CheckoutContact user={user} />
+        <CheckoutDelivery checkout={checkout} quotes={quotes} />
+        <CheckoutPayment options={checkout.paymentOptions} />
+      </fieldset>
+      <CheckoutSubmit totals={totals} pending={submit.pending} disabled={!checkout.canReview} error={submit.error} />
+    </form>
   )
 }

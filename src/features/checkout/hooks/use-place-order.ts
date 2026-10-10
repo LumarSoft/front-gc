@@ -4,7 +4,6 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 import { useTrackActivity } from '@/src/features/activity/hooks/use-track-activity'
-import { cartErrorMessage } from '@/src/features/cart/lib/cart-messages'
 import { finishPendingOrder, orderPath, pendingOrderToken } from '@/src/features/orders/lib/order-access'
 import { useMercadoPagoRedirect } from '@/src/features/payments/hooks/use-mercado-pago-redirect'
 import { QUERY_KEYS } from '@/src/lib/query-keys'
@@ -13,7 +12,10 @@ import type { Checkout, CheckoutPaymentMethod } from '@/src/types/api/checkout'
 
 const isCheckoutQuery = (key: readonly unknown[]): boolean => key.includes('checkout')
 
-export function usePlaceOrder(checkout: Checkout, paymentMethod: CheckoutPaymentMethod) {
+type PlaceOrderInput = { reviewed: Checkout; paymentMethod: CheckoutPaymentMethod }
+
+/** Confirms the order the API just reviewed; Mercado Pago orders then go to Mercado Pago's checkout. */
+export function usePlaceOrder() {
   const client = useQueryClient()
   const router = useRouter()
   const { track } = useTrackActivity()
@@ -21,17 +23,17 @@ export function usePlaceOrder(checkout: Checkout, paymentMethod: CheckoutPayment
   const mutation = useMutation({
     mutationKey: QUERY_KEYS.cart,
     scope: { id: 'cart' },
-    mutationFn: async () => {
-      const customer = checkout.customer!
+    mutationFn: async ({ reviewed, paymentMethod }: PlaceOrderInput) => {
+      const customer = reviewed.customer!
       const accessToken = pendingOrderToken()
       const order = await placeOrder({
         name: customer.name,
         email: customer.email,
         ...(customer.phone ? { phone: customer.phone } : {}),
-        deliveryMethod: checkout.deliveryMethod,
-        ...(checkout.shippingAddress ? { shippingAddress: checkout.shippingAddress } : {}),
-        ...(checkout.shippingQuote ? { shippingQuoteId: checkout.shippingQuote.id } : {}),
-        reviewToken: checkout.reviewToken!,
+        deliveryMethod: reviewed.deliveryMethod,
+        ...(reviewed.shippingAddress ? { shippingAddress: reviewed.shippingAddress } : {}),
+        ...(reviewed.shippingQuote ? { shippingQuoteId: reviewed.shippingQuote.id } : {}),
+        reviewToken: reviewed.reviewToken!,
         accessToken,
         paymentMethod,
       })
@@ -64,8 +66,8 @@ export function usePlaceOrder(checkout: Checkout, paymentMethod: CheckoutPayment
     },
   })
   return {
-    confirm: () => mutation.mutate(),
+    place: (input: PlaceOrderInput) => mutation.mutateAsync(input),
+    // Still pending while the browser leaves for the order page or Mercado Pago.
     pending: mutation.isPending || mutation.isSuccess,
-    error: mutation.error ? cartErrorMessage(mutation.error) : null,
   }
 }
