@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect } from 'react'
 import { useFormContext, useWatch } from 'react-hook-form'
 import { Button } from '@/src/components/ui/button'
 import { Skeleton } from '@/src/components/ui/skeleton'
@@ -33,6 +34,12 @@ export function ShippingMethods({ checkout, quotes }: { checkout: Checkout; quot
     setValue('shippingQuoteId', id)
     clearErrors('shippingQuoteId')
   }
+  // Rosario delivery chosen, then the address moved out of Rosario: the choice no longer exists.
+  useEffect(() => {
+    if (method !== 'LOCAL_DELIVERY' || showLocal) return
+    setValue('deliveryMethod', 'CARRIER')
+    setValue('shippingQuoteId', null)
+  }, [method, showLocal, setValue])
   const hasOptions = showLocal || home.length > 0 || pickup.length > 0
   return (
     <section className="space-y-3" aria-label="Métodos de envío">
