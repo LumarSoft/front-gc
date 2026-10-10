@@ -1,11 +1,9 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Controller } from 'react-hook-form'
 import { FieldGroup } from '@/src/components/ui/field'
 import { FormField } from '@/src/components/ui/form-field'
 import { Input } from '@/src/components/ui/input'
-import { SwitchField } from '@/src/components/ui/switch-field'
 import { EditorSection } from '@/src/features/admin/components/common/editor-section'
 import { useSectionForm } from '@/src/features/admin/hooks/use-section-form'
 import { useVariantMutations } from '@/src/features/admin/hooks/use-variant-mutations'
@@ -24,7 +22,7 @@ const DIMENSIONS = [
   { name: 'heightMm', label: 'Alto' },
 ] as const
 
-/** Package weight and size, used to quote shipping to the rest of the country. */
+/** Package weight and size, used to quote shipping to the rest of the country; required to publish the product. */
 export function VariantShippingSection({ productId, variant }: VariantShippingSectionProps) {
   const { update } = useVariantMutations(productId)
   const { form, dirty, pending, save, discard } = useSectionForm({
@@ -38,7 +36,7 @@ export function VariantShippingSection({ productId, variant }: VariantShippingSe
   return (
     <EditorSection
       title="Envío"
-      description="Con el paquete armado. Se usa para cotizar envíos al interior."
+      description="Con el paquete armado. Se usa para cotizar el envío al resto del país y es obligatorio para publicar."
       dirty={dirty}
       pending={pending}
       onSave={save}
@@ -70,19 +68,6 @@ export function VariantShippingSection({ productId, variant }: VariantShippingSe
             </FormField>
           ))}
         </div>
-        <Controller
-          control={form.control}
-          name="isBulky"
-          render={({ field }) => (
-            <SwitchField
-              id="variant-bulky"
-              label="Voluminoso"
-              description="Máquinas y bultos grandes: tienen reglas de envío especiales."
-              checked={field.value}
-              onCheckedChange={field.onChange}
-            />
-          )}
-        />
       </FieldGroup>
     </EditorSection>
   )

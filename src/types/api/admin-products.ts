@@ -4,7 +4,7 @@ import type { Money } from '@/src/types/api/money'
 
 export type ProductStatus = 'DRAFT' | 'PUBLISHED' | 'HIDDEN'
 /** What a product still needs. The first two block publishing; NO_IMAGE only warns. */
-export type ProductIssue = 'NO_ACTIVE_VARIANT' | 'NO_RETAIL_PRICE' | 'NO_IMAGE'
+export type ProductIssue = 'NO_ACTIVE_VARIANT' | 'NO_RETAIL_PRICE' | 'NO_SHIPPING_DATA' | 'NO_IMAGE'
 export type AdminProductSort = 'updated' | 'name' | 'newest'
 
 export type IdName = { id: number; name: string }
@@ -46,6 +46,8 @@ export type AdminProductsQuery = {
   categoryId?: number
   brandId?: number
   stock?: 'out'
+  /** Products with an active variant missing weight or a measurement. */
+  shipping?: 'missing'
   sort?: AdminProductSort
 }
 
@@ -68,6 +70,8 @@ export type AdminVariantSummary = {
   retailPrice: Money | null
   available: number | null
   availability: Availability
+  /** Weight and the three measurements are loaded (needed to publish and to quote shipping). */
+  hasShippingData: boolean
 }
 
 export type Currency = 'ARS' | 'USD'
@@ -96,7 +100,6 @@ export type AdminVariant = AdminVariantSummary & {
   lengthMm: number | null
   widthMm: number | null
   heightMm: number | null
-  isBulky: boolean
   prices: VariantPrice[]
   /** Null when stock was never loaded. */
   stock: VariantStock | null
@@ -165,7 +168,6 @@ export type VariantInput = Partial<{
   lengthMm: number | null
   widthMm: number | null
   heightMm: number | null
-  isBulky: boolean
 }>
 
 export type VariantPriceInput = {
