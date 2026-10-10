@@ -4,9 +4,9 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useCurrentUser } from '@/src/features/auth/hooks/use-current-user'
 import { QUERY_KEYS } from '@/src/lib/query-keys'
 import { getCheckout, previewCheckout } from '@/src/services/checkout.service'
-import { cartErrorMessage } from '@/src/features/cart/lib/cart-messages'
 import { useCartBusy } from '@/src/features/cart/hooks/use-cart'
 
+/** The checkout as the API prices it, and the preview that checks contact, delivery and total before paying. */
 export function useCheckout() {
   const session = useCurrentUser()
   const client = useQueryClient()
@@ -34,11 +34,5 @@ export function useCheckout() {
       void client.invalidateQueries({ queryKey })
     },
   })
-  return {
-    query,
-    preview,
-    pending: cartBusy,
-    user: session.data,
-    error: preview.error ? cartErrorMessage(preview.error) : null,
-  }
+  return { query, preview, cartBusy, user: session.data }
 }

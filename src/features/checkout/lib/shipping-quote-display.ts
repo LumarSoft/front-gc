@@ -43,3 +43,9 @@ export function sameDestination(a: ShippingDestination, b: ShippingDestination):
     normalize(a.province) === normalize(b.province)
   )
 }
+
+/** "OCA · llega en 4 a 5 días" under a shipping option. */
+export function quoteDescription(carrier: string, minDays: number | null, maxDays: number | null): string {
+  const days = formatDeliveryDays(minDays, maxDays)
+  return days ? `${carrier} · llega en ${days}` : carrier
+}

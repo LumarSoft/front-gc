@@ -1,55 +1,43 @@
 'use client'
 
-import { cn } from '@/src/lib/utils'
-import type { CheckoutPaymentMethod, CheckoutPaymentOption } from '@/src/types/api/checkout'
+import { useFormContext, useWatch } from 'react-hook-form'
+import type { CheckoutPaymentOption } from '@/src/types/api/checkout'
+import type { CheckoutValues } from '../lib/checkout-schema'
 import { PAYMENT_OPTION_COPY, formatReservation, sortPaymentOptions } from '../lib/payment-options'
+import { ChoiceGroup, ChoiceOption } from './choice-group'
 
-type CheckoutPaymentProps = {
-  options: CheckoutPaymentOption[]
-  value: CheckoutPaymentMethod
-  onChange: (method: CheckoutPaymentMethod) => void
-  disabled: boolean
-}
-
-/** How the buyer pays, with how long each way holds their products. */
-export function CheckoutPayment({ options, value, onChange, disabled }: CheckoutPaymentProps) {
+/** How the buyer pays; the chosen option explains what happens next and how long the products are held. */
+export function CheckoutPayment({ options }: { options: CheckoutPaymentOption[] }) {
+  const { control, setValue } = useFormContext<CheckoutValues>()
+  const method = useWatch({ control, name: 'paymentMethod' })
   return (
-    <fieldset className="rounded-2xl border p-5">
-      <legend className="px-1 font-bold">Cómo pagás</legend>
-      <div className="mt-2 space-y-3">
+    <section className="space-y-3" aria-labelledby="checkout-payment">
+      <div>
+        <h2 id="checkout-payment" className="text-xl font-bold">
+          Pago
+        </h2>
+        <p className="mt-1 text-sm text-muted-foreground">Los datos de tu tarjeta nunca pasan por nuestra tienda.</p>
+      </div>
+      <ChoiceGroup label="Medio de pago">
         {sortPaymentOptions(options).map(option => {
           const copy = PAYMENT_OPTION_COPY[option.method]
           return (
-            <label
+            <ChoiceOption
               key={option.method}
-              className={cn(
-                'flex cursor-pointer gap-3 rounded-xl border p-4',
-                value === option.method && 'border-primary bg-primary/5',
-              )}
+              name="payment-method"
+              value={option.method}
+              checked={method === option.method}
+              onSelect={() => setValue('paymentMethod', option.method)}
+              title={copy.name}
+              description={copy.hint}
             >
-              <input
-                type="radio"
-                name="paymentMethod"
-                value={option.method}
-                checked={value === option.method}
-                disabled={disabled}
-                onChange={() => onChange(option.method)}
-                className="mt-1 size-4 shrink-0 accent-primary"
-              />
-              <span className="min-w-0 flex-1">
-                <span className="block font-bold">{copy.name}</span>
-                <span className="mt-1 block text-sm text-muted-foreground">{copy.description}</span>
-                <span className="mt-2 block text-xs">
-                  Reservamos tus productos durante {formatReservation(option.reservationMinutes)}.
-                </span>
-              </span>
-            </label>
+              <p className="text-sm text-muted-foreground">
+                {copy.details} Reservamos tus productos durante {formatReservation(option.reservationMinutes)}.
+              </p>
+            </ChoiceOption>
           )
         })}
-      </div>
-      <p className="mt-4 text-sm text-muted-foreground">
-        Podés consultar los avances de tu pedido con un enlace privado, sin crear una cuenta.
-      </p>
-    </fieldset>
+      </ChoiceGroup>
+    </section>
   )
 }

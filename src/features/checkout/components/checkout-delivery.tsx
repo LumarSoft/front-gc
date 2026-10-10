@@ -1,67 +1,61 @@
 'use client'
 
+import { StoreIcon, TruckIcon } from 'lucide-react'
 import { useFormContext, useWatch } from 'react-hook-form'
-import { cn } from '@/src/lib/utils'
-import { formatMoneyExact } from '@/src/lib/format'
-import type { CheckoutDelivery as DeliveryOption } from '@/src/types/api/checkout'
+import type { Checkout } from '@/src/types/api/checkout'
+import type { ShippingQuotesState } from '../hooks/use-shipping-quotes'
 import type { CheckoutValues } from '../lib/checkout-schema'
-import { CheckoutField } from './checkout-field'
+import { groupQuoteOptions } from '../lib/shipping-quote-display'
+import { ChoiceGroup, ChoiceOption } from './choice-group'
+import { PickupDetails } from './pickup-details'
+import { ShippingAddressFields } from './shipping-address-fields'
+import { ShippingMethods } from './shipping-methods'
 
-function costLabel(option: DeliveryOption): string {
-  if (option.cost) return option.cost.amount === '0.00' ? 'Gratis' : formatMoneyExact(option.cost)
-  return option.code === 'CARRIER' && option.enabled ? 'Según destino' : 'A confirmar'
-}
-
-type CheckoutDeliveryProps = {
-  options: DeliveryOption[]
-  /** Shipping to the rest of the country, shown when the buyer picks it. */
-  children: React.ReactNode
-}
-
-export function CheckoutDelivery({ options, children }: CheckoutDeliveryProps) {
-  const { register, control } = useFormContext<CheckoutValues>()
-  const method = useWatch({ control, name: 'deliveryMethod' })
+/** Shipping or pickup first; shipping then asks for the address and offers the methods for it. */
+export function CheckoutDelivery({ checkout, quotes }: { checkout: Checkout; quotes: ShippingQuotesState }) {
+  const { control, setValue, clearErrors } = useFormContext<CheckoutValues>()
+  const mode = useWatch({ control, name: 'deliveryMode' })
+  const option = (code: string) => checkout.deliveryOptions.find(candidate => candidate.code === code)
+  const canShip = Boolean(option('LOCAL_DELIVERY')?.enabled || option('CARRIER')?.enabled)
+  const choose = (next: CheckoutValues['deliveryMode']): void => {
+    setValue('deliveryMode', next)
+    setValue('deliveryMethod', next === 'PICKUP' ? 'STORE_PICKUP' : 'CARRIER')
+    setValue('shippingQuoteId', next === 'SHIP' ? (groupQuoteOptions(quotes.options ?? []).home[0]?.id ?? null) : null)
+    clearErrors()
+  }
   return (
-    <section className="space-y-5">
-      <h2 className="text-xl font-extrabold">2. Cómo recibís tu compra</h2>
-      <div className="space-y-3">
-        {options.map(option => (
-          <label
-            key={option.code}
-            className={cn(
-              'flex gap-3 rounded-2xl border p-4',
-              method === option.code && 'border-primary bg-primary/5',
-              !option.enabled && 'bg-muted/40 text-muted-foreground',
-            )}
-          >
-            <input
-              type="radio"
-              value={option.code}
-              disabled={!option.enabled}
-              className="mt-1 size-4 shrink-0 accent-primary"
-              {...register('deliveryMethod')}
-            />
-            <span className="min-w-0 flex-1">
-              <span className="flex flex-wrap justify-between gap-2 font-bold">
-                <span>{option.name}</span>
-                <span>{costLabel(option)}</span>
-              </span>
-              <span className="mt-1 block text-sm text-muted-foreground">{option.description}</span>
-              {option.unavailableReason && <span className="mt-2 block text-xs">{option.unavailableReason}</span>}
-            </span>
-          </label>
-        ))}
-      </div>
-      {method === 'LOCAL_DELIVERY' && (
-        <div className="grid gap-4 sm:grid-cols-2">
-          <CheckoutField name="shippingAddress.street" label="Calle" autoComplete="address-line1" />
-          <CheckoutField name="shippingAddress.streetNumber" label="Altura" autoComplete="address-line2" />
-          <CheckoutField name="shippingAddress.city" label="Ciudad" autoComplete="address-level2" />
-          <CheckoutField name="shippingAddress.province" label="Provincia" autoComplete="address-level1" />
-          <CheckoutField name="shippingAddress.postalCode" label="Código postal" autoComplete="postal-code" />
-        </div>
+    <section className="space-y-4" aria-labelledby="checkout-delivery">
+      <h2 id="checkout-delivery" className="text-xl font-bold">
+        Entrega
+      </h2>
+      <ChoiceGroup label="Cómo recibís tu compra">
+        <ChoiceOption
+          name="delivery-mode"
+          value="SHIP"
+          checked={mode === 'SHIP'}
+          onSelect={() => choose('SHIP')}
+          disabled={!canShip}
+          title="Envío"
+          description={canShip ? undefined : option('CARRIER')?.unavailableReason}
+          aside={<TruckIcon aria-hidden strokeWidth={1.5} className="size-5 text-muted-foreground" />}
+        />
+        <ChoiceOption
+          name="delivery-mode"
+          value="PICKUP"
+          checked={mode === 'PICKUP'}
+          onSelect={() => choose('PICKUP')}
+          title="Retiro en el local"
+          aside={<StoreIcon aria-hidden strokeWidth={1.5} className="size-5 text-muted-foreground" />}
+        />
+      </ChoiceGroup>
+      {mode === 'SHIP' ? (
+        <>
+          <ShippingAddressFields />
+          <ShippingMethods checkout={checkout} quotes={quotes} />
+        </>
+      ) : (
+        <PickupDetails pickup={option('STORE_PICKUP')} />
       )}
-      {method === 'CARRIER' && children}
     </section>
   )
 }
