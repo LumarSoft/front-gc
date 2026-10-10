@@ -16,7 +16,7 @@ export function useProductListParams() {
   }
 
   /** Search and filters, not the view (status) or the order. */
-  const hasSearch = Boolean(query.q || query.categoryId || query.brandId || query.stock)
+  const hasSearch = Boolean(query.q || query.categoryId || query.brandId || query.stock || query.shipping)
   const hasFilters = hasSearch || Boolean(query.status)
   return {
     query,
@@ -24,6 +24,7 @@ export function useProductListParams() {
     hasSearch,
     hasFilters,
     clear: () => router.replace(pathname, { scroll: false }),
-    clearSearch: () => update({ q: undefined, categoryId: undefined, brandId: undefined, stock: undefined }),
+    clearSearch: () =>
+      update({ q: undefined, categoryId: undefined, brandId: undefined, stock: undefined, shipping: undefined }),
   }
 }

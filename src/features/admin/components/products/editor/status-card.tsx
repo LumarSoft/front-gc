@@ -11,6 +11,12 @@ import { BLOCKING_ISSUES } from '@/src/features/admin/lib/product-labels'
 import { formatDateTime } from '@/src/lib/format'
 import type { AdminProduct } from '@/src/types/api/admin-products'
 
+/** Above the issue chips: a published product keeps selling, but missing shipping data stops carrier quotes. */
+function statusHint(published: boolean, blocked: boolean): string {
+  if (!blocked) return published ? 'Conviene revisar:' : 'Se puede publicar, pero conviene revisar:'
+  return published ? 'Está publicado, pero falta resolver:' : 'Para publicarlo falta resolver:'
+}
+
 /** Visibility in the store and what is missing to publish. */
 export function StatusCard({ product }: { product: AdminProduct }) {
   const { setStatus } = useProductMutations(product.id)
@@ -26,9 +32,7 @@ export function StatusCard({ product }: { product: AdminProduct }) {
       <CardContent className="flex flex-col gap-4">
         {product.issues.length > 0 && (
           <div className="flex flex-col gap-2 text-sm">
-            <p className="text-muted-foreground">
-              {blocked ? 'Para publicarlo falta resolver:' : 'Se puede publicar, pero conviene revisar:'}
-            </p>
+            <p className="text-muted-foreground">{statusHint(published, blocked)}</p>
             <ProductIssueChips issues={product.issues} />
           </div>
         )}

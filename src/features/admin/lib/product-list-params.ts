@@ -10,7 +10,10 @@ const positiveInt = (value: string | null): number | undefined => {
   return Number.isInteger(parsed) && parsed > 0 ? parsed : undefined
 }
 
-/** List filters live in the URL (`?q=&status=&categoryId=&brandId=&stock=out&sort=&page=`): shareable and kept on reload. */
+/**
+ * List filters live in the URL (`?q=&status=&categoryId=&brandId=&stock=out&shipping=missing&sort=&page=`): shareable
+ * and kept on reload.
+ */
 export function parseProductListParams(params: URLSearchParams): AdminProductsQuery {
   const status = params.get('status') as ProductStatus | null
   const sort = params.get('sort') as AdminProductSort | null
@@ -21,6 +24,7 @@ export function parseProductListParams(params: URLSearchParams): AdminProductsQu
     categoryId: positiveInt(params.get('categoryId')),
     brandId: positiveInt(params.get('brandId')),
     stock: params.get('stock') === 'out' ? 'out' : undefined,
+    shipping: params.get('shipping') === 'missing' ? 'missing' : undefined,
     sort: sort && SORTS.includes(sort) ? sort : undefined,
     page: page > 1 ? page : undefined,
     pageSize: ADMIN_PRODUCTS_PAGE_SIZE,
@@ -35,6 +39,7 @@ export function productListSearch(query: AdminProductsQuery): string {
   if (query.categoryId) params.set('categoryId', String(query.categoryId))
   if (query.brandId) params.set('brandId', String(query.brandId))
   if (query.stock) params.set('stock', query.stock)
+  if (query.shipping) params.set('shipping', query.shipping)
   if (query.sort && query.sort !== 'updated') params.set('sort', query.sort)
   if (query.page && query.page > 1) params.set('page', String(query.page))
   const search = params.toString()

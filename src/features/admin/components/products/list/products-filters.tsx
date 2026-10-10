@@ -84,6 +84,11 @@ export function ProductsFilters() {
             pressed={query.stock === 'out'}
             onPressedChange={pressed => update({ stock: pressed ? 'out' : undefined })}
           />
+          <ToggleFilterPill
+            label="Sin peso o medidas"
+            pressed={query.shipping === 'missing'}
+            onPressedChange={pressed => update({ shipping: pressed ? 'missing' : undefined })}
+          />
         </>
       }
     />

@@ -9,7 +9,6 @@ export const variantShippingSchema = z.object({
   lengthMm: dimension,
   widthMm: dimension,
   heightMm: dimension,
-  isBulky: z.boolean(),
 })
 
 export type VariantShippingValues = z.infer<typeof variantShippingSchema>
@@ -20,7 +19,6 @@ export function variantShippingValues(variant: AdminVariant): VariantShippingVal
     lengthMm: intToText(variant.lengthMm),
     widthMm: intToText(variant.widthMm),
     heightMm: intToText(variant.heightMm),
-    isBulky: variant.isBulky,
   }
 }
 
@@ -30,6 +28,5 @@ export function toShippingInput(values: VariantShippingValues): VariantInput {
     lengthMm: toIntOrNull(values.lengthMm),
     widthMm: toIntOrNull(values.widthMm),
     heightMm: toIntOrNull(values.heightMm),
-    isBulky: values.isBulky,
   }
 }

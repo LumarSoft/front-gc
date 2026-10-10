@@ -30,11 +30,12 @@ export const PRODUCT_SORT_OPTIONS: { value: AdminProductSort; label: string }[] 
 export const PRODUCT_ISSUE_LABELS: Record<ProductIssue, string> = {
   NO_ACTIVE_VARIANT: 'Sin variantes activas',
   NO_RETAIL_PRICE: 'Sin precio minorista',
+  NO_SHIPPING_DATA: 'Sin peso o medidas',
   NO_IMAGE: 'Sin imágenes',
 }
 
 /** Issues that stop publishing (same rule as the API). */
-export const BLOCKING_ISSUES: ProductIssue[] = ['NO_ACTIVE_VARIANT', 'NO_RETAIL_PRICE']
+export const BLOCKING_ISSUES: ProductIssue[] = ['NO_ACTIVE_VARIANT', 'NO_RETAIL_PRICE', 'NO_SHIPPING_DATA']
 
 export const OUT_OF_STOCK_OPTIONS: { value: OutOfStockBehavior; label: string; description: string }[] = [
   {
