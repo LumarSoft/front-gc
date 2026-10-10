@@ -138,6 +138,18 @@ try {
         'API is older than carrier shipping',
         'pull api-gc, apply its migrations (npx prisma migrate dev) and restart it (see docs/upgrade-notes.md)',
       )
+    // Mercado Pago (LumarSoft/api-gc#38): the payment refresh route rejects an empty body with 400 (nothing is read
+    // from Mercado Pago); an older API 404s it.
+    const payment = await fetch(`${apiUrl}/orders/CG-000000/mercado-pago/refresh`, {
+      method: 'POST',
+      signal: AbortSignal.timeout(3000),
+    })
+    if (payment.status === 400) ok('API has online payment with Mercado Pago')
+    else
+      warn(
+        'API is older than online payment with Mercado Pago',
+        'pull api-gc, apply its migrations (npx prisma migrate dev) and restart it (see docs/upgrade-notes.md)',
+      )
   } else warn(`API at ${apiUrl} answered ${response.status}`, 'run `npm run doctor` in api-gc')
 } catch {
   warn(

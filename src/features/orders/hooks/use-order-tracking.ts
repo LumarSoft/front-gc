@@ -40,5 +40,5 @@ export function useOrderTracking(number: string) {
       toast.error('No pudimos copiar el enlace. Guardá la dirección de esta página desde tu navegador.')
     }
   }
-  return { query, hasAccess: Boolean(token), copied, copyLink }
+  return { query, token, copied, copyLink }
 }

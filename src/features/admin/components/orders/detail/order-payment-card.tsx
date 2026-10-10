@@ -10,6 +10,7 @@ import { formatFromNow, formatOrderDate } from '@/src/features/admin/lib/relativ
 import { formatMoneyExact } from '@/src/lib/format'
 import { cn } from '@/src/lib/utils'
 import type { Order } from '@/src/types/api/orders'
+import { OrderOnlinePayments } from './order-online-payments'
 
 type OrderPaymentCardProps = {
   order: Order
@@ -18,13 +19,14 @@ type OrderPaymentCardProps = {
   onConfirm: () => void
 }
 
-/** Amounts, the stock reservation deadline while unpaid, and the "mark as paid" action. */
+/** Amounts, the stock reservation deadline while unpaid, Mercado Pago operations and the "mark as paid" action. */
 export function OrderPaymentCard({ order, canConfirm, pending, onConfirm }: OrderPaymentCardProps) {
   const items = itemCount(order.items)
   const unpaid = order.status === 'PENDING_PAYMENT'
   const now = useNow()
   const overdue = unpaid && order.expiresAt !== null && Date.parse(order.expiresAt) <= now.getTime()
   const shippingFree = Number(order.shippingTotal.amount) === 0
+  const online = order.paymentMethod === 'MERCADO_PAGO'
 
   return (
     <AdminCard
@@ -69,9 +71,10 @@ export function OrderPaymentCard({ order, canConfirm, pending, onConfirm }: Orde
           )}
           {overdue
             ? `La reserva venció ${formatFromNow(order.expiresAt, now)}. No confirmes este pago: el cliente tiene que hacer un pedido nuevo.`
-            : `El stock queda reservado hasta ${formatOrderDate(order.expiresAt, now).toLowerCase()} (${formatFromNow(order.expiresAt, now)}). El pago se coordina con el cliente.`}
+            : `El stock queda reservado hasta ${formatOrderDate(order.expiresAt, now).toLowerCase()} (${formatFromNow(order.expiresAt, now)}). ${online ? 'El cliente paga con Mercado Pago y el pedido se confirma solo cuando se aprueba.' : 'El pago se coordina con el cliente.'}`}
         </p>
       )}
+      <OrderOnlinePayments order={order} now={now} />
     </AdminCard>
   )
 }

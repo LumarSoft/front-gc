@@ -16,6 +16,8 @@ export const QUERY_KEYS = {
     ['orders', 'mine', userId, 'list', page, pageSize] as const,
   myOrder: (userId: number, number: string) => ['orders', 'mine', userId, 'detail', number] as const,
   orderTracking: (number: string, token: string | null) => ['orders', 'tracking', number, token] as const,
+  /** The order read again from Mercado Pago when the buyer comes back from paying. */
+  paymentReturn: (number: string, token: string | null) => ['orders', 'payment-return', number, token] as const,
   admin: {
     categories: ['admin', 'categories'],
     brands: ['admin', 'brands'],

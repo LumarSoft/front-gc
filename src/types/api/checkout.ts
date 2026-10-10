@@ -62,4 +62,13 @@ export type Checkout = {
   canReview: boolean
   reviewToken: string | null
   reservationHours: number
+  /** How the buyer can pay; Mercado Pago only while the API has it configured. */
+  paymentOptions: CheckoutPaymentOption[]
+}
+/** Paid at the store (coordinated with the team) or online with Mercado Pago. */
+export type CheckoutPaymentMethod = 'MANUAL' | 'MERCADO_PAGO'
+export type CheckoutPaymentOption = {
+  method: CheckoutPaymentMethod
+  /** How long a new order holds the stock when paid this way. */
+  reservationMinutes: number
 }
