@@ -8,6 +8,7 @@ import { AssistantMessages } from '@/src/features/assistant/components/assistant
 import { AssistantWelcome } from '@/src/features/assistant/components/assistant-welcome'
 import { useAssistant } from '@/src/features/assistant/hooks/use-assistant'
 import { useAssistantChat } from '@/src/features/assistant/hooks/use-assistant-chat'
+import { useFullScreenChat } from '@/src/features/assistant/hooks/use-full-screen-chat'
 import { useAssistantPanel } from '@/src/features/assistant/hooks/use-assistant-panel'
 import { productSlugFromPath } from '@/src/features/assistant/lib/assistant-links'
 import { cn } from '@/src/lib/utils'
@@ -28,11 +29,15 @@ export function AssistantPanel() {
     takePendingQuestion,
     close,
   })
+  const position = useFullScreenChat(isOpen)
   // Questions about a product only while the customer is still on its page.
   const topic = product && product.slug === pageProduct ? product : null
 
   return (
-    <div className="pointer-events-none fixed inset-0 z-40 flex flex-col justify-end sm:inset-auto sm:top-6 sm:right-6 sm:bottom-6">
+    <div
+      style={position}
+      className="pointer-events-none fixed inset-0 z-40 flex flex-col justify-end sm:inset-auto sm:top-6 sm:right-6 sm:bottom-6"
+    >
       <section
         ref={dialog}
         tabIndex={-1}

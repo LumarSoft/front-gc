@@ -2,9 +2,7 @@
 
 import { useEffect, useEffectEvent, useRef, type KeyboardEvent } from 'react'
 import type { PendingQuestion } from '@/src/features/assistant/hooks/use-assistant'
-
-/** Below Tailwind's `sm`, the chat covers the whole screen. */
-const FULL_SCREEN = '(max-width: 639px)'
+import { FULL_SCREEN_QUERY } from '@/src/features/assistant/lib/full-screen'
 
 type PanelOptions = {
   isOpen: boolean
@@ -24,7 +22,7 @@ export function useAssistantPanel({ isOpen, pendingQuestion, send, ready, takePe
   // Focus moves into the chat. On phones, to the chat itself: focusing the field would cover it with the keyboard.
   useEffect(() => {
     if (!isOpen) return
-    if (window.matchMedia(FULL_SCREEN).matches) dialog.current?.focus({ preventScroll: true })
+    if (window.matchMedia(FULL_SCREEN_QUERY).matches) dialog.current?.focus({ preventScroll: true })
     else input.current?.focus({ preventScroll: true })
   }, [isOpen])
 
