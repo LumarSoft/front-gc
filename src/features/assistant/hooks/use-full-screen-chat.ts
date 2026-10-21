@@ -11,9 +11,11 @@ import { FULL_SCREEN_QUERY } from '@/src/features/assistant/lib/full-screen'
  */
 export function useFullScreenChat(isOpen: boolean): CSSProperties | undefined {
   const visible = useSyncExternalStore(subscribe, () => (isOpen ? visibleScreen() : ''), serverScreen)
+  // Follows the screen too: turning the phone sideways makes the chat a floating window, and the page scrolls again.
+  const fullScreen = visible !== ''
 
   useEffect(() => {
-    if (!isOpen || !window.matchMedia(FULL_SCREEN_QUERY).matches) return
+    if (!fullScreen) return
     const root = document.documentElement
     const previous = { overflow: root.style.overflow, overscrollBehavior: root.style.overscrollBehavior }
     root.style.overflow = 'hidden'
@@ -22,9 +24,9 @@ export function useFullScreenChat(isOpen: boolean): CSSProperties | undefined {
       root.style.overflow = previous.overflow
       root.style.overscrollBehavior = previous.overscrollBehavior
     }
-  }, [isOpen])
+  }, [fullScreen])
 
-  if (!visible) return undefined
+  if (!fullScreen) return undefined
   const [top, height] = visible.split(':').map(Number)
   return { top, height, bottom: 'auto' }
 }
