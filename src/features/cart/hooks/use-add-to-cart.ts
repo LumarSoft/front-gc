@@ -24,8 +24,15 @@ const serverSnapshot = () => false
 /** What adding needs from a variant: the product page passes the selected one, the assistant's cards a single one. */
 export type AddableVariant = Pick<ProductVariant, 'id' | 'price' | 'availability'>
 
-/** `productId`: the product the variant belongs to, for the store's activity stats. */
-export function useAddToCart(variant: AddableVariant | undefined, productId: number): AddToCartState {
+/**
+ * `productId`: the product the variant belongs to, for the store's activity stats. `onAdded` runs once the cart took it
+ * (the assistant's cards report it).
+ */
+export function useAddToCart(
+  variant: AddableVariant | undefined,
+  productId: number,
+  onAdded?: () => void,
+): AddToCartState {
   // The browser may already have session data while a streamed product still needs hydration.
   const hydrated = useSyncExternalStore(subscribe, clientSnapshot, serverSnapshot)
   const mutation = useAddCartItem()
@@ -51,6 +58,7 @@ export function useAddToCart(variant: AddableVariant | undefined, productId: num
             onSuccess: () => {
               openCart(trigger)
               track({ type: 'ADD_TO_CART', productId })
+              onAdded?.()
             },
           },
         )

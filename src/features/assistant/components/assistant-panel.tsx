@@ -10,6 +10,7 @@ import { useAssistant } from '@/src/features/assistant/hooks/use-assistant'
 import { useAssistantChat } from '@/src/features/assistant/hooks/use-assistant-chat'
 import { useFullScreenChat } from '@/src/features/assistant/hooks/use-full-screen-chat'
 import { useAssistantPanel } from '@/src/features/assistant/hooks/use-assistant-panel'
+import { CartAddReportContext } from '@/src/features/assistant/hooks/use-cart-add-report'
 import { productSlugFromPath } from '@/src/features/assistant/lib/assistant-links'
 import { cn } from '@/src/lib/utils'
 
@@ -52,13 +53,15 @@ export function AssistantPanel() {
       >
         <AssistantHeader onClose={close} onRestart={chat.messages.length ? chat.reset : undefined} />
         <AssistantErrorBoundary onRestart={chat.reset}>
-          <AssistantMessages
-            messages={chat.messages}
-            empty={<AssistantWelcome product={topic} onAsk={chat.send} />}
-            onRetry={chat.retry}
-            onRestart={chat.reset}
-            onNavigate={onNavigate}
-          />
+          <CartAddReportContext value={chat.reportCartAdd}>
+            <AssistantMessages
+              messages={chat.messages}
+              empty={<AssistantWelcome product={topic} onAsk={chat.send} />}
+              onRetry={chat.retry}
+              onRestart={chat.reset}
+              onNavigate={onNavigate}
+            />
+          </CartAddReportContext>
         </AssistantErrorBoundary>
         <AssistantComposer
           inputRef={input}

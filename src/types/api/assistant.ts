@@ -10,6 +10,9 @@ export type AssistantMessageInput = {
   productSlug?: string
 }
 
+/** `POST /assistant/cart-adds`: a product of the conversation's cards went into the cart. */
+export type AssistantCartAddInput = { conversation: string; productId: number; variantId?: number }
+
 /** A catalog card plus the variant to add to the cart, or null when the product has options to pick on its page. */
 export type AssistantProductCard = ProductSummary & { variantId: number | null }
 

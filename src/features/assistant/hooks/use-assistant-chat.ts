@@ -11,7 +11,7 @@ import {
 import { answerProblem, CONNECTION_LOST } from '@/src/features/assistant/lib/assistant-problems'
 import { loadConversation, saveConversation } from '@/src/features/assistant/lib/assistant-storage'
 import { ApiError } from '@/src/lib/api-client'
-import { streamAssistantAnswer } from '@/src/services/assistant.service'
+import { recordAssistantCartAdd, streamAssistantAnswer } from '@/src/services/assistant.service'
 
 /**
  * The conversation with the sales assistant: sends questions, applies the streamed answer as it arrives and keeps the
@@ -86,6 +86,13 @@ export function useAssistantChat(productSlug: string | undefined) {
       if (!question || busy.current) return
       dispatch({ type: 'retried' })
       void answer(question)
+    },
+    /** A card of this conversation went into the cart: the admin's metrics count it. */
+    reportCartAdd: (productId: number, variantId: number | null): void => {
+      const conversation = token.current
+      if (!conversation) return
+      // Only a metric: the product is in the cart already, so a failure is not the customer's concern.
+      recordAssistantCartAdd({ conversation, productId, variantId: variantId ?? undefined }).catch(() => undefined)
     },
     reset: (): void => {
       request.current?.abort()

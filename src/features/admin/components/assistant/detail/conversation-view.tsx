@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { Button } from '@/src/components/ui/button'
 import { Card } from '@/src/components/ui/card'
 import { EmptyState } from '@/src/components/ui/empty-state'
+import { ConversationCartCard } from '@/src/features/admin/components/assistant/detail/conversation-cart-card'
 import { ConversationCustomerCard } from '@/src/features/admin/components/assistant/detail/conversation-customer-card'
 import { ConversationHeader } from '@/src/features/admin/components/assistant/detail/conversation-header'
 import { ConversationQuestionsCard } from '@/src/features/admin/components/assistant/detail/conversation-questions-card'
@@ -15,7 +16,10 @@ import { QueryErrorState } from '@/src/features/admin/components/feedback/query-
 import { useAdminConversation } from '@/src/features/admin/hooks/use-admin-assistant'
 import { ApiError } from '@/src/lib/api-client'
 
-/** One conversation, read-only: the chat on the left; who, what it cost and what it could not answer on the right. */
+/**
+ * One conversation, read-only: the chat on the left; what it sold, what it could not answer, who and what it cost on
+ * the right.
+ */
 export function ConversationView({ id }: { id: number }) {
   const query = useAdminConversation(id)
 
@@ -51,6 +55,7 @@ export function ConversationView({ id }: { id: number }) {
           <ConversationTranscript messages={conversation.messages} />
         </div>
         <div className="flex min-w-0 flex-col gap-4">
+          {conversation.cartAdds.length > 0 && <ConversationCartCard cartAdds={conversation.cartAdds} />}
           {conversation.questions.length > 0 && <ConversationQuestionsCard questions={conversation.questions} />}
           <ConversationCustomerCard conversation={conversation} />
           <ConversationSummaryCard conversation={conversation} />

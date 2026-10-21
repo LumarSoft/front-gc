@@ -8,7 +8,12 @@ import type { AdminConversation } from '@/src/types/api/admin-assistant'
 
 /** Number and what needs a look at a glance, with who wrote and when it started. */
 export function ConversationHeader({ conversation }: { conversation: AdminConversation }) {
-  const openQuestions = conversation.questions.filter(question => question.status === 'OPEN').length
+  const counts = {
+    status: conversation.status,
+    openQuestions: conversation.questions.filter(question => question.status === 'OPEN').length,
+    problemAnswers: conversation.messages.filter(message => message.problems.length > 0).length,
+    cartAdds: conversation.cartAdds.length,
+  }
   return (
     <header className="mb-4 flex items-start gap-3 sm:mb-5">
       <Button variant="ghost" size="icon" asChild>
@@ -19,7 +24,7 @@ export function ConversationHeader({ conversation }: { conversation: AdminConver
       <div className="min-w-0 flex-1">
         <div className="flex flex-wrap items-center gap-2">
           <h1 className="text-xl font-semibold tracking-tight">Conversación #{conversation.id}</h1>
-          <ConversationBadges conversation={{ status: conversation.status, openQuestions }} />
+          <ConversationBadges conversation={counts} />
         </div>
         <p className="mt-0.5 text-sm text-muted-foreground">
           {customerName(conversation.customer)} · empezó {formatOrderDate(conversation.createdAt).toLowerCase()}
