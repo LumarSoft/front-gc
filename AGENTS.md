@@ -119,7 +119,11 @@ Current state: the store reads the **real catalog** from the API: home featured 
 search `?q=`), `/categorias/[slug]` and `/productos/[slug]`. Catalog data is fetched on the server through
 `src/services/catalog.service.ts` → `serverApiRequest` (`src/lib/server-api.ts`), which forwards the visitor's
 session so prices match their buyer profile; render `<SessionRefresh when={sessionExpired} />` on pages that use it.
-Filters live in the URL (`src/features/catalog/lib/catalog-params.ts`). **Auth is live**: `app/(auth)/`,
+Filters live in the URL (`src/features/catalog/lib/catalog-params.ts`). **Instant search**: `src/features/search/` is
+the header search (`SiteSearch`, inside `<Suspense>` with the plain `SearchForm` as fallback): an ARIA combobox with
+a dropdown from `md` and a full-screen sheet on phones, suggestions from `GET /products/suggest` (products, categories,
+total, the corrected text), popular searches from `GET /activity/popular-searches` and recent ones in `localStorage`
+(`cg_recent_searches`); the options are built in `lib/search-view.ts`. **Auth is live**: `app/(auth)/`,
 `/mi-cuenta`, the header account menu; browser calls go through `apiRequest` (`src/lib/api-client.ts`). **Admin panel** lives in `app/admin/` +
 `src/features/admin/`: the layout checks the role on the server (`getServerSession`, `src/services/session.server.ts`;
 customers get a 404, expired sessions are renewed in the browser) and admin pages load data client-side with TanStack

@@ -16,6 +16,14 @@ The store needs the API running: keep `api-gc` up to date too (its own `npm run 
 
 ---
 
+## 2026-10-21 — Instant search
+
+The header search now suggests products (photo, price, stock), categories and the full results while the customer
+types, corrects misspelled words ("ecotnak" → ecotank), shows recent and popular searches before typing and offers
+the sales assistant when nothing matches. On phones it opens full screen. Pull `api-gc` (LumarSoft/api-gc#51,
+`GET /products/suggest` and `GET /activity/popular-searches`, no migration) and restart it; `npm run doctor` warns
+while the API is older. Without it the header still searches: Enter opens the results page as before.
+
 ## 2026-10-21 — Asesor IA in the admin
 
 New admin section "Asesor IA" (`/admin/asistente`): the conversations customers had with the sales assistant (read

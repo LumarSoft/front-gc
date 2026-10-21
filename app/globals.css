@@ -236,6 +236,11 @@
   background: conic-gradient(var(--cyan), var(--magenta), var(--yellow), var(--cyan));
 }
 
+/* Tallest the header search's suggestions can be, so the page stays in sight under them. */
+@utility max-h-dropdown {
+  max-height: min(70dvh, 36rem);
+}
+
 /* Tallest a dialog can be: leaves room around it on short phone screens. */
 @utility max-h-dialog {
   max-height: 90dvh;

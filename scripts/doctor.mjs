@@ -168,6 +168,11 @@ try {
     })
     if (assistantAdmin.status === 401) ok("API has the assistant's admin")
     else warn("API is older than the assistant's admin", 'pull api-gc and restart it (see docs/upgrade-notes.md)')
+    // Instant search (LumarSoft/api-gc#51): /products/suggest rejects a missing `q` with 400; an older API reads
+    // "suggest" as a product slug and 404s.
+    const suggest = await fetch(`${apiUrl}/products/suggest`, { signal: AbortSignal.timeout(3000) })
+    if (suggest.status === 400) ok('API has the search suggestions')
+    else warn('API is older than the instant search', 'pull api-gc and restart it (see docs/upgrade-notes.md)')
   } else warn(`API at ${apiUrl} answered ${response.status}`, 'run `npm run doctor` in api-gc')
 } catch {
   warn(
