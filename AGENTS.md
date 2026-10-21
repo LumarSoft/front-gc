@@ -123,7 +123,9 @@ Filters live in the URL (`src/features/catalog/lib/catalog-params.ts`). **Instan
 the header search (`SiteSearch`, inside `<Suspense>` with the plain `SearchForm` as fallback): an ARIA combobox with
 a dropdown from `md` and a full-screen sheet on phones, suggestions from `GET /products/suggest` (products, categories,
 total, the corrected text), popular searches from `GET /activity/popular-searches` and recent ones in `localStorage`
-(`cg_recent_searches`); the options are built in `lib/search-view.ts`. **Auth is live**: `app/(auth)/`,
+(`cg_recent_searches`); the options are built in `lib/search-view.ts`. Catalog pages with `?q=` show `SearchNotice` (the
+corrected word, a partial match, "Buscar en toda la tienda" outside `/productos`) and, when nothing matches,
+`SearchEmptyState` (the assistant with the search already asked, popular searches, categories). **Auth is live**: `app/(auth)/`,
 `/mi-cuenta`, the header account menu; browser calls go through `apiRequest` (`src/lib/api-client.ts`). **Admin panel** lives in `app/admin/` +
 `src/features/admin/`: the layout checks the role on the server (`getServerSession`, `src/services/session.server.ts`;
 customers get a 404, expired sessions are renewed in the browser) and admin pages load data client-side with TanStack
