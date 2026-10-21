@@ -28,8 +28,9 @@ Product photos on colored surfaces (the home hero shortcuts, `public/images/home
 the white background removed (cropped above the mirror reflection under the product), saved as WebP with transparency.
 Only dark products cut out cleanly; white printers keep their photo on a white card. The home promo banners
 (`promo-*.webp`) are finished artwork that already carries its text: the card only adds the button, so a new banner
-must keep its copy on the left with free space under it. The home hero (`hero-home.webp`) is a full scene photo with empty space on both sides of the printer: from `xl` the
-copy goes over the left side and the category shortcuts over the right; below `xl` the photo sits under the copy.
+must keep its copy on the left with free space under it. The home hero is white: its printer (`hero-printer.webp`) was
+cut out of the old hero's scene photo with macOS Vision's subject lifting, with a soft contact shadow added under it. A new hero photo needs the same treatment: a transparent WebP, never a photo with
+its own background.
 
 ## Store logo
 

@@ -24,7 +24,7 @@ const SHORTCUTS = [
   },
 ]
 
-/** Category shortcuts: stacked beside the hero copy on xl, a row on its bottom edge on lg, swipeable below. */
+/** Category shortcuts: stacked beside the printer on xl, a row under the copy on lg, swipeable below. */
 export function HeroShortcuts() {
   return (
     <ul className="no-scrollbar -mx-4 flex snap-x snap-mandatory scroll-px-4 gap-3 overflow-x-auto px-4 sm:-mx-6 sm:scroll-px-6 sm:px-6 lg:mx-0 lg:grid lg:grid-cols-3 lg:gap-4 lg:overflow-visible lg:px-0 xl:grid-cols-1 xl:gap-3">
@@ -32,7 +32,7 @@ export function HeroShortcuts() {
         <li key={shortcut.href} className="w-72 shrink-0 snap-start sm:w-80 lg:w-auto">
           <Link
             href={shortcut.href}
-            className="group flex h-full min-h-24 items-center gap-3 overflow-hidden rounded-2xl bg-background py-2 pr-3 pl-4 text-foreground shadow-xl ring-1 shadow-navy/15 ring-border transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl sm:pl-5"
+            className="group flex h-full min-h-24 items-center gap-3 overflow-hidden rounded-2xl bg-background py-2 pr-3 pl-4 text-foreground shadow-sm ring-1 shadow-navy/5 ring-border transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-navy/10 sm:pl-5"
           >
             <span className="flex min-w-0 flex-1 flex-col">
               <span className="text-base leading-tight font-extrabold tracking-tight text-primary sm:text-lg">
