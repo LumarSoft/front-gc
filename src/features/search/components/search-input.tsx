@@ -33,7 +33,8 @@ export function SearchInput({ box, inputRef, id, className }: SearchInputProps) 
       placeholder="¿Qué estás buscando?"
       value={box.term}
       onChange={event => box.change(event.target.value)}
-      onFocus={box.open}
+      // Opens on a click, typing or ↓, not on focus: focus coming back (the assistant closing) must not reopen it.
+      onClick={box.open}
       onKeyDown={box.onKeyDown}
       className={cn('[&::-webkit-search-cancel-button]:appearance-none', className)}
     />

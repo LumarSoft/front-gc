@@ -53,7 +53,7 @@ export function DesktopSearch({ initialQuery, className }: DesktopSearchProps) {
           className="absolute inset-x-0 top-full z-50 mt-2 overflow-hidden rounded-2xl border bg-popover text-popover-foreground shadow-xl shadow-foreground/10"
         >
           <CmykStripe />
-          <SearchPanel box={box} className="max-h-[min(70vh,36rem)] overflow-y-auto overscroll-contain" />
+          <SearchPanel box={box} className="max-h-dropdown overflow-y-auto overscroll-contain" />
         </div>
       )}
     </form>

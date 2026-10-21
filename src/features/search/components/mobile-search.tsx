@@ -100,7 +100,7 @@ export function MobileSearch({ initialQuery, className }: MobileSearchProps) {
           <SearchPanel
             box={box}
             onTouchMove={() => inputRef.current?.blur()}
-            className="min-h-0 flex-1 overflow-y-auto overscroll-contain pb-[env(safe-area-inset-bottom)]"
+            className="min-h-0 flex-1 overflow-y-auto overscroll-contain pb-safe"
           />
         </SheetContent>
       </Sheet>
