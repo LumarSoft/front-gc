@@ -8,7 +8,7 @@ import { ArrowRight } from 'lucide-react'
 export function HeroCopy() {
   return (
     <div className="max-w-md">
-      <p className="flex items-center gap-2.5 text-xs font-semibold tracking-widest text-muted-foreground uppercase">
+      <p className="flex items-center gap-2.5 text-xs font-semibold tracking-widest text-foreground/70 uppercase">
         Distribuidor oficial
         <Image src="/images/epson/epson-logo.png" alt="Epson" width={84} height={20} className="h-4 w-auto" />
       </p>
@@ -16,7 +16,7 @@ export function HeroCopy() {
         <span className="block">Imprimí</span>
         <span className="block text-highlight">tus ideas.</span>
       </h1>
-      <p className="mt-4 text-base text-pretty text-muted-foreground lg:text-lg">
+      <p className="mt-4 text-base text-pretty text-foreground/80 lg:text-lg">
         Equipos, insumos y asesoramiento para que tu impresión siempre sea un paso más grande.
       </p>
       <div className="mt-6 flex flex-wrap gap-3">
@@ -29,7 +29,7 @@ export function HeroCopy() {
         </Link>
         <Link
           href="/configurador"
-          className="inline-flex h-12 items-center rounded-full border border-primary/30 px-6 text-base font-semibold text-primary transition-colors hover:bg-accent"
+          className="inline-flex h-12 items-center rounded-full border border-primary/30 bg-background/60 px-6 text-base font-semibold text-primary backdrop-blur-sm transition-colors hover:bg-accent"
         >
           Ayudame a elegir
         </Link>
