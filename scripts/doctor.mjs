@@ -162,6 +162,12 @@ try {
         'API is older than the sales assistant chat',
         'pull api-gc, run npm install there and restart it (see docs/upgrade-notes.md)',
       )
+    // Asesor IA admin (LumarSoft/api-gc#42): answers 401 without a session; an older API 404s it.
+    const assistantAdmin = await fetch(`${apiUrl}/admin/assistant/questions/counts`, {
+      signal: AbortSignal.timeout(3000),
+    })
+    if (assistantAdmin.status === 401) ok("API has the assistant's admin")
+    else warn("API is older than the assistant's admin", 'pull api-gc and restart it (see docs/upgrade-notes.md)')
   } else warn(`API at ${apiUrl} answered ${response.status}`, 'run `npm run doctor` in api-gc')
 } catch {
   warn(

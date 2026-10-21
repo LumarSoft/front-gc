@@ -12,22 +12,26 @@ import { type DayRange, describeRange, formatRange } from '@/src/features/admin/
 type DateRangePickerProps = {
   value: DayRange
   onChange: (range: DayRange) => void
+  /** Another button to open it (a list's filter pill); by default, the period's name with a calendar icon. */
+  trigger?: React.ReactElement
 }
 
 /** Shopify-style period picker: presets, "Último N…", two-month calendar; applies on "Aplicar". */
-export function DateRangePicker({ value, onChange }: DateRangePickerProps) {
+export function DateRangePicker({ value, onChange, trigger }: DateRangePickerProps) {
   const picker = useDateRangePicker(value, onChange)
 
   return (
     <Popover open={picker.open} onOpenChange={picker.setOpen}>
       <PopoverTrigger asChild>
-        <button
-          type="button"
-          className="inline-flex h-8 shrink-0 items-center gap-1.5 self-start rounded-lg px-2 text-sm font-medium transition-colors hover:bg-tone-neutral focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none aria-expanded:bg-tone-neutral"
-        >
-          <CalendarIcon className="size-4 text-muted-foreground" />
-          {describeRange(value, picker.today)}
-        </button>
+        {trigger ?? (
+          <button
+            type="button"
+            className="inline-flex h-8 shrink-0 items-center gap-1.5 self-start rounded-lg px-2 text-sm font-medium transition-colors hover:bg-tone-neutral focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none aria-expanded:bg-tone-neutral"
+          >
+            <CalendarIcon className="size-4 text-muted-foreground" />
+            {describeRange(value, picker.today)}
+          </button>
+        )}
       </PopoverTrigger>
       {/* Wide enough for two months; on phones it spans the screen minus its margins (collisionPadding). */}
       <PopoverContent

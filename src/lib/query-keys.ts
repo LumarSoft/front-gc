@@ -2,6 +2,7 @@ import type { AdminProductsQuery } from '@/src/types/api/admin-products'
 import type { AdminOrdersQuery } from '@/src/types/api/orders'
 import type { AdminWholesaleQuery } from '@/src/types/api/wholesale'
 import type { AdminAnalyticsQuery } from '@/src/types/api/admin-analytics'
+import type { AdminConversationsQuery, UnansweredQuestionsQuery } from '@/src/types/api/admin-assistant'
 
 export const QUERY_KEYS = {
   currentUser: ['auth', 'current-user'],
@@ -42,5 +43,15 @@ export const QUERY_KEYS = {
     analyticsBehavior: (query: AdminAnalyticsQuery) => ['admin', 'analytics', 'behavior', query] as const,
     settings: ['admin', 'settings'],
     order: (id: number) => ['admin', 'orders', 'detail', id] as const,
+    assistantConversationList: (query: AdminConversationsQuery) =>
+      ['admin', 'assistant', 'conversations', 'list', query] as const,
+    assistantConversation: (id: number) => ['admin', 'assistant', 'conversations', 'detail', id] as const,
+    /** Prefix of the question lists and counters, to refresh them after a change (also the conversation pages). */
+    assistantQuestions: ['admin', 'assistant', 'questions'],
+    assistantQuestionList: (query: UnansweredQuestionsQuery) =>
+      ['admin', 'assistant', 'questions', 'list', query] as const,
+    assistantQuestionCounts: ['admin', 'assistant', 'questions', 'counts'],
+    assistantConversations: ['admin', 'assistant', 'conversations'],
+    assistantUsage: (range: { from: string; to: string }) => ['admin', 'assistant', 'usage', range] as const,
   },
 } as const

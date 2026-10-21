@@ -1,5 +1,13 @@
 import type { LucideIcon } from 'lucide-react'
-import { Building2Icon, ChartLineIcon, HouseIcon, InboxIcon, PackageIcon, SettingsIcon } from 'lucide-react'
+import {
+  Building2Icon,
+  ChartLineIcon,
+  HouseIcon,
+  InboxIcon,
+  MessageSquareTextIcon,
+  PackageIcon,
+  SettingsIcon,
+} from 'lucide-react'
 
 export type AdminNavLink = {
   label: string
@@ -18,7 +26,7 @@ export type AdminNavItem = AdminNavLink & {
   badge?: AdminNavBadge
 }
 
-export type AdminNavBadge = 'ordersWaiting' | 'wholesalePending'
+export type AdminNavBadge = 'ordersWaiting' | 'wholesalePending' | 'assistantQuestionsOpen'
 
 /** Admin sections. Each admin PR adds its section here when its page exists, so there are no dead links. */
 export const ADMIN_NAV: AdminNavItem[] = [
@@ -41,6 +49,16 @@ export const ADMIN_NAV: AdminNavItem[] = [
     icon: Building2Icon,
     badge: 'wholesalePending',
   },
+  {
+    label: 'Asesor IA',
+    href: '/admin/asistente',
+    icon: MessageSquareTextIcon,
+    badge: 'assistantQuestionsOpen',
+    children: [
+      { label: 'Preguntas sin responder', href: '/admin/asistente/preguntas' },
+      { label: 'Consumo', href: '/admin/asistente/consumo' },
+    ],
+  },
   { label: 'Estadísticas', href: '/admin/estadisticas', icon: ChartLineIcon },
 ]
 
@@ -60,6 +78,11 @@ export const RAIL_POPOVER_OFFSET = 20
 
 export function isNavLinkActive(link: AdminNavLink, pathname: string): boolean {
   return link.exact ? pathname === link.href : pathname === link.href || pathname.startsWith(`${link.href}/`)
+}
+
+/** The item's own page: also its sub-paths (a detail page), except the sub-sections listed under it. */
+export function isNavItemCurrent(item: AdminNavItem, pathname: string): boolean {
+  return isNavLinkActive(item, pathname) && !(item.children ?? []).some(child => isNavLinkActive(child, pathname))
 }
 
 /** The item or one of its sub-sections is open: its sub-navigation is shown. */
