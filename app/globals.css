@@ -43,7 +43,7 @@
   --color-success: var(--success);
   --color-warning: var(--warning);
 
-  /* Widest home hero row: wider than the header so the printer gets more room on large screens. */
+  /* Widest hero photo; past it the photo's edges fade into white. */
   --container-8xl: 96rem;
 
   --radius-sm: calc(var(--radius) * 0.6);
@@ -197,16 +197,6 @@
 
 @utility pb-safe-4 {
   padding-bottom: max(1rem, env(safe-area-inset-bottom));
-}
-
-/* Left padding that lines content in an 8xl row up with the 7xl header: half the difference between the two widths.
-   Reads the width of the nearest `@container`, which must span the page, so the scrollbar doesn't skew it. */
-@utility pl-header-7xl {
-  padding-left: clamp(
-    0rem,
-    calc((100cqw - var(--container-7xl)) / 2),
-    calc((var(--container-8xl) - var(--container-7xl)) / 2)
-  );
 }
 
 /* Tallest a dialog can be: leaves room around it on short phone screens. */
