@@ -11,6 +11,7 @@ import { ListCard } from '@/src/features/admin/components/common/list-card'
 import { ListPagination } from '@/src/features/admin/components/common/list-pagination'
 import { useAdminConversations } from '@/src/features/admin/hooks/use-admin-assistant'
 import { useConversationListParams } from '@/src/features/admin/hooks/use-conversation-list-params'
+import { useLastPageFallback } from '@/src/features/admin/hooks/use-last-page-fallback'
 import { cn } from '@/src/lib/utils'
 
 /** "Asesor IA": what customers ask the store's assistant, most recent first. Staff read; they do not answer here. */
@@ -18,6 +19,7 @@ export function ConversationsView() {
   const { query, update, clear, hasFilters } = useConversationListParams()
   const { data, isPending, isError, isPlaceholderData, refetch } = useAdminConversations(query)
   const items = data?.items ?? []
+  useLastPageFallback(data, page => update({ page }))
 
   return (
     <>

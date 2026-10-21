@@ -11,6 +11,7 @@ import { QuestionsTable } from '@/src/features/admin/components/assistant/questi
 import { ListCard } from '@/src/features/admin/components/common/list-card'
 import { ListPagination } from '@/src/features/admin/components/common/list-pagination'
 import { useUnansweredQuestions } from '@/src/features/admin/hooks/use-admin-assistant'
+import { useLastPageFallback } from '@/src/features/admin/hooks/use-last-page-fallback'
 import { useQuestionListParams } from '@/src/features/admin/hooks/use-question-list-params'
 import { useQuestionStatus } from '@/src/features/admin/hooks/use-question-status'
 import { useRowSelection } from '@/src/features/admin/hooks/use-row-selection'
@@ -25,8 +26,10 @@ export function QuestionsView() {
     items.map(item => item.id),
     JSON.stringify(query),
   )
-  const status = useQuestionStatus(selection.clear)
+  const status = useQuestionStatus()
   const rows = { questions: items, selection, pending: status.pending, onChange: status.change }
+  // Resolving the last rows of the last page: show the page before instead of an empty queue.
+  useLastPageFallback(data, page => update({ page }))
 
   return (
     <>

@@ -12,7 +12,8 @@ export function parseQuestionListParams(params: URLSearchParams): UnansweredQues
   const page = parsePage(params.get('page'))
   return {
     status: status === ALL ? undefined : (STATUSES.find(value => value === status) ?? 'OPEN'),
-    q: params.get('q')?.trim() || undefined,
+    // The API takes up to 100 characters; a longer pasted term is cut instead of failing the list.
+    q: params.get('q')?.trim().slice(0, 100).trim() || undefined,
     page: page > 1 ? page : undefined,
     pageSize: ADMIN_QUESTIONS_PAGE_SIZE,
   }

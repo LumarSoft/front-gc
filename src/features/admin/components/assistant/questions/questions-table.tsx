@@ -11,6 +11,7 @@ import {
 } from '@/src/features/admin/components/common/index-table'
 import { RowCheckbox } from '@/src/features/admin/components/common/row-checkbox'
 import type { RowSelection } from '@/src/features/admin/hooks/use-row-selection'
+import { questionLabel } from '@/src/features/admin/lib/assistant-display'
 import { formatOrderDate } from '@/src/features/admin/lib/relative-date'
 import type { AdminUnansweredQuestion, QuestionStatus } from '@/src/types/api/admin-assistant'
 
@@ -47,7 +48,7 @@ export function QuestionsTable({ questions, selection, pending, onChange }: Ques
               <RowCheckbox
                 checked={selection.isSelected(question.id)}
                 onCheckedChange={checked => selection.toggle(question.id, checked)}
-                label={`Seleccionar «${question.question}»`}
+                label={`Seleccionar «${questionLabel(question.question)}»`}
               />
             </IndexTableCell>
             <IndexTableCell className="max-w-0 min-w-72 py-2.5 pl-1 whitespace-normal">

@@ -34,6 +34,10 @@ export const MESSAGE_AUTHOR: Record<AssistantMessageRole, string> = {
   AGENT: 'Equipo',
 }
 
+/** A question cut to 60 characters, to name its row (checkbox labels) without reading it all. */
+export const questionLabel = (question: string): string =>
+  question.length > 60 ? `${question.slice(0, 59).trimEnd()}…` : question
+
 /** "Ana Pérez" or "Invitado" for someone who wrote without signing in. */
 export const customerName = (customer: AssistantCustomer | null): string =>
   customer ? customer.name || customer.email : 'Invitado'

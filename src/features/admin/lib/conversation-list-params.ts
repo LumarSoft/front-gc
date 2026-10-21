@@ -18,7 +18,8 @@ export function parseConversationListParams(
   const range = { from: params.get('desde') ?? '', to: params.get('hasta') ?? '' }
   return {
     status: status && STATUSES.includes(status) ? status : undefined,
-    q: params.get('q')?.trim() || undefined,
+    // The API takes up to 100 characters; a longer pasted term is cut instead of failing the list.
+    q: params.get('q')?.trim().slice(0, 100).trim() || undefined,
     range: isValidRange(range, today) ? range : undefined,
     page: page > 1 ? page : undefined,
     pageSize: ADMIN_CONVERSATIONS_PAGE_SIZE,

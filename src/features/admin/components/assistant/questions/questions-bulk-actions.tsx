@@ -9,12 +9,12 @@ import type { QuestionStatus } from '@/src/types/api/admin-assistant'
 type QuestionsBulkActionsProps = {
   selection: RowSelection
   pending: boolean
-  onChange: (ids: number[], status: QuestionStatus) => void
+  onChange: (ids: number[], status: QuestionStatus, onDone?: () => void) => void
 }
 
 /** Bulk bar of the questions: mark the selection answered or dismissed, or back to waiting. All reversible. */
 export function QuestionsBulkActions({ selection, pending, onChange }: QuestionsBulkActionsProps) {
-  const change = (status: QuestionStatus) => () => onChange(selection.selectedIds, status)
+  const change = (status: QuestionStatus) => () => onChange(selection.selectedIds, status, selection.clear)
   return (
     <BulkActionBar count={selection.selectedIds.length} onClear={selection.clear}>
       <BulkActionButton onClick={change('ANSWERED')} disabled={pending}>
