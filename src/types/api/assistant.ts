@@ -24,5 +24,7 @@ export type AssistantStreamEvent =
   | { type: 'text'; delta: string }
   | { type: 'products'; items: AssistantProductCard[] }
   | { type: 'handoff'; url: string }
+  /** Short answers to the question that ends the text: tapping one sends it as the customer's message. */
+  | { type: 'replies'; options: string[] }
   | { type: 'error'; message: string }
   | { type: 'done' }

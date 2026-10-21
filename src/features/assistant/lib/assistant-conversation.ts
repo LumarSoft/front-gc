@@ -19,6 +19,8 @@ export type ChatMessage =
       problem: AnswerProblem | null
       /** What it is doing right now, while nothing new is being written. Absent in conversations saved before it. */
       activity?: string | null
+      /** Short answers to the question it ended with, shown as buttons while it is the latest answer. */
+      replies?: string[]
     }
 
 export type Conversation = {
@@ -66,6 +68,7 @@ export function conversationReducer(state: Conversation, action: ConversationAct
           pending: true,
           problem: null,
           activity: null,
+          replies: undefined,
         })),
       }
     case 'reset':
@@ -103,6 +106,9 @@ function applyShown(answer: Answer, event: AssistantStreamEvent): Answer {
       return event.items.length ? { ...answer, parts: [...answer.parts, event] } : answer
     case 'handoff':
       return { ...answer, parts: [...answer.parts, event] }
+    case 'replies':
+      // After the text whenever they arrive: they answer the question it ends with.
+      return { ...answer, replies: event.options }
     case 'error':
       return { ...answer, problem: { message: event.message, fix: 'retry' } }
     case 'done':
@@ -131,6 +137,12 @@ export function answerActivity(answer: Answer): { label: string | null; writing:
   if (!last) return { label: 'Leyendo tu consulta…', writing: false }
   if (last.type === 'text') return { label: null, writing: true }
   return { label: 'Escribiendo la respuesta…', writing: false }
+}
+
+/** The buttons under the latest answer, once it is complete; none while it is written or after it failed. */
+export function offeredReplies(conversation: Conversation): string[] {
+  const last = conversation.messages.at(-1)
+  return last?.role === 'assistant' && !last.pending && !last.problem ? (last.replies ?? []) : []
 }
 
 /** The conversation reached its limit: only a new one can continue. */

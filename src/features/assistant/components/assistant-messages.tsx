@@ -1,6 +1,7 @@
 'use client'
 
 import { AssistantAnswer } from '@/src/features/assistant/components/assistant-answer'
+import { AssistantReplies } from '@/src/features/assistant/components/assistant-replies'
 import { useFollowScroll } from '@/src/features/assistant/hooks/use-follow-scroll'
 import type { ReactNode } from 'react'
 import type { ChatMessage } from '@/src/features/assistant/lib/assistant-conversation'
@@ -9,13 +10,24 @@ type AssistantMessagesProps = {
   messages: ChatMessage[]
   /** Shown while there are no messages yet. */
   empty: ReactNode
+  /** Quick replies under the latest answer. */
+  replies: string[]
+  onReply: (text: string) => void
   onRetry: () => void
   onRestart: () => void
   onNavigate: () => void
 }
 
 /** The conversation, newest at the bottom; it follows new answers unless the customer scrolled up. */
-export function AssistantMessages({ messages, empty, onRetry, onRestart, onNavigate }: AssistantMessagesProps) {
+export function AssistantMessages({
+  messages,
+  empty,
+  replies,
+  onReply,
+  onRetry,
+  onRestart,
+  onNavigate,
+}: AssistantMessagesProps) {
   const latestQuestion = messages.findLast(message => message.role === 'user')?.id
   const { container, onScroll } = useFollowScroll<HTMLDivElement>(messages, latestQuestion)
 
@@ -47,6 +59,7 @@ export function AssistantMessages({ messages, empty, onRetry, onRestart, onNavig
           )}
         </ol>
       )}
+      {replies.length > 0 && <AssistantReplies options={replies} onPick={onReply} className="mt-3" />}
     </div>
   )
 }

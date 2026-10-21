@@ -7,6 +7,7 @@ import {
   isAnswering,
   lastQuestion,
   needsRestart,
+  offeredReplies,
 } from '@/src/features/assistant/lib/assistant-conversation'
 import { answerProblem, CONNECTION_LOST } from '@/src/features/assistant/lib/assistant-problems'
 import { loadConversation, saveConversation } from '@/src/features/assistant/lib/assistant-storage'
@@ -76,6 +77,8 @@ export function useAssistantChat(productSlug: string | undefined) {
     answering,
     /** The conversation reached its limit and only a new one can continue. */
     mustRestart: needsRestart(conversation),
+    /** Quick replies under the latest answer, when it ended with a question that has a few possible answers. */
+    replies: offeredReplies(conversation),
     /** Sends a question. False when it cannot go now: an answer is being written or the conversation is full. */
     send: (text: string): boolean => {
       const question = text.trim()

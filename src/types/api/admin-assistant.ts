@@ -75,6 +75,8 @@ export type ToolTrace = {
   partial?: boolean
   slug?: string | null
   missing?: string[]
+  /** offer_replies: the quick replies shown under the question. */
+  options?: string[]
   error?: boolean
 }
 

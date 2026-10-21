@@ -47,6 +47,10 @@ export function describeTool(trace: ToolTrace): string {
       const missing = trace.missing?.length ? ` (sin publicar: ${trace.missing.join(', ')})` : ''
       return `Mostró ${plural(trace.results ?? 0, 'tarjeta', 'tarjetas')}${missing}`
     }
+    case 'offer_replies':
+      return trace.error
+        ? 'Intentó ofrecer respuestas rápidas → no eran válidas'
+        : `Ofreció respuestas rápidas: ${trace.options?.map(option => `«${option}»`).join(' · ') || 'ninguna'}`
     case 'record_unanswered_question':
       return 'Anotó una pregunta que no pudo responder'
     case 'contact_team':
