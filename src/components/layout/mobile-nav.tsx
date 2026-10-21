@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import type { ReactNode } from 'react'
+import { useRef, type ReactNode } from 'react'
 import { Menu } from 'lucide-react'
 import { Button } from '@/src/components/ui/button'
 import { Sheet, SheetClose, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/src/components/ui/sheet'
@@ -33,6 +33,8 @@ function MobileNavSection({ title, links, children }: MobileNavSectionProps) {
 }
 
 export function MobileNav() {
+  // Set when the menu closes to open the assistant: the focus must stay in the chat, not go back to the menu button.
+  const toAssistant = useRef(false)
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -40,7 +42,14 @@ export function MobileNav() {
           <Menu strokeWidth={1.5} className="size-6" />
         </Button>
       </SheetTrigger>
-      <SheetContent side="left" className="w-80 overflow-y-auto">
+      <SheetContent
+        side="left"
+        className="w-80 overflow-y-auto"
+        onCloseAutoFocus={event => {
+          if (toAssistant.current) event.preventDefault()
+          toAssistant.current = false
+        }}
+      >
         <SheetHeader>
           <SheetTitle>Menú</SheetTitle>
         </SheetHeader>
@@ -48,7 +57,9 @@ export function MobileNav() {
           <MobileNavSection title="Destacados" links={HIGHLIGHT_LINKS}>
             {/* Closes the menu and opens the assistant's chat over the page. */}
             <SheetClose asChild>
-              <AssistantTrigger className={ITEM_CLASS}>{SUPPORT_LINK.label}</AssistantTrigger>
+              <AssistantTrigger className={ITEM_CLASS} onClick={() => (toAssistant.current = true)}>
+                {SUPPORT_LINK.label}
+              </AssistantTrigger>
             </SheetClose>
           </MobileNavSection>
           <MobileNavSection title="Categorías" links={CATEGORY_LINKS} />
