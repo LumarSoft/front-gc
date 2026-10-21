@@ -8,7 +8,8 @@ import { Button } from '@/src/components/ui/button'
 const MAX_LENGTH = 1000
 
 type AssistantComposerProps = {
-  onSend: (text: string) => void
+  /** False when the question could not go: the text stays in the field. */
+  onSend: (text: string) => boolean
   /** While an answer is being written, or when the conversation must start over. */
   disabled: boolean
   placeholder: string
@@ -20,9 +21,7 @@ export function AssistantComposer({ onSend, disabled, placeholder, inputRef }: A
   const canSend = !disabled && text.trim().length > 0
 
   const send = (): void => {
-    if (!canSend) return
-    onSend(text)
-    setText('')
+    if (canSend && onSend(text)) setText('')
   }
 
   return (
