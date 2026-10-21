@@ -152,12 +152,15 @@ on phones, floating window from `sm`) the first time it opens; it stays mounted 
 and the tab keeps it in `sessionStorage`. Open it from anywhere in the store with `AssistantTrigger` (optional
 `question` to send, `product` for the product page) or `useAssistant().open()`; `/asistente?pregunta=…` redirects to
 `/?asistente=1&pregunta=…`, which opens it. Answers are text (a safe subset: paragraphs, lists, **bold**, links to store
-paths, parsed in `lib/rich-text.ts`, never HTML), product cards with "Agregar al carrito" (`useAddToCart`) and a
-WhatsApp handoff link. Staff read what customers ask it at `/admin/asistente` ("Asesor IA", `components/assistant/`,
-`admin-assistant.service.ts`): conversations (views Todas/Derivadas, search, `DateFilterPill` by the day they started)
-and a read-only detail with the cards each answer showed; "Preguntas sin responder" (answered/dismissed/reopen, one or
-a selection; the open ones are the nav badge) and "Consumo" (conversations and tokens per day, the month, today against
-the daily limit). Nobody answers customers from the admin: a person takes over by WhatsApp. Linked
+paths, parsed in `lib/rich-text.ts`, never HTML), product cards with "Agregar al carrito" (`useAddToCart`; a card
+that went into the cart is reported to `POST /assistant/cart-adds` through `CartAddReportContext`) and a WhatsApp
+handoff link. Staff read what customers ask it at `/admin/asistente` ("Asesor IA", `components/assistant/`,
+`admin-assistant.service.ts`): conversations (views Todas/Derivadas/Para revisar, search, `DateFilterPill` by the day
+they started) and a read-only detail with the cards each answer showed, how it went (`AnswerTrace`: failed, cut, slow,
+searches that found nothing, the steps it took; labels in `lib/assistant-trace-display.ts`) and what was added to the
+cart; "Preguntas sin responder" (answered/dismissed/reopen, one or a selection; the open ones are the nav badge) and
+"Métricas" (`/admin/asistente/metricas`: conversations and tokens per day, the month, today against the daily limit,
+conversations that added to the cart, answers to review and the searches that found nothing). Nobody answers customers from the admin: a person takes over by WhatsApp. Linked
 sections that are not ready (legal, help, about/contact, configurator, frequent customers) render
 `UpcomingPage` with copy from `src/features/content/lib/upcoming-pages.ts` (noindex); replace each page when its real
 content or feature lands — never put invented policies or company data there. Create folders as they are needed,

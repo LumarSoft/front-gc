@@ -2,6 +2,8 @@
 
 import { Card } from '@/src/components/ui/card'
 import { AdminPageHeader } from '@/src/features/admin/components/admin-page-header'
+import { EmptySearchesCard } from '@/src/features/admin/components/assistant/usage/empty-searches-card'
+import { OutcomeKpis } from '@/src/features/admin/components/assistant/usage/outcome-kpis'
 import { UsageCharts } from '@/src/features/admin/components/assistant/usage/usage-charts'
 import { UsageKpis } from '@/src/features/admin/components/assistant/usage/usage-kpis'
 import { UsageSkeleton } from '@/src/features/admin/components/assistant/usage/usage-skeleton'
@@ -11,7 +13,10 @@ import { useAssistantUsage } from '@/src/features/admin/hooks/use-admin-assistan
 import { useDashboardRange } from '@/src/features/admin/hooks/use-dashboard-range'
 import { cn } from '@/src/lib/utils'
 
-/** "Consumo": how much the assistant is used, to keep it within the monthly fee. The period lives in the URL. */
+/**
+ * "Métricas": how much the assistant is used (to keep it within the monthly fee), what it sold and where it fails. The
+ * period lives in the URL.
+ */
 export function UsageView() {
   const { range, setRange } = useDashboardRange()
   const query = useAssistantUsage(range)
@@ -19,8 +24,8 @@ export function UsageView() {
   return (
     <div className="mx-auto flex max-w-6xl flex-col">
       <AdminPageHeader
-        title="Consumo del asesor"
-        description="Conversaciones y tokens que usó el asesor IA. Los tokens son lo que cobra el proveedor de IA por cada respuesta; si un día se llega al límite, el asesor se pausa hasta la medianoche."
+        title="Métricas del asesor"
+        description="Cuánto se usa el asesor IA, qué se agregó al carrito desde el chat y dónde falla."
       />
       <div className="mb-3">
         <DateRangePicker value={range} onChange={setRange} />
@@ -29,14 +34,16 @@ export function UsageView() {
         <UsageSkeleton />
       ) : query.isError ? (
         <Card className="py-0">
-          <QueryErrorState message="No pudimos cargar el consumo." onRetry={() => void query.refetch()} />
+          <QueryErrorState message="No pudimos cargar las métricas." onRetry={() => void query.refetch()} />
         </Card>
       ) : (
         <div
           className={cn('flex flex-col gap-4 transition-opacity duration-200', query.isPlaceholderData && 'opacity-50')}
         >
           <UsageKpis usage={query.data} />
+          <OutcomeKpis usage={query.data} />
           <UsageCharts usage={query.data} />
+          <EmptySearchesCard searches={query.data.emptySearches} />
         </div>
       )}
     </div>

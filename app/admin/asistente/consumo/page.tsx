@@ -1,14 +1,6 @@
-import { Suspense } from 'react'
-import type { Metadata } from 'next'
-import { UsageView } from '@/src/features/admin/components/assistant/usage/usage-view'
+import { redirect } from 'next/navigation'
 
-export const metadata: Metadata = { title: 'Consumo del asesor' }
-
-export default function AdminAssistantUsagePage() {
-  // The period lives in the URL (useSearchParams), which needs a Suspense boundary.
-  return (
-    <Suspense>
-      <UsageView />
-    </Suspense>
-  )
+/** "Consumo" became "Métricas" (2026-10-21): old links and bookmarks land on the new page. */
+export default function AdminAssistantUsageRedirect() {
+  redirect('/admin/asistente/metricas')
 }

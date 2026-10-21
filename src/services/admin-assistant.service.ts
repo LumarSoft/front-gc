@@ -14,6 +14,7 @@ import type {
 export function getAdminConversations(query: AdminConversationsQuery): Promise<AdminConversationsPage> {
   const params = new URLSearchParams({ page: String(query.page ?? 1), pageSize: String(query.pageSize) })
   if (query.status) params.set('status', query.status)
+  if (query.problems) params.set('problems', 'true')
   if (query.q) params.set('q', query.q)
   if (query.range) {
     params.set('from', query.range.from)

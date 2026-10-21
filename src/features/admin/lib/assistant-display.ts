@@ -2,17 +2,34 @@ import type { BadgeTone } from '@/src/features/admin/components/common/tone-badg
 import { formatOrderDate } from '@/src/features/admin/lib/relative-date'
 import type {
   AdminAssistantMessage,
+  AdminConversationsQuery,
   AssistantCustomer,
   AssistantMessageRole,
-  ConversationStatus,
   QuestionStatus,
 } from '@/src/types/api/admin-assistant'
 
-/** Saved views of the conversation list: every conversation, or the ones where the assistant offered a person. */
-export const CONVERSATION_VIEWS: { value: ConversationStatus | undefined; label: string }[] = [
-  { value: undefined, label: 'Todas' },
-  { value: 'ESCALATED', label: 'Derivadas' },
+export type ConversationView = 'all' | 'escalated' | 'problems'
+
+/**
+ * Saved views of the conversation list: every conversation, the ones where the assistant offered a person, and the
+ * ones with an answer to look at (it failed, the customer left, it was slow or a search found nothing).
+ */
+export const CONVERSATION_VIEWS: { value: ConversationView; label: string }[] = [
+  { value: 'all', label: 'Todas' },
+  { value: 'escalated', label: 'Derivadas' },
+  { value: 'problems', label: 'Para revisar' },
 ]
+
+export function conversationView(query: AdminConversationsQuery): ConversationView {
+  if (query.problems) return 'problems'
+  return query.status === 'ESCALATED' ? 'escalated' : 'all'
+}
+
+/** The list query of a saved view. */
+export const conversationViewQuery = (view: ConversationView): Partial<AdminConversationsQuery> => ({
+  status: view === 'escalated' ? 'ESCALATED' : undefined,
+  problems: view === 'problems' || undefined,
+})
 
 /** Saved views of the unanswered questions; the list opens on the ones still waiting. */
 export const QUESTION_VIEWS: { value: QuestionStatus | undefined; label: string }[] = [

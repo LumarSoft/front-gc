@@ -1,5 +1,8 @@
 import Link from 'next/link'
-import { ConversationBadges } from '@/src/features/admin/components/assistant/conversation-badges'
+import {
+  ConversationBadges,
+  hasConversationBadges,
+} from '@/src/features/admin/components/assistant/conversation-badges'
 import { customerName } from '@/src/features/admin/lib/assistant-display'
 import { formatOrderDate } from '@/src/features/admin/lib/relative-date'
 import type { AdminConversationListItem } from '@/src/types/api/admin-assistant'
@@ -24,7 +27,7 @@ export function ConversationsMobileList({ conversations }: { conversations: Admi
               </span>
               <span className="shrink-0 text-xs">{formatOrderDate(conversation.lastMessageAt)}</span>
             </p>
-            {(conversation.status === 'ESCALATED' || conversation.openQuestions > 0) && (
+            {hasConversationBadges(conversation) && (
               <div className="flex flex-wrap gap-1.5 pt-1">
                 <ConversationBadges conversation={conversation} />
               </div>

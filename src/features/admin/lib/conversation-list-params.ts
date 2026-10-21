@@ -6,8 +6,8 @@ const STATUSES: ConversationStatus[] = ['OPEN', 'RESOLVED', 'ESCALATED', 'CLOSED
 export const ADMIN_CONVERSATIONS_PAGE_SIZE = 25
 
 /**
- * Conversation list state in the URL (`?status=&q=&desde=&hasta=&page=`): shareable and kept on reload. The days are
- * the ones the conversations started; without them, every day.
+ * Conversation list state in the URL (`?status=&revisar=1&q=&desde=&hasta=&page=`): shareable and kept on reload. The
+ * days are the ones the conversations started; without them, every day.
  */
 export function parseConversationListParams(
   params: URLSearchParams,
@@ -18,6 +18,7 @@ export function parseConversationListParams(
   const range = { from: params.get('desde') ?? '', to: params.get('hasta') ?? '' }
   return {
     status: status && STATUSES.includes(status) ? status : undefined,
+    problems: params.get('revisar') === '1' || undefined,
     // The API takes up to 100 characters; a longer pasted term is cut instead of failing the list.
     q: params.get('q')?.trim().slice(0, 100).trim() || undefined,
     range: isValidRange(range, today) ? range : undefined,
@@ -29,6 +30,7 @@ export function parseConversationListParams(
 export function conversationListSearch(query: AdminConversationsQuery): string {
   const params = new URLSearchParams()
   if (query.status) params.set('status', query.status)
+  if (query.problems) params.set('revisar', '1')
   if (query.q) params.set('q', query.q)
   if (query.range) {
     params.set('desde', query.range.from)

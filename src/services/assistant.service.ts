@@ -1,6 +1,6 @@
 import { readJsonLines, toStreamEvent } from '@/src/features/assistant/lib/assistant-stream'
-import { ApiError, apiStream } from '@/src/lib/api-client'
-import type { AssistantMessageInput, AssistantStreamEvent } from '@/src/types/api/assistant'
+import { ApiError, apiRequest, apiStream } from '@/src/lib/api-client'
+import type { AssistantCartAddInput, AssistantMessageInput, AssistantStreamEvent } from '@/src/types/api/assistant'
 
 /**
  * Browser-only: sends a message to the sales assistant and yields its answer as it is written. HTTP refusals (limits,
@@ -16,4 +16,9 @@ export async function* streamAssistantAnswer(
     const event = toStreamEvent(line)
     if (event) yield event
   }
+}
+
+/** Browser-only: a product of the assistant's cards went into the cart (for the admin's metrics; the cart is unchanged). */
+export function recordAssistantCartAdd(input: AssistantCartAddInput): Promise<void> {
+  return apiRequest<void>('/assistant/cart-adds', { method: 'POST', body: input })
 }

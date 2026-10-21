@@ -56,7 +56,7 @@ export const ADMIN_NAV: AdminNavItem[] = [
     badge: 'assistantQuestionsOpen',
     children: [
       { label: 'Preguntas sin responder', href: '/admin/asistente/preguntas' },
-      { label: 'Consumo', href: '/admin/asistente/consumo' },
+      { label: 'Métricas', href: '/admin/asistente/metricas' },
     ],
   },
   { label: 'Estadísticas', href: '/admin/estadisticas', icon: ChartLineIcon },

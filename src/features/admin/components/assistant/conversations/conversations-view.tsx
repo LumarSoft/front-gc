@@ -34,7 +34,7 @@ export function ConversationsView() {
         onRetry={() => void refetch()}
         isEmpty={items.length === 0}
         empty={
-          hasFilters || query.status ? (
+          hasFilters || query.status || query.problems ? (
             <EmptyState
               icon={<MessageSquareTextIcon />}
               title="Ninguna conversación coincide"

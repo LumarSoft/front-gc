@@ -6,6 +6,7 @@ import { ArrowRight } from 'lucide-react'
 import { Button } from '@/src/components/ui/button'
 import { ProductImagePlaceholder } from '@/src/features/catalog/components/product-image-placeholder'
 import { getAvailabilityLabel } from '@/src/features/catalog/lib/availability'
+import { useCartAddReport } from '@/src/features/assistant/hooks/use-cart-add-report'
 import { useAddToCart } from '@/src/features/cart/hooks/use-add-to-cart'
 import { formatMoney, getDiscountPercent } from '@/src/lib/format'
 import { cn } from '@/src/lib/utils'
@@ -25,7 +26,8 @@ export function AssistantProductCard({ product, position, onNavigate }: Assistan
     product.variantId !== null
       ? { id: product.variantId, price: product.price, availability: product.availability }
       : undefined
-  const cart = useAddToCart(variant, product.id)
+  const report = useCartAddReport()
+  const cart = useAddToCart(variant, product.id, () => report?.(product.id, product.variantId))
   const availability = getAvailabilityLabel(product.availability, product.outOfStockBehavior)
   const discount =
     product.price && product.compareAtPrice ? getDiscountPercent(product.price, product.compareAtPrice) : 0
