@@ -1,6 +1,7 @@
 import { ProcessDots } from '@/src/components/ui/print-marks'
 import type { AssistantProduct } from '@/src/features/assistant/hooks/use-assistant'
 import { PRODUCT_QUESTIONS, SAMPLE_QUESTIONS } from '@/src/features/assistant/lib/assistant-links'
+import { cn } from '@/src/lib/utils'
 
 type AssistantWelcomeProps = {
   /** The product page the chat was opened from: its questions replace the general ones. */
@@ -14,8 +15,11 @@ export function AssistantWelcome({ product, onAsk }: AssistantWelcomeProps) {
     <div className="flex flex-1 flex-col gap-6 py-2">
       <div>
         <ProcessDots className="text-foreground" />
-        <p className="mt-4 text-2xl leading-tight font-extrabold tracking-tight text-balance">
-          {product ? `¿Qué querés saber de ${product.name}?` : 'Contanos qué necesitás imprimir'}
+        {product && <p className="mt-4 line-clamp-2 text-sm font-semibold text-primary">{product.name}</p>}
+        <p
+          className={cn('text-2xl leading-tight font-extrabold tracking-tight text-balance', product ? 'mt-1' : 'mt-4')}
+        >
+          {product ? '¿Qué querés saber de este producto?' : 'Contanos qué necesitás imprimir'}
         </p>
         <p className="mt-2 text-sm text-muted-foreground">
           Te recomendamos productos de la tienda con precio y stock al día, y te ayudamos a comprarlos.
