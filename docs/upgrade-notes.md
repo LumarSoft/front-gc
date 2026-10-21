@@ -19,8 +19,8 @@ The store needs the API running: keep `api-gc` up to date too (its own `npm run 
 ## 2026-10-21 — Sales assistant chat
 
 The floating "¿Dudas? Te ayudamos a elegir" button, the home's "Asesor online" section, "Consultar" on product pages
-and "Soporte y asesoramiento" in the menu now open a chat with the AI sales assistant. Pull `api-gc` (AI sales
-assistant: `POST /assistant/messages`), run `npm install` there and restart it; `npm run doctor` warns while the API
+and "Soporte y asesoramiento" in the menu now open a chat with the AI sales assistant. Pull `api-gc` (LumarSoft/api-gc#41,
+`POST /assistant/messages`), run `npm install` there and restart it; `npm run doctor` warns while the API
 is older. `/asistente` is no longer a page: it opens the chat on the home (`/?asistente=1&pregunta=…`).
 
 The assistant answers only when the API has an OpenAI key (`OPENAI_API_KEY`, see the 2026-10-21 entry of
