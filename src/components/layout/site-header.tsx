@@ -1,3 +1,4 @@
+import { Suspense } from 'react'
 import Link from 'next/link'
 import { Heart } from 'lucide-react'
 import { Button } from '@/src/components/ui/button'
@@ -8,6 +9,7 @@ import { MobileNav } from '@/src/components/layout/mobile-nav'
 import { SearchForm } from '@/src/components/layout/search-form'
 import { AccountMenu } from '@/src/features/auth/components/account-menu'
 import { CartLink } from '@/src/features/cart/components/cart-link'
+import { SiteSearch } from '@/src/features/search/components/site-search'
 
 export function SiteHeader() {
   return (
@@ -17,7 +19,10 @@ export function SiteHeader() {
         <div className="mx-auto flex h-16 max-w-7xl items-center gap-2 px-4 sm:px-6 lg:h-18 lg:gap-10">
           <MobileNav />
           <BrandLogo priority withTagline className="shrink-0" />
-          <SearchForm className="hidden flex-1 md:block lg:max-w-2xl" />
+          {/* Without JavaScript (or until it loads) the plain form still searches. */}
+          <Suspense fallback={<SearchForm className="hidden flex-1 md:block lg:max-w-2xl" />}>
+            <SiteSearch variant="desktop" className="hidden flex-1 md:block lg:max-w-2xl" />
+          </Suspense>
           <div className="ml-auto flex items-center gap-0.5 lg:gap-1">
             <AccountMenu />
             <Button asChild variant="ghost" className="hidden h-10 gap-2 px-2.5 text-sm font-medium sm:inline-flex">
@@ -31,7 +36,9 @@ export function SiteHeader() {
           </div>
         </div>
         <div className="px-4 pb-3 md:hidden">
-          <SearchForm id="site-search-mobile" />
+          <Suspense fallback={<SearchForm id="site-search-mobile" />}>
+            <SiteSearch variant="mobile" />
+          </Suspense>
         </div>
         <CategoryNav />
       </div>

@@ -93,10 +93,20 @@ export type ProductListQuery = {
   sort?: ProductSort
 }
 
+/** What a free-text search did (api-gc docs: GET /products → `search`). */
+export type SearchInfo = {
+  /** The text actually searched when a misspelled word was corrected ("ecotank" for "ecotnak"). */
+  correctedQuery: string | null
+  /** No product had every word: the results have the most of them. */
+  partial: boolean
+}
+
 export type PaginatedProducts = {
   items: ProductSummary[]
   page: number
   pageSize: number
   total: number
   totalPages: number
+  /** Only when `q` had words to search. */
+  search?: SearchInfo
 }
