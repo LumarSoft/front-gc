@@ -84,6 +84,27 @@ export async function apiRequest<T>(path: string, options: ApiRequestOptions = {
   return (await response.json()) as T
 }
 
+/**
+ * Browser-side POST whose answer is read as it arrives (streamed responses), with the same session handling as
+ * `apiRequest`. Resolves once the headers arrive; the caller reads `response.body`.
+ */
+export async function apiStream(path: string, body: unknown, signal: AbortSignal): Promise<Response> {
+  let response: Response
+  try {
+    response = await send(
+      path,
+      { method: 'POST', signal, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) },
+      false,
+    )
+  } catch (error) {
+    // An abort is the caller's decision, not a network problem: let it through as is.
+    if (signal.aborted) throw signal.reason
+    throw error
+  }
+  if (!response.ok) throw new ApiError(response.status, await readErrorMessage(response))
+  return response
+}
+
 /** Browser-side GET of a file (PDF, labels…) with the same session handling as `apiRequest`. */
 export async function apiDownload(path: string): Promise<Blob> {
   const response = await send(path, { method: 'GET' }, false)

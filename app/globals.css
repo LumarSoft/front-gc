@@ -61,6 +61,8 @@
   --animate-blob: blob 14s ease-in-out infinite;
   --animate-blob-reverse: blob 18s ease-in-out infinite reverse;
   --animate-blob-fast: blob 10s ease-in-out infinite;
+  /* The assistant's "writing" mark: process-color dots that ink in one after the other. */
+  --animate-ink: ink 1.2s ease-in-out infinite;
 
   @keyframes float {
     0%,
@@ -77,6 +79,18 @@
     }
     to {
       transform: translateX(-50%);
+    }
+  }
+  @keyframes ink {
+    0%,
+    70%,
+    100% {
+      opacity: 0.25;
+      transform: scale(0.7);
+    }
+    35% {
+      opacity: 1;
+      transform: scale(1);
     }
   }
   @keyframes fade-up {

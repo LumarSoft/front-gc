@@ -1,13 +1,7 @@
-import Link from 'next/link'
 import { Button } from '@/src/components/ui/button'
 import { ProcessDots } from '@/src/components/ui/print-marks'
-
-const SAMPLE_QUESTIONS = [
-  '¿Qué impresora me conviene para fotos?',
-  '¿Qué tinta usa mi L3250?',
-  '¿Cuál imprime más barato por hoja?',
-  '¿Llega a Córdoba? ¿Cuánto tarda?',
-]
+import { AssistantTrigger } from '@/src/features/assistant/components/assistant-trigger'
+import { SAMPLE_QUESTIONS } from '@/src/features/assistant/lib/assistant-links'
 
 export function AssistantTeaser() {
   return (
@@ -25,17 +19,17 @@ export function AssistantTeaser() {
           <ul className="mt-6 flex flex-wrap gap-2">
             {SAMPLE_QUESTIONS.map(question => (
               <li key={question}>
-                <Link
-                  href={`/asistente?pregunta=${encodeURIComponent(question)}`}
+                <AssistantTrigger
+                  question={question}
                   className="inline-flex rounded-full border bg-background px-4 py-2 text-sm font-medium transition-colors hover:border-primary hover:text-primary"
                 >
                   {question}
-                </Link>
+                </AssistantTrigger>
               </li>
             ))}
           </ul>
           <Button asChild size="lg" className="mt-8 h-12 rounded-full px-6 text-base font-bold">
-            <Link href="/asistente">Hacé tu consulta</Link>
+            <AssistantTrigger>Hacé tu consulta</AssistantTrigger>
           </Button>
         </div>
 

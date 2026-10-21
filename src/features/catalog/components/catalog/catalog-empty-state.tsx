@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { MagnifyingGlassIcon } from '@phosphor-icons/react/dist/ssr'
 import { Button } from '@/src/components/ui/button'
+import { AssistantTrigger } from '@/src/features/assistant/components/assistant-trigger'
 
 type CatalogEmptyStateProps = {
   /** Link that removes the active filters. Omitted when there are none. */
@@ -24,7 +25,7 @@ export function CatalogEmptyState({ clearFiltersHref }: CatalogEmptyStateProps) 
           </Button>
         )}
         <Button asChild className="h-10 rounded-full px-5">
-          <Link href="/asistente">Hablar con el asesor</Link>
+          <AssistantTrigger>Hablar con el asesor</AssistantTrigger>
         </Button>
       </div>
     </div>

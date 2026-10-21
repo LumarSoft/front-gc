@@ -1,13 +1,15 @@
-import Link from 'next/link'
 import { Button } from '@/src/components/ui/button'
+import { AssistantTrigger } from '@/src/features/assistant/components/assistant-trigger'
+import type { AssistantProduct } from '@/src/features/assistant/hooks/use-assistant'
 import type { AddToCartState } from '@/src/features/cart/hooks/use-add-to-cart'
 
 type ProductActionsProps = {
-  inquiryHref: string
+  /** "Consultar" opens the assistant about this product. */
+  inquiry: AssistantProduct
   cart: AddToCartState
 }
 
-export function ProductActions({ inquiryHref, cart }: ProductActionsProps) {
+export function ProductActions({ inquiry, cart }: ProductActionsProps) {
   return (
     <div className="flex flex-col gap-3">
       <Button
@@ -41,7 +43,7 @@ export function ProductActions({ inquiryHref, cart }: ProductActionsProps) {
         </p>
       )}
       <Button asChild size="lg" variant="outline" className="h-12 rounded-full text-base font-semibold">
-        <Link href={inquiryHref}>Consultar por este producto</Link>
+        <AssistantTrigger product={inquiry}>Consultar por este producto</AssistantTrigger>
       </Button>
     </div>
   )

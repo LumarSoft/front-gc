@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { Headset } from 'lucide-react'
+import { AssistantTrigger } from '@/src/features/assistant/components/assistant-trigger'
 import { CATEGORY_LINKS, OFFERS_LINK, SUPPORT_LINK } from '@/src/lib/navigation'
 
 /** Desktop category bar under the header; phones get the same links in `MobileNav`. */
@@ -19,13 +20,10 @@ export function CategoryNav() {
             </li>
           ))}
         </ul>
-        <Link
-          href={SUPPORT_LINK.href}
-          className="inline-flex h-9 shrink-0 items-center gap-2 rounded-full bg-highlight px-4 text-xs font-bold tracking-wide text-highlight-foreground uppercase transition-colors hover:bg-primary"
-        >
+        <AssistantTrigger className="inline-flex h-9 shrink-0 items-center gap-2 rounded-full bg-highlight px-4 text-xs font-bold tracking-wide text-highlight-foreground uppercase transition-colors hover:bg-primary">
           <Headset className="size-4" aria-hidden />
           {SUPPORT_LINK.label}
-        </Link>
+        </AssistantTrigger>
       </div>
     </nav>
   )
