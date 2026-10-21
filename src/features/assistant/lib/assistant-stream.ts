@@ -31,6 +31,8 @@ export function toStreamEvent(value: unknown): AssistantStreamEvent | null {
   switch (value.type) {
     case 'conversation':
       return typeof value.token === 'string' ? { type: 'conversation', token: value.token } : null
+    case 'status':
+      return typeof value.text === 'string' && value.text.length <= 120 ? { type: 'status', text: value.text } : null
     case 'text':
       return typeof value.delta === 'string' ? { type: 'text', delta: value.delta } : null
     case 'products':

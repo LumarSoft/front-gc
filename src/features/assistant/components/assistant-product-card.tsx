@@ -49,7 +49,7 @@ export function AssistantProductCard({ product, position, onNavigate }: Assistan
         </span>
       </Link>
       <div className="flex min-w-0 flex-1 flex-col gap-1">
-        <h3 className="line-clamp-2 text-sm leading-snug font-semibold">
+        <h3 className="line-clamp-3 text-sm leading-snug font-semibold">
           <Link href={href} onClick={onNavigate} className="hover:text-primary">
             {product.name}
           </Link>

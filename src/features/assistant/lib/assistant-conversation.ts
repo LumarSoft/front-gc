@@ -11,7 +11,15 @@ export type AnswerProblem = { message: string; fix: 'retry' | 'restart' }
 
 export type ChatMessage =
   | { id: string; role: 'user'; text: string }
-  | { id: string; role: 'assistant'; parts: AnswerPart[]; pending: boolean; problem: AnswerProblem | null }
+  | {
+      id: string
+      role: 'assistant'
+      parts: AnswerPart[]
+      pending: boolean
+      problem: AnswerProblem | null
+      /** What it is doing right now, while nothing new is being written. Absent in conversations saved before it. */
+      activity?: string | null
+    }
 
 export type Conversation = {
   /** Token that continues the conversation in the API; null until the first answer starts. */
@@ -36,7 +44,7 @@ export function conversationReducer(state: Conversation, action: ConversationAct
         messages: [
           ...state.messages,
           { id: action.id, role: 'user', text: action.text },
-          { id: `${action.id}-answer`, role: 'assistant', parts: [], pending: true, problem: null },
+          { id: `${action.id}-answer`, role: 'assistant', parts: [], pending: true, problem: null, activity: null },
         ],
       }
     case 'event':
@@ -52,14 +60,20 @@ export function conversationReducer(state: Conversation, action: ConversationAct
     case 'retried':
       return {
         ...state,
-        messages: updateAnswer(state.messages, answer => ({ ...answer, parts: [], pending: true, problem: null })),
+        messages: updateAnswer(state.messages, answer => ({
+          ...answer,
+          parts: [],
+          pending: true,
+          problem: null,
+          activity: null,
+        })),
       }
     case 'reset':
       return EMPTY_CONVERSATION
   }
 }
 
-type Answer = Extract<ChatMessage, { role: 'assistant' }>
+export type Answer = Extract<ChatMessage, { role: 'assistant' }>
 
 function updateAnswer(messages: ChatMessage[], update: (answer: Answer) => Answer): ChatMessage[] {
   const last = messages.at(-1)
@@ -68,7 +82,15 @@ function updateAnswer(messages: ChatMessage[], update: (answer: Answer) => Answe
 }
 
 function applyEvent(answer: Answer, event: AssistantStreamEvent): Answer {
+  // Anything shown replaces the status line: it described the wait that just ended.
+  const shown = event.type === 'status' ? answer : { ...answer, activity: null }
+  return applyShown(shown, event)
+}
+
+function applyShown(answer: Answer, event: AssistantStreamEvent): Answer {
   switch (event.type) {
+    case 'status':
+      return { ...answer, activity: event.text }
     case 'text': {
       const last = answer.parts.at(-1)
       const parts: AnswerPart[] =
@@ -99,6 +121,16 @@ export function lastQuestion(conversation: Conversation): string | null {
 export function isAnswering(conversation: Conversation): boolean {
   const last = conversation.messages.at(-1)
   return last?.role === 'assistant' && last.pending
+}
+
+/** What the waiting line says under an answer in progress, or `writing` when the text itself shows the progress. */
+export function answerActivity(answer: Answer): { label: string | null; writing: boolean } {
+  if (!answer.pending) return { label: null, writing: false }
+  if (answer.activity) return { label: answer.activity, writing: false }
+  const last = answer.parts.at(-1)
+  if (!last) return { label: 'Leyendo tu consulta…', writing: false }
+  if (last.type === 'text') return { label: null, writing: true }
+  return { label: 'Escribiendo la respuesta…', writing: false }
 }
 
 /** The conversation reached its limit: only a new one can continue. */

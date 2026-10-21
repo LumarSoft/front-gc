@@ -63,6 +63,10 @@
   --animate-blob-fast: blob 10s ease-in-out infinite;
   /* The assistant's "writing" mark: process-color dots that ink in one after the other. */
   --animate-ink: ink 1.2s ease-in-out infinite;
+  /* The ring around the assistant's avatar turns slowly while it works. */
+  --animate-ring-spin: ring-spin 2.4s linear infinite;
+  /* The cursor at the end of an answer being written. */
+  --animate-caret: caret 1s ease-in-out infinite;
 
   @keyframes float {
     0%,
@@ -79,6 +83,20 @@
     }
     to {
       transform: translateX(-50%);
+    }
+  }
+  @keyframes ring-spin {
+    to {
+      transform: rotate(1turn);
+    }
+  }
+  @keyframes caret {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.2;
     }
   }
   @keyframes ink {
@@ -211,6 +229,11 @@
 
 @utility pb-safe-4 {
   padding-bottom: max(1rem, env(safe-area-inset-bottom));
+}
+
+/* Process-color ring of the assistant's avatar while it works. */
+@utility ink-ring {
+  background: conic-gradient(var(--cyan), var(--magenta), var(--yellow), var(--cyan));
 }
 
 /* Tallest a dialog can be: leaves room around it on short phone screens. */
