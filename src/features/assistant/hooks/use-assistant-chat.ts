@@ -24,6 +24,10 @@ export function useAssistantChat(productSlug: string | undefined) {
   const request = useRef<AbortController | null>(null)
   // Set as soon as a question goes out, before React re-renders with it: two quick sends cannot both pass.
   const busy = useRef(false)
+  // Asked once the answer was complete but while its request was still closing (the API records it then): it goes
+  // out as soon as that request ends.
+  const queued = useRef<string | null>(null)
+  const questionCount = useRef(0)
 
   useEffect(() => {
     token.current = conversation.token
@@ -53,7 +57,12 @@ export function useAssistantChat(productSlug: string | undefined) {
       }
       dispatch({ type: 'failed', problem: answerProblem(error) })
     } finally {
-      if (request.current === controller) busy.current = false
+      if (request.current === controller) {
+        busy.current = false
+        const next = queued.current
+        queued.current = null
+        if (next) void answer(next)
+      }
     }
   }
 
@@ -62,11 +71,15 @@ export function useAssistantChat(productSlug: string | undefined) {
     answering,
     /** The conversation reached its limit and only a new one can continue. */
     mustRestart: needsRestart(conversation),
-    send: (text: string): void => {
+    /** Sends a question. False when it cannot go now: an answer is being written or the conversation is full. */
+    send: (text: string): boolean => {
       const question = text.trim()
-      if (!question || busy.current || needsRestart(conversation)) return
-      dispatch({ type: 'asked', id: crypto.randomUUID(), text: question })
-      void answer(question)
+      if (!question || answering || queued.current || needsRestart(conversation)) return false
+      // Not `crypto.randomUUID`: it is missing outside HTTPS (a phone testing against the computer's IP).
+      dispatch({ type: 'asked', id: `${Date.now()}-${++questionCount.current}`, text: question })
+      if (busy.current) queued.current = question
+      else void answer(question)
+      return true
     },
     retry: (): void => {
       const question = lastQuestion(conversation)
@@ -77,6 +90,7 @@ export function useAssistantChat(productSlug: string | undefined) {
     reset: (): void => {
       request.current?.abort()
       busy.current = false
+      queued.current = null
       token.current = null
       dispatch({ type: 'reset' })
     },

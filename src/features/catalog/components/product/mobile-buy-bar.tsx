@@ -1,4 +1,5 @@
 import { Button } from '@/src/components/ui/button'
+import { AssistantAvatar } from '@/src/features/assistant/components/assistant-avatar'
 import { AssistantTrigger } from '@/src/features/assistant/components/assistant-trigger'
 import type { AssistantProduct } from '@/src/features/assistant/hooks/use-assistant'
 import { formatMoney } from '@/src/lib/format'
@@ -8,7 +9,7 @@ import type { AddToCartState } from '@/src/features/cart/hooks/use-add-to-cart'
 type MobileBuyBarProps = {
   title: string
   price: Money | null
-  /** "Consultar" opens the assistant about this product. */
+  /** The assistant's button (and "Consultar" when it cannot be added) opens the chat about this product. */
   inquiry: AssistantProduct
   cart: AddToCartState
 }
@@ -22,13 +23,23 @@ export function MobileBuyBar({ title, price, inquiry, cart }: MobileBuyBarProps)
         <p className="text-lg leading-tight font-extrabold">{price ? formatMoney(price) : 'Consultá el precio'}</p>
       </div>
       {cart.canAdd ? (
-        <Button
-          onClick={event => cart.add(event.currentTarget)}
-          disabled={cart.pending}
-          className="h-11 shrink-0 rounded-full px-5 font-bold"
-        >
-          {cart.pending ? 'Agregando…' : 'Agregar al carrito'}
-        </Button>
+        <>
+          {/* The floating launcher is hidden here: this is the way to ask about the product, or back to the chat. */}
+          <AssistantTrigger
+            product={inquiry}
+            aria-label="Consultar con el asesor"
+            className="grid size-11 shrink-0 place-items-center rounded-full border bg-background transition-colors hover:bg-accent focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none"
+          >
+            <AssistantAvatar busy={false} />
+          </AssistantTrigger>
+          <Button
+            onClick={event => cart.add(event.currentTarget)}
+            disabled={cart.pending}
+            className="h-11 shrink-0 rounded-full px-5 font-bold"
+          >
+            {cart.pending ? 'Agregando…' : 'Agregar al carrito'}
+          </Button>
+        </>
       ) : (
         <Button asChild className="h-11 shrink-0 rounded-full px-5 font-bold">
           <AssistantTrigger product={inquiry}>Consultar</AssistantTrigger>

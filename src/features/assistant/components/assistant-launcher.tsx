@@ -7,7 +7,7 @@ import { cn } from '@/src/lib/utils'
 
 export function AssistantLauncher() {
   const { isOpen, open } = useAssistant()
-  // Product pages have their own sticky "Consultar" bar on phones; two floating elements would overlap.
+  // On phones, product pages open the chat from their sticky buy bar; two floating elements would overlap.
   const isProductPage = usePathname().startsWith('/productos/')
 
   return (

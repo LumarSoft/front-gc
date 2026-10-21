@@ -24,6 +24,7 @@ export function AssistantPanel() {
     isOpen,
     pendingQuestion,
     send: chat.send,
+    ready: !chat.answering && !chat.mustRestart,
     takePendingQuestion,
     close,
   })

@@ -9,13 +9,15 @@ const FULL_SCREEN = '(max-width: 639px)'
 type PanelOptions = {
   isOpen: boolean
   pendingQuestion: PendingQuestion | null
-  send: (text: string) => void
+  send: (text: string) => boolean
+  /** The chat can send a question now (no answer being written, the conversation is not full). */
+  ready: boolean
   takePendingQuestion: () => void
   close: () => void
 }
 
 /** Behavior of the chat window: focus, Escape, questions sent from outside and stepping aside to show a page. */
-export function useAssistantPanel({ isOpen, pendingQuestion, send, takePendingQuestion, close }: PanelOptions) {
+export function useAssistantPanel({ isOpen, pendingQuestion, send, ready, takePendingQuestion, close }: PanelOptions) {
   const dialog = useRef<HTMLElement>(null)
   const input = useRef<HTMLTextAreaElement>(null)
 
@@ -26,17 +28,17 @@ export function useAssistantPanel({ isOpen, pendingQuestion, send, takePendingQu
     else input.current?.focus({ preventScroll: true })
   }, [isOpen])
 
-  // Each question once, even if the effect runs twice (React's development checks do that).
+  // Each question once, even if the effect runs twice (React's development checks do that). A question that cannot go
+  // yet (an answer is being written, the conversation must start over) waits until the chat is ready.
   const sent = useRef<number | null>(null)
   const sendPending = useEffectEvent((question: PendingQuestion) => {
-    takePendingQuestion()
-    if (sent.current === question.id) return
+    if (sent.current === question.id || !send(question.text)) return
     sent.current = question.id
-    send(question.text)
+    takePendingQuestion()
   })
   useEffect(() => {
     if (pendingQuestion) sendPending(pendingQuestion)
-  }, [pendingQuestion])
+  }, [pendingQuestion, ready])
 
   return {
     dialog,
@@ -44,9 +46,10 @@ export function useAssistantPanel({ isOpen, pendingQuestion, send, takePendingQu
     onKeyDown: (event: KeyboardEvent): void => {
       if (event.key === 'Escape') close()
     },
-    /** Following a link from the chat: on phones the chat covers the page, so it closes to show it. */
-    onNavigate: (): void => {
-      if (window.matchMedia(FULL_SCREEN).matches) close()
-    },
+    /**
+     * Following a link from the chat: the chat steps aside to show the page (it covers it on phones, and the product's
+     * price and buttons on desktop). The conversation stays; the launcher or the buy bar bring it back.
+     */
+    onNavigate: close,
   }
 }
