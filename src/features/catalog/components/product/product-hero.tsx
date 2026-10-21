@@ -20,7 +20,7 @@ type ProductHeroProps = {
 export function ProductHero({ product }: ProductHeroProps) {
   const { variant, selectVariant, images, price, compareAtPrice, availability } = useSelectedVariant(product)
   const cart = useAddToCart(variant, product.id)
-  const inquiryHref = `/asistente?pregunta=${encodeURIComponent(`Quiero consultar por ${product.name}`)}`
+  const inquiry = { slug: product.slug, name: product.name }
 
   return (
     <div className="grid gap-8 lg:grid-cols-2 lg:gap-14">
@@ -42,11 +42,11 @@ export function ProductHero({ product }: ProductHeroProps) {
         </div>
         <ProductPrice price={price} compareAtPrice={compareAtPrice} availability={availability} variant={variant} />
         <VariantPicker variants={product.variants} selected={variant} onSelect={selectVariant} />
-        <ProductActions inquiryHref={inquiryHref} cart={cart} />
+        <ProductActions inquiry={inquiry} cart={cart} />
         <ProductTrustList />
       </div>
 
-      <MobileBuyBar title={variant?.name ?? product.name} price={price} inquiryHref={inquiryHref} cart={cart} />
+      <MobileBuyBar title={variant?.name ?? product.name} price={price} inquiry={inquiry} cart={cart} />
     </div>
   )
 }

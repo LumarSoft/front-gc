@@ -145,8 +145,16 @@ the application form and status (`/clientes-frecuentes/alta`) and shared labels;
 `/admin/clientes-frecuentes` (`components/wholesale/`: status views with counters and a nav badge, search, and a detail
 page whose "Revisión" card holds the approve/reject/pause/resume decisions). **Offers and favorites**: `/ofertas` reuses `CatalogView`
 with `onSale`; `src/features/favorites/` holds the heart button (cards and product page) and `/favoritos`, for
-signed-in customers only (browser calls through `favorites.service.ts`). Linked
-sections that are not ready (legal, help, about/contact, assistant, configurator, frequent customers) render
+signed-in customers only (browser calls through `favorites.service.ts`). **Sales assistant**: `src/features/assistant/` is the AI chat
+(`POST /assistant/messages` through `assistant.service.ts`, streamed NDJSON read in `lib/assistant-stream.ts`).
+`AssistantProvider` in the shop layout renders the floating launcher and lazy-loads `AssistantPanel` (full-screen sheet
+on phones, floating window from `sm`) the first time it opens; it stays mounted so the conversation survives navigation,
+and the tab keeps it in `sessionStorage`. Open it from anywhere in the store with `AssistantTrigger` (optional
+`question` to send, `product` for the product page) or `useAssistant().open()`; `/asistente?pregunta=…` redirects to
+`/?asistente=1&pregunta=…`, which opens it. Answers are text (a safe subset: paragraphs, lists, **bold**, links to store
+paths, parsed in `lib/rich-text.ts`, never HTML), product cards with "Agregar al carrito" (`useAddToCart`) and a
+WhatsApp handoff link. Linked
+sections that are not ready (legal, help, about/contact, configurator, frequent customers) render
 `UpcomingPage` with copy from `src/features/content/lib/upcoming-pages.ts` (noindex); replace each page when its real
 content or feature lands — never put invented policies or company data there. Create folders as they are needed,
 following this structure.

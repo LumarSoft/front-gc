@@ -16,14 +16,6 @@ const TRACK: UpcomingAction = { label: 'Seguí tu pedido', href: '/pedidos' }
 // Pages linked from the store whose content (from the client) or feature is not ready yet. The copy only states what
 // the store really does today: never invent policies, legal text or company data here.
 export const UPCOMING_PAGES = {
-  assistant: {
-    section: 'Asistente',
-    title: 'Te ayudamos a elegir',
-    description:
-      'Estamos preparando un asistente que responde tus dudas y te recomienda el equipo justo para lo que necesitás.',
-    meanwhile: 'Podés buscar por nombre o modelo y filtrar los productos por uso en el catálogo.',
-    actions: [BROWSE, HOME],
-  },
   configurator: {
     section: 'Asesor guiado',
     title: 'Armá tu equipo ideal',

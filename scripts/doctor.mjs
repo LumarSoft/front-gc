@@ -150,6 +150,18 @@ try {
         'API is older than online payment with Mercado Pago',
         'pull api-gc, apply its migrations (npx prisma migrate dev) and restart it (see docs/upgrade-notes.md)',
       )
+    // Sales assistant chat (LumarSoft/api-gc AI assistant): an empty message is rejected with 400 before reaching the
+    // model (nothing is stored or billed); an older API 404s it.
+    const assistant = await fetch(`${apiUrl}/assistant/messages`, {
+      method: 'POST',
+      signal: AbortSignal.timeout(3000),
+    })
+    if (assistant.status === 400) ok('API has the sales assistant')
+    else
+      warn(
+        'API is older than the sales assistant chat',
+        'pull api-gc, run npm install there and restart it (see docs/upgrade-notes.md)',
+      )
   } else warn(`API at ${apiUrl} answered ${response.status}`, 'run `npm run doctor` in api-gc')
 } catch {
   warn(

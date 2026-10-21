@@ -1,8 +1,7 @@
-import { UpcomingPage } from '@/src/components/ui/upcoming-page'
-import { UPCOMING_PAGES, upcomingMetadata } from '@/src/features/content/lib/upcoming-pages'
+import { redirect } from 'next/navigation'
+import { assistantLandingHref } from '@/src/features/assistant/lib/assistant-links'
 
-export const metadata = upcomingMetadata('assistant')
-
+/** The assistant is a chat over the store, not a page: old links and bookmarks open it on the home. */
 export default async function AssistantPage({
   searchParams,
 }: {
@@ -10,16 +9,5 @@ export default async function AssistantPage({
 }) {
   const { pregunta } = await searchParams
   const question = typeof pregunta === 'string' ? pregunta.trim().slice(0, 200) : ''
-  const content = UPCOMING_PAGES.assistant
-  return (
-    <UpcomingPage
-      {...content}
-      meanwhile={
-        <>
-          {question && <p className="mb-2 font-medium text-foreground">Tu consulta: “{question}”</p>}
-          <p>{content.meanwhile}</p>
-        </>
-      }
-    />
-  )
+  redirect(assistantLandingHref(question || undefined))
 }
