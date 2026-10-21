@@ -22,7 +22,7 @@ export function AssistantPanel() {
   const { isOpen, close, product, pendingQuestion, takePendingQuestion } = useAssistant()
   const pageProduct = productSlugFromPath(usePathname())
   const chat = useAssistantChat(pageProduct)
-  const { dialog, input, onKeyDown, onNavigate } = useAssistantPanel({
+  const { dialog, input, onKeyDown, onNavigate, reply } = useAssistantPanel({
     isOpen,
     pendingQuestion,
     send: chat.send,
@@ -57,6 +57,8 @@ export function AssistantPanel() {
             <AssistantMessages
               messages={chat.messages}
               empty={<AssistantWelcome product={topic} onAsk={chat.send} />}
+              replies={chat.replies}
+              onReply={reply}
               onRetry={chat.retry}
               onRestart={chat.reset}
               onNavigate={onNavigate}

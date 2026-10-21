@@ -25,6 +25,21 @@ export async function* readJsonLines(body: ReadableStream<Uint8Array>): AsyncGen
 const isRecord = (value: unknown): value is Record<string, unknown> =>
   typeof value === 'object' && value !== null && !Array.isArray(value)
 
+/** Quick replies as the API sends them: 2 to 4 short texts. */
+const MIN_REPLIES = 2
+const MAX_REPLIES = 4
+const MAX_REPLY_LENGTH = 40
+
+function replyOptions(value: unknown): string[] | null {
+  if (!Array.isArray(value)) return null
+  const options = value
+    .filter((option): option is string => typeof option === 'string')
+    .map(option => option.trim())
+    .filter(option => option && option.length <= MAX_REPLY_LENGTH)
+    .slice(0, MAX_REPLIES)
+  return options.length >= MIN_REPLIES ? options : null
+}
+
 /** Narrows one stream line to a known event; unknown or malformed lines are skipped (null). */
 export function toStreamEvent(value: unknown): AssistantStreamEvent | null {
   if (!isRecord(value)) return null
@@ -43,6 +58,10 @@ export function toStreamEvent(value: unknown): AssistantStreamEvent | null {
       return typeof value.url === 'string' && value.url.startsWith('https://wa.me/')
         ? { type: 'handoff', url: value.url }
         : null
+    case 'replies': {
+      const options = replyOptions(value.options)
+      return options ? { type: 'replies', options } : null
+    }
     case 'error':
       return typeof value.message === 'string' ? { type: 'error', message: value.message } : null
     case 'done':

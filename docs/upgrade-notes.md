@@ -16,6 +16,12 @@ The store needs the API running: keep `api-gc` up to date too (its own `npm run 
 
 ---
 
+## 2026-10-21 — Quick replies in the assistant
+
+When the assistant asks a question with a few possible answers ("¿Para qué la vas a usar?"), the chat shows them as
+buttons under the answer; tapping one sends it. Pull `api-gc` (LumarSoft/api-gc#54, no migration) and restart it:
+with an older API the chat works as before, without buttons.
+
 ## 2026-10-21 — Instant search
 
 The header search now suggests products (photo, price, stock), categories and the full results while the customer

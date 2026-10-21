@@ -158,7 +158,9 @@ on phones, floating window from `sm`) the first time it opens; it stays mounted 
 and the tab keeps it in `sessionStorage`. Open it from anywhere in the store with `AssistantTrigger` (optional
 `question` to send, `product` for the product page) or `useAssistant().open()`; `/asistente?pregunta=…` redirects to
 `/?asistente=1&pregunta=…`, which opens it. Answers are text (a safe subset: paragraphs, lists, **bold**, links to store
-paths, parsed in `lib/rich-text.ts`, never HTML), product cards with "Agregar al carrito" (`useAddToCart`; a card
+paths, parsed in `lib/rich-text.ts`, never HTML), quick replies (`replies` events, `AssistantReplies`: buttons under the
+latest answer that send their text as the customer's message, kept with the conversation), product cards with
+"Agregar al carrito" (`useAddToCart`; a card
 that went into the cart is reported to `POST /assistant/cart-adds` through `CartAddReportContext`) and a WhatsApp
 handoff link. Staff read what customers ask it at `/admin/asistente` ("Asesor IA", `components/assistant/`,
 `admin-assistant.service.ts`): conversations (views Todas/Derivadas/Para revisar, search, `DateFilterPill` by the day

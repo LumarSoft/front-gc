@@ -45,6 +45,13 @@ export function useAssistantPanel({ isOpen, pendingQuestion, send, ready, takePe
       if (event.key === 'Escape') close()
     },
     /**
+     * A quick reply was tapped: it goes as the customer's message. The focus stays in the chat, not in the field: the
+     * button is gone, and on phones the field would open the keyboard over the answer.
+     */
+    reply: (text: string): void => {
+      if (send(text)) dialog.current?.focus({ preventScroll: true })
+    },
+    /**
      * Following a link from the chat: the chat steps aside to show the page (it covers it on phones, and the product's
      * price and buttons on desktop). The conversation stays; the launcher or the buy bar bring it back.
      */
