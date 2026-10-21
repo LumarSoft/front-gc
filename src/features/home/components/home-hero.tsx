@@ -3,28 +3,23 @@ import { HeroPhoto } from '@/src/features/home/components/hero-photo'
 import { HeroShortcuts } from '@/src/features/home/components/hero-shortcuts'
 
 /**
- * From xl: copy on the left, the printer in the middle of the photo, the category shortcuts stacked on the right.
- * The copy lines up with the header (7xl) while the shortcuts hug the photo's right edge (8xl), so on wide screens they
- * use the room beside the printer instead of covering it. Below xl the content wrapper is `display: contents`, so the three blocks stack in their `order`: copy, photo, and
- * the shortcuts riding on the photo's bottom edge.
+ * White hero. Below lg the copy, the printer and the swipeable shortcuts stack; on lg the copy and the printer share a
+ * row with the shortcuts under them; from xl the shortcuts move to a third column on the right.
+ * From xl the row spans 8xl so the printer gets the room the header leaves on wide screens, while `pl-header-7xl` pads
+ * the copy in to line up with the header (the section is its `@container`).
  */
 export function HomeHero() {
   return (
-    <section className="relative isolate flex flex-col xl:block xl:bg-navy">
-      <div className="contents xl:relative xl:mx-auto xl:block xl:max-w-8xl">
-        <div className="order-1 bg-navy px-4 pt-10 pb-8 text-navy-foreground sm:px-6 lg:pt-14 xl:bg-transparent xl:px-0 xl:py-8">
-          <div className="mx-auto max-w-7xl xl:px-6">
-            <HeroCopy />
-          </div>
+    <section className="@container border-b bg-background">
+      <div className="mx-auto grid max-w-7xl grid-cols-1 gap-y-6 px-4 pt-10 pb-8 sm:px-6 lg:grid-cols-2 lg:items-center lg:gap-x-8 lg:pt-12 lg:pb-10 xl:max-w-8xl xl:grid-cols-[auto_minmax(0,1fr)_22rem] xl:gap-x-6 xl:py-10">
+        <div className="xl:pl-header-7xl">
+          <HeroCopy />
         </div>
-        <div className="relative z-10 order-3 -mt-6 px-4 pb-8 sm:px-6 lg:-mt-10 lg:pb-10 xl:absolute xl:inset-y-0 xl:right-6 xl:m-0 xl:flex xl:w-88 xl:items-center xl:p-0">
-          <div className="mx-auto max-w-7xl xl:w-full">
-            <HeroShortcuts />
-          </div>
+        <HeroPhoto className="mx-auto w-full max-w-md sm:max-w-lg lg:max-w-none xl:-mx-4 xl:w-auto" />
+        <div className="lg:col-span-2 xl:col-span-1">
+          <HeroShortcuts />
         </div>
       </div>
-      {/* Last in the DOM so screen readers reach the h1 first; `order` places it visually. */}
-      <HeroPhoto className="order-2 xl:absolute xl:inset-0 xl:-z-10" />
     </section>
   )
 }
