@@ -26,7 +26,8 @@ export default async function ProductsPage({ searchParams }: PageProps<'/product
     <>
       {params.q && <TrackActivity event={{ type: 'SEARCH', query: params.q, resultCount: result.total }} />}
       <CatalogView
-        title={params.q ? `Resultados para “${params.q}”` : 'Todos los productos'}
+        // A misspelled word was searched corrected: the title says what the results are for.
+        title={params.q ? `Resultados para “${result.search?.correctedQuery ?? params.q}”` : 'Todos los productos'}
         description={
           params.q ? null : 'Equipos y consumibles originales, con asesoramiento antes y después de comprar.'
         }
