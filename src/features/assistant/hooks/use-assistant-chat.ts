@@ -28,6 +28,11 @@ export function useAssistantChat(productSlug: string | undefined) {
   // out as soon as that request ends.
   const queued = useRef<string | null>(null)
   const questionCount = useRef(0)
+  // The page the customer is on when a question goes out, also a queued one sent after the page changed.
+  const page = useRef(productSlug)
+  useEffect(() => {
+    page.current = productSlug
+  }, [productSlug])
 
   useEffect(() => {
     token.current = conversation.token
@@ -41,7 +46,7 @@ export function useAssistantChat(productSlug: string | undefined) {
     busy.current = true
     let finished = false
     try {
-      const input = { message: text, conversation: token.current ?? undefined, productSlug }
+      const input = { message: text, conversation: token.current ?? undefined, productSlug: page.current }
       for await (const event of streamAssistantAnswer(input, controller.signal)) {
         if (event.type === 'conversation') token.current = event.token
         if (event.type === 'done') finished = true

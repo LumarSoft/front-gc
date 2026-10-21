@@ -86,6 +86,8 @@ export type AdminAssistantMessage = {
   inputTokens: number | null
   outputTokens: number | null
   products: AdminShownProduct[]
+  /** Customer messages only: the product page it was written from (from 2026-10-21); null elsewhere. */
+  page: AdminShownProduct | null
   /** Answers recorded from 2026-10-21; null on the customer's messages and older answers. */
   outcome: AnswerOutcome | null
   durationMs: number | null
