@@ -31,13 +31,16 @@ export function AssistantMessages({ messages, empty, onRetry, onRestart, onNavig
         <ol aria-label="Conversación con el asesor" className="flex flex-col gap-5">
           {messages.map(message =>
             message.role === 'user' ? (
-              <li key={message.id} className="flex justify-end">
+              <li
+                key={message.id}
+                className="flex justify-end duration-300 motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-2"
+              >
                 <p className="max-w-4/5 rounded-2xl rounded-br-sm bg-foreground px-4 py-2.5 text-sm whitespace-pre-line text-background">
                   {message.text}
                 </p>
               </li>
             ) : (
-              <li key={message.id}>
+              <li key={message.id} className="duration-300 motion-safe:animate-in motion-safe:fade-in">
                 <AssistantAnswer answer={message} onRetry={onRetry} onRestart={onRestart} onNavigate={onNavigate} />
               </li>
             ),

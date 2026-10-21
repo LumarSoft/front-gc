@@ -16,6 +16,8 @@ export type AssistantProductCard = ProductSummary & { variantId: number | null }
 /** One line of the NDJSON stream of `POST /assistant/messages`. */
 export type AssistantStreamEvent =
   | { type: 'conversation'; token: string }
+  /** What the assistant is doing while the customer waits ("Buscando tintas para tu L3250…"). */
+  | { type: 'status'; text: string }
   | { type: 'text'; delta: string }
   | { type: 'products'; items: AssistantProductCard[] }
   | { type: 'handoff'; url: string }

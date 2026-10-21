@@ -9,27 +9,43 @@ type AssistantRichTextProps = {
   onNavigate?: () => void
   /** Links open the store page in a new tab (the admin reading a conversation). */
   newTab?: boolean
+  /** The text is still being written: a soft cursor follows its last word. */
+  writing?: boolean
 }
 
-export function AssistantRichText({ text, onNavigate, newTab = false }: AssistantRichTextProps) {
+export function AssistantRichText({ text, onNavigate, newTab = false, writing = false }: AssistantRichTextProps) {
+  const blocks = parseRichText(text)
   return (
     <div className="flex flex-col gap-2.5 text-sm leading-relaxed">
-      {parseRichText(text).map((block, index) =>
-        block.type === 'paragraph' ? (
+      {blocks.map((block, index) => {
+        const caret = writing && index === blocks.length - 1 ? <WritingCaret /> : null
+        return block.type === 'paragraph' ? (
           <p key={index}>
             <InlineContent content={block.content} onNavigate={onNavigate} newTab={newTab} />
+            {caret}
           </p>
         ) : (
           <List key={index} ordered={block.ordered}>
             {block.items.map((item, itemIndex) => (
               <li key={itemIndex} className="pl-1">
                 <InlineContent content={item} onNavigate={onNavigate} newTab={newTab} />
+                {itemIndex === block.items.length - 1 && caret}
               </li>
             ))}
           </List>
-        ),
-      )}
+        )
+      })}
     </div>
+  )
+}
+
+/** Process-cyan bar after the last word while the answer streams in (steady with reduced motion). */
+function WritingCaret() {
+  return (
+    <span
+      aria-hidden
+      className="ml-0.5 inline-block h-3.5 w-1.5 translate-y-0.5 rounded-full bg-cyan motion-safe:animate-caret"
+    />
   )
 }
 
