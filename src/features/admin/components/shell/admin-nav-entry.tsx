@@ -5,7 +5,12 @@ import { AdminTooltip } from '@/src/features/admin/components/common/admin-toolt
 import { AdminNavFlyout } from '@/src/features/admin/components/shell/admin-nav-flyout'
 import { NavCount } from '@/src/features/admin/components/shell/nav-count'
 import { useAdminSidebar } from '@/src/features/admin/hooks/use-admin-sidebar'
-import { isNavLinkActive, isNavSectionActive, type AdminNavItem } from '@/src/features/admin/lib/admin-nav'
+import {
+  isNavItemCurrent,
+  isNavLinkActive,
+  isNavSectionActive,
+  type AdminNavItem,
+} from '@/src/features/admin/lib/admin-nav'
 import { cn } from '@/src/lib/utils'
 
 type AdminNavEntryProps = {
@@ -27,7 +32,7 @@ const LINK =
 export function AdminNavEntry({ item, pathname, count, inSheet = false }: AdminNavEntryProps) {
   const collapsed = useAdminSidebar().collapsed && !inSheet
   const open = isNavSectionActive(item, pathname)
-  const current = isNavLinkActive(item, pathname)
+  const current = isNavItemCurrent(item, pathname)
   const Icon = item.icon
 
   const link = (

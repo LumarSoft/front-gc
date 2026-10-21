@@ -39,16 +39,21 @@ export function FilterPill({ label, valueLabel, onClear, children }: FilterPillP
           {children}
         </DropdownMenuContent>
       </DropdownMenu>
-      {active && (
-        <button
-          type="button"
-          onClick={onClear}
-          aria-label={`Quitar el filtro ${label}`}
-          className={cn(PILL, PILL_ON, 'rounded-l-none border-l border-background pr-2 pl-1.5')}
-        >
-          <XIcon className="size-3.5" />
-        </button>
-      )}
+      {active && <FilterPillClear label={label} onClear={onClear} />}
     </span>
+  )
+}
+
+/** The cross on the right of a set filter pill, which removes it. */
+export function FilterPillClear({ label, onClear }: { label: string; onClear: () => void }) {
+  return (
+    <button
+      type="button"
+      onClick={onClear}
+      aria-label={`Quitar el filtro ${label}`}
+      className={cn(PILL, PILL_ON, 'rounded-l-none border-l border-background pr-2 pl-1.5')}
+    >
+      <XIcon className="size-3.5" />
+    </button>
   )
 }

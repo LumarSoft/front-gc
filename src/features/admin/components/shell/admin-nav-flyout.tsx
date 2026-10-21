@@ -4,7 +4,12 @@ import Link from 'next/link'
 import { useState } from 'react'
 import { HoverCard } from 'radix-ui'
 import { NavCount } from '@/src/features/admin/components/shell/nav-count'
-import { isNavLinkActive, RAIL_POPOVER_OFFSET, type AdminNavItem } from '@/src/features/admin/lib/admin-nav'
+import {
+  isNavItemCurrent,
+  isNavLinkActive,
+  RAIL_POPOVER_OFFSET,
+  type AdminNavItem,
+} from '@/src/features/admin/lib/admin-nav'
 import { cn } from '@/src/lib/utils'
 
 type AdminNavFlyoutProps = {
@@ -39,7 +44,7 @@ export function AdminNavFlyout({ item, pathname, count, children }: AdminNavFlyo
           )}
         >
           {links.map((link, index) => {
-            const active = isNavLinkActive(link, pathname)
+            const active = index === 0 ? isNavItemCurrent(item, pathname) : isNavLinkActive(link, pathname)
             return (
               <Link
                 key={link.href}
