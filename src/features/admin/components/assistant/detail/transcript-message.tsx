@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { AnswerTrace } from '@/src/features/admin/components/assistant/detail/answer-trace'
 import { ShownProducts } from '@/src/features/admin/components/assistant/detail/shown-products'
 import { formatTokens, MESSAGE_AUTHOR } from '@/src/features/admin/lib/assistant-display'
@@ -24,6 +25,18 @@ export function TranscriptMessage({ message, at }: TranscriptMessageProps) {
       <p className="text-xs text-muted-foreground">
         <span className="font-medium text-foreground">{MESSAGE_AUTHOR[message.role]}</span> ·{' '}
         <time dateTime={message.createdAt}>{at}</time>
+        {message.page && (
+          <>
+            {' · desde '}
+            {message.page.archived ? (
+              message.page.name
+            ) : (
+              <Link href={`/admin/productos/${message.page.id}`} className="hover:underline">
+                {message.page.name}
+              </Link>
+            )}
+          </>
+        )}
         {tokens > 0 && ` · ${formatTokens(tokens)} tokens`}
         {message.durationMs !== null && ` · ${formatDuration(message.durationMs)}`}
       </p>
