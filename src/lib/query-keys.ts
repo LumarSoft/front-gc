@@ -23,6 +23,8 @@ export const QUERY_KEYS = {
   /** The order read again from Mercado Pago when the buyer comes back from paying. */
   paymentReturn: (number: string, token: string | null) => ['orders', 'payment-return', number, token] as const,
   admin: {
+    /** The developers' "Sistema" page. */
+    systemStatus: ['admin', 'system', 'status'],
     categories: ['admin', 'categories'],
     brands: ['admin', 'brands'],
     tags: ['admin', 'tags'],

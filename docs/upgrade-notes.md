@@ -16,6 +16,12 @@ The store needs the API running: keep `api-gc` up to date too (its own `npm run 
 
 ---
 
+## 2026-10-22 — "Sistema" page for developers
+
+New page under "Desarrollo" (developers only) with the state of the API, database, integrations and scheduled tasks.
+Pull `api-gc` (LumarSoft/api-gc#56, `GET /admin/system`, no migration) and restart it; with an older API the page shows
+an error. Nothing to set in this repo.
+
 ## 2026-10-22 — Developer role
 
 "Asesor IA" is now for developers only (role `DEVELOPER`, under "Desarrollo" in the admin navigation); admins no longer
