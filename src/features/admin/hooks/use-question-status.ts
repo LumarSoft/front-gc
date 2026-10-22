@@ -6,9 +6,9 @@ import type { QuestionStatus, QuestionStatusResult } from '@/src/types/api/admin
 import { useAdminMutation } from './use-admin-mutation'
 
 const SUCCESS: Record<QuestionStatus, [one: string, many: (count: number) => string]> = {
-  ANSWERED: ['Pregunta marcada como respondida', count => `${count} preguntas marcadas como respondidas`],
-  DISMISSED: ['Pregunta descartada', count => `${count} preguntas descartadas`],
-  OPEN: ['Pregunta sin responder otra vez', count => `${count} preguntas sin responder otra vez`],
+  ANSWERED: ['Dato marcado como completado', count => `${count} datos marcados como completados`],
+  DISMISSED: ['Dato descartado', count => `${count} datos descartados`],
+  OPEN: ['Dato pendiente otra vez', count => `${count} datos pendientes otra vez`],
 }
 
 /** What changed: the questions already in that status are not counted. */

@@ -31,18 +31,21 @@ export const conversationViewQuery = (view: ConversationView): Partial<AdminConv
   problems: view === 'problems' || undefined,
 })
 
-/** Saved views of the unanswered questions; the list opens on the ones still waiting. */
+/**
+ * Saved views of the data the assistant was missing ("Datos faltantes"); the list opens on the pending ones. In the API
+ * they are `UnansweredQuestion`s: the assistant did answer, without the data.
+ */
 export const QUESTION_VIEWS: { value: QuestionStatus | undefined; label: string }[] = [
-  { value: 'OPEN', label: 'Sin responder' },
-  { value: 'ANSWERED', label: 'Respondidas' },
-  { value: 'DISMISSED', label: 'Descartadas' },
-  { value: undefined, label: 'Todas' },
+  { value: 'OPEN', label: 'Pendientes' },
+  { value: 'ANSWERED', label: 'Completados' },
+  { value: 'DISMISSED', label: 'Descartados' },
+  { value: undefined, label: 'Todos' },
 ]
 
 export const QUESTION_STATUS_BADGE: Record<QuestionStatus, { label: string; tone: BadgeTone }> = {
-  OPEN: { label: 'Sin responder', tone: 'attention' },
-  ANSWERED: { label: 'Respondida', tone: 'success' },
-  DISMISSED: { label: 'Descartada', tone: 'neutral' },
+  OPEN: { label: 'Pendiente', tone: 'attention' },
+  ANSWERED: { label: 'Completado', tone: 'success' },
+  DISMISSED: { label: 'Descartado', tone: 'neutral' },
 }
 
 export const MESSAGE_AUTHOR: Record<AssistantMessageRole, string> = {

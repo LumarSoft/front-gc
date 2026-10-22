@@ -129,8 +129,12 @@ corrected word, a partial match, "Buscar en toda la tienda" outside `/productos`
 `/mi-cuenta`, the header account menu; browser calls go through `apiRequest` (`src/lib/api-client.ts`). **Admin panel** lives in `app/admin/` +
 `src/features/admin/`: the layout checks the role on the server (`getServerSession`, `src/services/session.server.ts`;
 customers get a 404, expired sessions are renewed in the browser) and admin pages load data client-side with TanStack
-Query through `src/services/admin-*.service.ts`. Each admin section adds itself to `ADMIN_NAV`
-(`src/features/admin/lib/admin-nav.ts`). Admins land on `/admin` after logging in (`afterLoginPath`, `src/features/auth/lib/safe-redirect.ts`). The desktop sidebar folds to a 56 px icon rail (⌘B / Ctrl+B or its header button; remembered in the `cg_admin_sidebar` cookie, read by `app/admin/layout.tsx` so nothing jumps): `AdminTooltip` names icons, `AdminNavFlyout` (hover card) lists a section's sub-pages. The admin has its own dense theme (`app/admin-theme.css`, switched on by `data-admin-shell`
+Query through `src/services/admin-*.service.ts`. Two staff roles (`src/features/auth/lib/roles.ts`): `ADMIN` (the
+store's staff) and `DEVELOPER` (the team: everything an admin sees plus the developer-only sections, under
+"Desarrollo" in the navigation). Client components read the role with `useIsDeveloper()` (`AdminRoleProvider` in the
+shell); developer-only pages also check it on the server (`app/admin/asistente/layout.tsx`, 404 for admins). Each admin
+section adds itself to `ADMIN_NAV`, or `DEVELOPER_NAV` when only developers see it
+(`src/features/admin/lib/admin-nav.ts`). Staff land on `/admin` after logging in (`afterLoginPath`, `src/features/auth/lib/safe-redirect.ts`). The desktop sidebar folds to a 56 px icon rail (⌘B / Ctrl+B or its header button; remembered in the `cg_admin_sidebar` cookie, read by `app/admin/layout.tsx` so nothing jumps): `AdminTooltip` names icons, `AdminNavFlyout` (hover card) lists a section's sub-pages. The admin has its own dense theme (`app/admin-theme.css`, switched on by `data-admin-shell`
 for the whole document, portals included; the store is untouched) and shared list pieces in
 `src/features/admin/components/common/` (`IndexFilters`, `ViewTabs`, `FilterPill`, `SortMenu`, `IndexTable`,
 `ToneBadge`): new admin screens build on them. ⌘K opens the search palette (`components/search/`). The admin home (`components/dashboard/`) shows 30-day metrics from `GET /admin/dashboard`, to-do pills built from it and the order counters, a sales chart (single-series `AreaChart`, crosshair + hidden table) and the latest orders. The period comes from `DateRangePicker` (`components/date-range/`, Argentine calendar days in `lib/date-range.ts`), kept in the URL as `?desde=&hasta=`. Stats live at `/admin/estadisticas` (`components/analytics/`, `GET /admin/analytics`): headline numbers, a `ComparisonChart` of the period over the previous one (days/weeks/months in `?por=`), sales breakdown, order outcomes, best sellers, `BarList` rankings and customers. Its "Visitas" tab (`?vista=visitas`, `components/analytics/behavior/`, `GET /admin/analytics/behavior`) shows visitors, the purchase funnel, most viewed products, searches (with and without results) and abandoned carts. **Anonymous activity tracking**: `src/features/activity/` reports visits (once per tab session, `TrackVisit` in the shop layout), product views, searches, add to cart, checkout started and order placed to `POST /activity` with a random visitor id in `localStorage`; never for admins or browsers with Global Privacy Control / Do Not Track. Use `TrackActivity` (fires once on mount) or `useTrackActivity().track` for new events. Store settings live at `/admin/configuracion` (`components/settings/`): Rosario delivery and the reservation window, saved through the shared `ContextualSaveBar`; the dollar rate keeps its page, linked from there. **Cart is live**: `/carrito` + `src/features/cart/`, browser-only calls through
@@ -162,11 +166,15 @@ paths, parsed in `lib/rich-text.ts`, never HTML), quick replies (`replies` event
 latest answer that send their text as the customer's message, kept with the conversation), product cards with
 "Agregar al carrito" (`useAddToCart`; a card
 that went into the cart is reported to `POST /assistant/cart-adds` through `CartAddReportContext`) and a WhatsApp
-handoff link. Staff read what customers ask it at `/admin/asistente` ("Asesor IA", `components/assistant/`,
-`admin-assistant.service.ts`): conversations (views Todas/Derivadas/Para revisar, search, `DateFilterPill` by the day
-they started) and a read-only detail with the cards each answer showed, how it went (`AnswerTrace`: failed, cut, slow,
+handoff link. Developers (only them, since 2026-10-22) read what customers ask it at `/admin/asistente` ("Asesor IA",
+`components/assistant/`, `admin-assistant.service.ts`): conversations (views Todas/Derivadas/Para revisar, search, `DateFilterPill` by the day
+they started) and a read-only detail laid out like WhatsApp (the customer on the left, the assistant on the right) with
+the cards each answer showed, the data it was missing under the answer where it happened (`missingDataByAnswer`), how it
+went (`AnswerTrace`: failed, cut, slow,
 searches that found nothing, the steps it took; labels in `lib/assistant-trace-display.ts`) and what was added to the
-cart; "Preguntas sin responder" (answered/dismissed/reopen, one or a selection; the open ones are the nav badge) and
+cart; "Datos faltantes" (`/admin/asistente/preguntas`, `UnansweredQuestion` in the API: the assistant answered
+without a piece of data the store lacks; pending/completed/dismissed, one or a selection; the pending ones are the nav
+badge) and
 "Métricas" (`/admin/asistente/metricas`: conversations and tokens per day, the month, today against the daily limit,
 conversations that added to the cart, answers to review and the searches that found nothing). Nobody answers customers from the admin: a person takes over by WhatsApp. Linked
 sections that are not ready (legal, help, about/contact, configurator, frequent customers) render

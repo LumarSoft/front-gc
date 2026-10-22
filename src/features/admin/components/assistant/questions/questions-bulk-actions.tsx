@@ -12,20 +12,20 @@ type QuestionsBulkActionsProps = {
   onChange: (ids: number[], status: QuestionStatus, onDone?: () => void) => void
 }
 
-/** Bulk bar of the questions: mark the selection answered or dismissed, or back to waiting. All reversible. */
+/** Bulk bar of the missing data: mark the selection completed or dismissed, or back to pending. All reversible. */
 export function QuestionsBulkActions({ selection, pending, onChange }: QuestionsBulkActionsProps) {
   const change = (status: QuestionStatus) => () => onChange(selection.selectedIds, status, selection.clear)
   return (
     <BulkActionBar count={selection.selectedIds.length} onClear={selection.clear}>
       <BulkActionButton onClick={change('ANSWERED')} disabled={pending}>
-        Marcar respondidas
+        Marcar como completados
       </BulkActionButton>
       <BulkActionButton onClick={change('DISMISSED')} disabled={pending}>
         Descartar
       </BulkActionButton>
       <BulkMoreMenu
         disabled={pending}
-        actions={[{ label: 'Volver a sin responder', icon: RotateCcwIcon, onSelect: change('OPEN') }]}
+        actions={[{ label: 'Volver a pendientes', icon: RotateCcwIcon, onSelect: change('OPEN') }]}
       />
     </BulkActionBar>
   )

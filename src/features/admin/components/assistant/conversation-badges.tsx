@@ -13,8 +13,8 @@ export const hasConversationBadges = (conversation: ConversationBadgesProps['con
   conversation.cartAdds > 0
 
 /**
- * What needs a look (the assistant offered a person, could not answer something, or an answer went wrong) and what it
- * sold. Nothing for the rest.
+ * What needs a look (the assistant offered a person, was missing a piece of data to answer, or an answer went wrong)
+ * and what it sold. Nothing for the rest.
  */
 export function ConversationBadges({ conversation }: ConversationBadgesProps) {
   return (
@@ -27,7 +27,7 @@ export function ConversationBadges({ conversation }: ConversationBadgesProps) {
       {conversation.status === 'ESCALATED' && <ToneBadge tone="info">Derivada</ToneBadge>}
       {conversation.openQuestions > 0 && (
         <ToneBadge tone="attention">
-          {conversation.openQuestions === 1 ? '1 sin responder' : `${conversation.openQuestions} sin responder`}
+          {conversation.openQuestions === 1 ? '1 dato faltante' : `${conversation.openQuestions} datos faltantes`}
         </ToneBadge>
       )}
       {conversation.cartAdds > 0 && (

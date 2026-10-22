@@ -31,10 +31,10 @@ export function QuestionsTable({ questions, selection, pending, onChange }: Ques
           <RowCheckbox
             checked={selection.pageState}
             onCheckedChange={selection.togglePage}
-            label="Seleccionar todas las preguntas de esta página"
+            label="Seleccionar todos los datos de esta página"
           />
         </IndexTableHead>
-        <IndexTableHead className="w-full pl-1">Pregunta</IndexTableHead>
+        <IndexTableHead className="w-full pl-1">Qué faltó</IndexTableHead>
         <IndexTableHead>Fecha</IndexTableHead>
         <IndexTableHead>Estado</IndexTableHead>
         <IndexTableHead className="w-12">

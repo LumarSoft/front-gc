@@ -14,8 +14,8 @@ type QuestionActionsProps = {
 }
 
 /**
- * "…" menu of an unanswered question: answered (the missing data is loaded now) or dismissed while waiting, back to
- * waiting otherwise.
+ * "…" menu of a piece of data the assistant was missing: completed (it is loaded now) or dismissed while pending, back
+ * to pending otherwise.
  */
 export function QuestionActions({ question, pending, onChange, showConversation = false }: QuestionActionsProps) {
   const router = useRouter()
@@ -23,10 +23,10 @@ export function QuestionActions({ question, pending, onChange, showConversation 
   const actions: RowAction[] =
     question.status === 'OPEN'
       ? [
-          { label: 'Marcar respondida', icon: CheckIcon, onSelect: change('ANSWERED'), disabled: pending },
+          { label: 'Marcar como completado', icon: CheckIcon, onSelect: change('ANSWERED'), disabled: pending },
           { label: 'Descartar', icon: XIcon, onSelect: change('DISMISSED'), disabled: pending },
         ]
-      : [{ label: 'Volver a sin responder', icon: RotateCcwIcon, onSelect: change('OPEN'), disabled: pending }]
+      : [{ label: 'Volver a pendiente', icon: RotateCcwIcon, onSelect: change('OPEN'), disabled: pending }]
   if (showConversation && question.conversationId)
     actions.push({
       label: 'Ver la conversación',
@@ -36,7 +36,7 @@ export function QuestionActions({ question, pending, onChange, showConversation 
 
   return (
     <div className="relative z-10">
-      <RowActions itemName="la pregunta" actions={actions} />
+      <RowActions itemName="el dato" actions={actions} />
     </div>
   )
 }
