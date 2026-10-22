@@ -7,18 +7,25 @@ import { AdminCard } from '@/src/features/admin/components/common/admin-card'
 import { useQuestionStatus } from '@/src/features/admin/hooks/use-question-status'
 import type { AdminUnansweredQuestion } from '@/src/types/api/admin-assistant'
 
-/** What the assistant could not answer in this conversation, to complete the data and mark it answered. */
+/**
+ * The data the assistant was missing in this conversation (it answered without it), to load it and mark it completed.
+ * Each one is also shown under the answer where it happened.
+ */
 export function ConversationQuestionsCard({ questions }: { questions: AdminUnansweredQuestion[] }) {
   const { pending, change } = useQuestionStatus()
   return (
     <AdminCard
-      title="No supo responder"
+      title="Datos faltantes"
       aside={
         <Link href="/admin/asistente/preguntas" className="text-xs font-medium text-muted-foreground hover:underline">
-          Ver todas
+          Ver todos
         </Link>
       }
     >
+      <p className="-mt-1 mb-2 text-xs text-muted-foreground">
+        El asesor le respondió al cliente sin este dato. Cargalo en la ficha, el catálogo o la configuración y marcalo
+        como completado.
+      </p>
       <ul className="-my-2 divide-y">
         {questions.map(question => (
           <li key={question.id} className="flex items-start gap-2 py-2">

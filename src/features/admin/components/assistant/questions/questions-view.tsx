@@ -34,8 +34,8 @@ export function QuestionsView() {
   return (
     <>
       <AdminPageHeader
-        title="Preguntas sin responder"
-        description="Lo que el asesor no supo contestar. Cargá el dato que falta (ficha del producto, catálogo o configuración) y marcala como respondida, o descartala."
+        title="Datos faltantes"
+        description="Lo que el asesor le contestó a un cliente sin tener el dato, porque la tienda no lo tiene cargado. Cargalo (ficha del producto, catálogo o configuración) y marcalo como completado, o descartalo si no hace falta."
       />
       <ListCard
         toolbar={<QuestionsFilters />}
@@ -47,7 +47,7 @@ export function QuestionsView() {
           query.q ? (
             <EmptyState
               icon={<CircleHelpIcon />}
-              title="Ninguna pregunta coincide"
+              title="Ningún dato coincide"
               description="Probá con otras palabras."
               action={
                 <Button variant="outline" onClick={() => update({ q: undefined })}>
@@ -58,8 +58,8 @@ export function QuestionsView() {
           ) : (
             <EmptyState
               icon={<CircleHelpIcon />}
-              title={query.status === 'OPEN' ? 'No hay preguntas sin responder' : 'No hay preguntas acá'}
-              description="Cuando el asesor no sepa contestar algo, la pregunta aparece acá para que completes el dato."
+              title={query.status === 'OPEN' ? 'No hay datos pendientes' : 'No hay datos acá'}
+              description="Cuando al asesor le falte un dato para contestarle a un cliente, aparece acá para que lo completes."
             />
           )
         }

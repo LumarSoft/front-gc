@@ -1,6 +1,7 @@
 // Matches api-gc/docs/endpoints.md → Auth.
 
-export type UserRole = 'CUSTOMER' | 'ADMIN'
+/** ADMIN: the store's staff. DEVELOPER: the team that builds the store (admin plus the developer-only sections). */
+export type UserRole = 'CUSTOMER' | 'ADMIN' | 'DEVELOPER'
 export type BuyerType = 'RETAIL' | 'WHOLESALE'
 export type WholesaleStatus = 'PENDING' | 'APPROVED' | 'REJECTED' | 'PAUSED'
 

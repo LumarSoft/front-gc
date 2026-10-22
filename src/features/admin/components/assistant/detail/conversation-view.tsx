@@ -52,7 +52,7 @@ export function ConversationView({ id }: { id: number }) {
       <ConversationHeader conversation={conversation} />
       <div className="grid items-start gap-4 lg:grid-cols-[minmax(0,1fr)_20rem]">
         <div className="flex min-w-0 flex-col gap-4">
-          <ConversationTranscript messages={conversation.messages} />
+          <ConversationTranscript messages={conversation.messages} questions={conversation.questions} />
         </div>
         <div className="flex min-w-0 flex-col gap-4">
           {conversation.cartAdds.length > 0 && <ConversationCartCard cartAdds={conversation.cartAdds} />}

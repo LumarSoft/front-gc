@@ -14,6 +14,7 @@ import {
 } from '@/src/components/ui/dropdown-menu'
 import { useLogout } from '@/src/features/auth/hooks/use-auth-mutations'
 import { useCurrentUser } from '@/src/features/auth/hooks/use-current-user'
+import { isStaff } from '@/src/features/auth/lib/roles'
 
 export function AccountMenu() {
   const router = useRouter()
@@ -73,7 +74,7 @@ export function AccountMenu() {
             Mis favoritos
           </Link>
         </DropdownMenuItem>
-        {user.role === 'ADMIN' && (
+        {isStaff(user.role) && (
           <DropdownMenuItem asChild>
             <Link href="/admin">
               <Settings strokeWidth={1.5} className="size-5" />

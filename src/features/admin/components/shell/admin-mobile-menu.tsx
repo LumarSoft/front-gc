@@ -9,15 +9,17 @@ import { AdminNav } from '@/src/features/admin/components/shell/admin-nav'
 import { AdminSettingsLink } from '@/src/features/admin/components/shell/admin-settings-link'
 import { StoreLink } from '@/src/features/admin/components/shell/store-link'
 import { useAdminNavBadges } from '@/src/features/admin/hooks/use-admin-nav-badges'
-import { ADMIN_NAV, isNavSectionActive, PINNED_NAV_ITEMS } from '@/src/features/admin/lib/admin-nav'
+import { useIsDeveloper } from '@/src/features/admin/hooks/use-admin-role'
+import { ADMIN_NAV, DEVELOPER_NAV, isNavSectionActive, PINNED_NAV_ITEMS } from '@/src/features/admin/lib/admin-nav'
 import { cn } from '@/src/lib/utils'
 
 /** "Menú" tab of the phone bottom bar: every section on the same dark frame as the desktop sidebar. */
 export function AdminMobileMenu() {
   const [open, setOpen] = useState(false)
   const badges = useAdminNavBadges()
+  const sections = useIsDeveloper() ? [...ADMIN_NAV, ...DEVELOPER_NAV] : ADMIN_NAV
   // Work waiting in a section that has no tab of its own (e.g. applications to review) marks the menu.
-  const waiting = ADMIN_NAV.some(item => !item.pinned && item.badge && badges[item.badge])
+  const waiting = sections.some(item => !item.pinned && item.badge && badges[item.badge])
   // Inside a section without its own tab (frequent customers, settings…), the menu is the current tab.
   const pathname = usePathname()
   const current = !PINNED_NAV_ITEMS.some(item => isNavSectionActive(item, pathname))

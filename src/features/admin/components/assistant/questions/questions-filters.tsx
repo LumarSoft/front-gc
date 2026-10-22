@@ -18,8 +18,8 @@ export function QuestionsFilters() {
       search={{
         value: query.q ?? '',
         onSearch: q => update({ q: q || undefined }),
-        placeholder: 'Buscá en las preguntas',
-        label: 'Buscar preguntas',
+        placeholder: 'Buscá en los datos faltantes',
+        label: 'Buscar datos faltantes',
       }}
       hasFilters={hasSearch}
       onClearAll={() => update({ q: undefined })}
