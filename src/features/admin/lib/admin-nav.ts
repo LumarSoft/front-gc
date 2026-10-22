@@ -6,6 +6,7 @@ import {
   InboxIcon,
   MessageSquareTextIcon,
   PackageIcon,
+  ServerIcon,
   SettingsIcon,
 } from 'lucide-react'
 
@@ -67,6 +68,7 @@ export const DEVELOPER_NAV: AdminNavItem[] = [
       { label: 'Métricas', href: '/admin/asistente/metricas' },
     ],
   },
+  { label: 'Sistema', href: '/admin/sistema', icon: ServerIcon },
 ]
 
 /** Store settings, at the bottom of the sidebar like Shopify's "Configuración". */

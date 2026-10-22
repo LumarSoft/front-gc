@@ -132,7 +132,10 @@ customers get a 404, expired sessions are renewed in the browser) and admin page
 Query through `src/services/admin-*.service.ts`. Two staff roles (`src/features/auth/lib/roles.ts`): `ADMIN` (the
 store's staff) and `DEVELOPER` (the team: everything an admin sees plus the developer-only sections, under
 "Desarrollo" in the navigation). Client components read the role with `useIsDeveloper()` (`AdminRoleProvider` in the
-shell); developer-only pages also check it on the server (`app/admin/asistente/layout.tsx`, 404 for admins). Each admin
+shell); developer-only sections wrap their layout in `DeveloperOnly` (server check, 404 for admins). "Sistema"
+(`/admin/sistema`, `components/system/`, `GET /admin/system`) shows what to review first (`lib/system-checks.ts`), the
+API and store versions (the store's from Vercel's `VERCEL_GIT_*` variables), the server, the database, each
+integration, the scheduled tasks and store data, read again every 30 seconds. Each admin
 section adds itself to `ADMIN_NAV`, or `DEVELOPER_NAV` when only developers see it
 (`src/features/admin/lib/admin-nav.ts`). Staff land on `/admin` after logging in (`afterLoginPath`, `src/features/auth/lib/safe-redirect.ts`). The desktop sidebar folds to a 56 px icon rail (⌘B / Ctrl+B or its header button; remembered in the `cg_admin_sidebar` cookie, read by `app/admin/layout.tsx` so nothing jumps): `AdminTooltip` names icons, `AdminNavFlyout` (hover card) lists a section's sub-pages. The admin has its own dense theme (`app/admin-theme.css`, switched on by `data-admin-shell`
 for the whole document, portals included; the store is untouched) and shared list pieces in
