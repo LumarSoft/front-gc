@@ -135,7 +135,11 @@ store's staff) and `DEVELOPER` (the team: everything an admin sees plus the deve
 shell); developer-only sections wrap their layout in `DeveloperOnly` (server check, 404 for admins). "Sistema"
 (`/admin/sistema`, `components/system/`, `GET /admin/system`) shows what to review first (`lib/system-checks.ts`), the
 API and store versions (the store's from Vercel's `VERCEL_GIT_*` variables), the server, the database, each
-integration, the scheduled tasks and store data, read again every 30 seconds. Each admin
+integration, the scheduled tasks and store data, read again every 30 seconds. Under it, "Errores"
+(`/admin/sistema/errores`, `components/system/logs/`, `GET /admin/system/logs`: the API's errors and warnings of the last
+30 days, opening to the stack trace) and "Actividad del panel" (`/admin/sistema/actividad`, `components/system/activity/`,
+`GET /admin/system/activity`: who changed what in the admin, opening to the fields before → after; action labels in
+`lib/system-activity-display.ts`). Their filters live in the URL (`lib/system-list-params.ts`). Each admin
 section adds itself to `ADMIN_NAV`, or `DEVELOPER_NAV` when only developers see it
 (`src/features/admin/lib/admin-nav.ts`). Staff land on `/admin` after logging in (`afterLoginPath`, `src/features/auth/lib/safe-redirect.ts`). The desktop sidebar folds to a 56 px icon rail (⌘B / Ctrl+B or its header button; remembered in the `cg_admin_sidebar` cookie, read by `app/admin/layout.tsx` so nothing jumps): `AdminTooltip` names icons, `AdminNavFlyout` (hover card) lists a section's sub-pages. The admin has its own dense theme (`app/admin-theme.css`, switched on by `data-admin-shell`
 for the whole document, portals included; the store is untouched) and shared list pieces in

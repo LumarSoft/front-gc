@@ -3,6 +3,7 @@ import type { AdminOrdersQuery } from '@/src/types/api/orders'
 import type { AdminWholesaleQuery } from '@/src/types/api/wholesale'
 import type { AdminAnalyticsQuery } from '@/src/types/api/admin-analytics'
 import type { AdminConversationsQuery, UnansweredQuestionsQuery } from '@/src/types/api/admin-assistant'
+import type { SystemActivityQuery, SystemLogsQuery } from '@/src/types/api/admin-system'
 
 export const QUERY_KEYS = {
   currentUser: ['auth', 'current-user'],
@@ -25,6 +26,8 @@ export const QUERY_KEYS = {
   admin: {
     /** The developers' "Sistema" page. */
     systemStatus: ['admin', 'system', 'status'],
+    systemLogs: (query: SystemLogsQuery) => ['admin', 'system', 'logs', query] as const,
+    systemActivity: (query: SystemActivityQuery) => ['admin', 'system', 'activity', query] as const,
     categories: ['admin', 'categories'],
     brands: ['admin', 'brands'],
     tags: ['admin', 'tags'],

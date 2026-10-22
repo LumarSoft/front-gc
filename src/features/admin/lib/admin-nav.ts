@@ -68,7 +68,15 @@ export const DEVELOPER_NAV: AdminNavItem[] = [
       { label: 'Métricas', href: '/admin/asistente/metricas' },
     ],
   },
-  { label: 'Sistema', href: '/admin/sistema', icon: ServerIcon },
+  {
+    label: 'Sistema',
+    href: '/admin/sistema',
+    icon: ServerIcon,
+    children: [
+      { label: 'Errores', href: '/admin/sistema/errores' },
+      { label: 'Actividad del panel', href: '/admin/sistema/actividad' },
+    ],
+  },
 ]
 
 /** Store settings, at the bottom of the sidebar like Shopify's "Configuración". */

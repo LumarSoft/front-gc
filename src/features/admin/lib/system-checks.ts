@@ -39,6 +39,15 @@ export function systemChecks(status: SystemStatus, now = new Date()): SystemChec
   if (api.disk && percent(api.disk.freeBytes, api.disk.totalBytes) < LOW_DISK_PERCENT)
     critical('Queda poco disco en el servidor', 'Menos del 10 % libre: las fotos nuevas pueden no subirse.')
 
+  const { errors } = status.logs.last24h
+  if (errors > 0)
+    attention(
+      `${errors} error${errors === 1 ? '' : 'es'} en las últimas 24 h`,
+      status.logs.lastError
+        ? `El último, de ${status.logs.lastError.source}: ${status.logs.lastError.message}`
+        : 'Mirá el detalle en Errores.',
+    )
+
   const { mercadoPago, zipnova, openai, email } = integrations
   if (!mercadoPago.configured) attention('Mercado Pago sin configurar', 'La tienda no ofrece pagar online.')
   else if (mercadoPago.credentials === 'TEST')

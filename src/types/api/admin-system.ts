@@ -41,6 +41,11 @@ export type SystemStatus = {
     }
     email: { provider: null; last30Days: { failed: number; logged: number; sent: number }; lastAt: string | null }
   }
+  /** Errors and warnings the API kept, of the last 24 hours (repeats included). */
+  logs: {
+    last24h: { errors: number; warnings: number }
+    lastError: { at: string; source: string; message: string } | null
+  }
   jobs: {
     orderExpiry: { lastRunAt: string | null; failed: boolean; expiredLast24h: number; overdue: number }
   }
@@ -54,3 +59,47 @@ export type SystemStatus = {
 
 /** The front's own version, as Vercel builds it (null outside Vercel). */
 export type FrontVersion = { commit: string; subject: string | null; environment: string | null } | null
+
+type Page<T> = { items: T[]; page: number; pageSize: number; total: number; totalPages: number }
+
+export type SystemLogLevel = 'ERROR' | 'WARN'
+
+/** An error or warning the API logged; `source` "HTTP" with its `route` for a request that failed. */
+export type SystemLog = {
+  id: number
+  level: SystemLogLevel
+  source: string
+  route: string | null
+  message: string
+  stack: string | null
+  /** Times it happened within a few seconds (stored once). */
+  count: number
+  createdAt: string
+  lastSeenAt: string
+}
+
+export type SystemLogsPage = Page<SystemLog> & { sources: { source: string; count: number }[] }
+
+export type SystemLogsQuery = {
+  level?: SystemLogLevel
+  source?: string
+  q?: string
+  page?: number
+  pageSize: number
+}
+
+/** A change staff made in the admin. `changes` is `{ field: { from, to } }` when the action changed fields. */
+export type SystemActivity = {
+  id: number
+  action: string
+  entityType: string
+  entityId: number | null
+  changes: Record<string, { from?: unknown; to?: unknown }> | null
+  ipAddress: string | null
+  createdAt: string
+  user: { id: number; name: string; email: string } | null
+}
+
+export type SystemActivityPage = Page<SystemActivity> & { users: { id: number; name: string }[]; entityTypes: string[] }
+
+export type SystemActivityQuery = { userId?: number; entityType?: string; page?: number; pageSize: number }
