@@ -49,17 +49,24 @@ export const ADMIN_NAV: AdminNavItem[] = [
     icon: Building2Icon,
     badge: 'wholesalePending',
   },
+  { label: 'Estadísticas', href: '/admin/estadisticas', icon: ChartLineIcon },
+]
+
+/**
+ * Sections only developers see (role DEVELOPER, agreed 2026-10-22): how the store works inside, for the team that
+ * builds it. Under their own heading in the navigation.
+ */
+export const DEVELOPER_NAV: AdminNavItem[] = [
   {
     label: 'Asesor IA',
     href: '/admin/asistente',
     icon: MessageSquareTextIcon,
     badge: 'assistantQuestionsOpen',
     children: [
-      { label: 'Preguntas sin responder', href: '/admin/asistente/preguntas' },
+      { label: 'Datos faltantes', href: '/admin/asistente/preguntas' },
       { label: 'Métricas', href: '/admin/asistente/metricas' },
     ],
   },
-  { label: 'Estadísticas', href: '/admin/estadisticas', icon: ChartLineIcon },
 ]
 
 /** Store settings, at the bottom of the sidebar like Shopify's "Configuración". */
@@ -90,10 +97,12 @@ export function isNavSectionActive(item: AdminNavItem, pathname: string): boolea
   return isNavLinkActive(item, pathname) || (item.children ?? []).some(child => isNavLinkActive(child, pathname))
 }
 
-/** Every destination, flattened, for the search palette. */
-export const ADMIN_DESTINATIONS: AdminNavLink[] = [...ADMIN_NAV, ADMIN_SETTINGS_NAV].flatMap(item => [
-  item,
-  ...(item.children ?? []),
-])
+/** Every destination this staff member can open, flattened, for the search palette. */
+export function adminDestinations(developer: boolean): AdminNavLink[] {
+  return [...ADMIN_NAV, ...(developer ? DEVELOPER_NAV : []), ADMIN_SETTINGS_NAV].flatMap(item => [
+    item,
+    ...(item.children ?? []),
+  ])
+}
 
 export const PINNED_NAV_ITEMS: AdminNavItem[] = ADMIN_NAV.filter(item => item.pinned)

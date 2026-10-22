@@ -16,6 +16,12 @@ The store needs the API running: keep `api-gc` up to date too (its own `npm run 
 
 ---
 
+## 2026-10-22 — Developer role
+
+"Asesor IA" is now for developers only (role `DEVELOPER`, under "Desarrollo" in the admin navigation); admins no longer
+see it. Pull `api-gc` (LumarSoft/api-gc#55), apply its migration and make your account a developer, as its upgrade
+notes say (`ADMIN_EMAIL=you@example.com ADMIN_ROLE=DEVELOPER npm run admin:role`). Until then the section is hidden.
+
 ## 2026-10-21 — Quick replies in the assistant
 
 When the assistant asks a question with a few possible answers ("¿Para qué la vas a usar?"), the chat shows them as

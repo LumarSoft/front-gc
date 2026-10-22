@@ -38,11 +38,13 @@ export function useUnansweredQuestions(query: UnansweredQuestionsQuery) {
 }
 
 /** Questions per status: the list views and the "Asesor IA" badge (the ones still waiting). */
-export function useUnansweredQuestionCounts() {
+/** `enabled` is false for admins: the counts belong to a developer-only section, and the API refuses them. */
+export function useUnansweredQuestionCounts(enabled = true) {
   return useQuery({
     queryKey: QUERY_KEYS.admin.assistantQuestionCounts,
     queryFn: getUnansweredQuestionCounts,
     refetchInterval: REFRESH_MS,
+    enabled,
   })
 }
 

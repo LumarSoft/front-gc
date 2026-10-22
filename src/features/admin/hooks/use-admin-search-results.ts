@@ -2,6 +2,7 @@
 
 import { useQuery } from '@tanstack/react-query'
 import { useDebouncedValue } from '@/src/hooks/use-debounced-value'
+import { useIsDeveloper } from '@/src/features/admin/hooks/use-admin-role'
 import { matchSections, productResult, type AdminSearchResult } from '@/src/features/admin/lib/admin-search'
 import { QUERY_KEYS } from '@/src/lib/query-keys'
 import { getAdminProducts } from '@/src/services/admin-products.service'
@@ -14,6 +15,7 @@ export type AdminSearchGroup = { label: string; results: AdminSearchResult[] }
 /** Sections match as you type; products are searched in the API once the term settles. */
 export function useAdminSearchResults(term: string) {
   const debounced = useDebouncedValue(term.trim(), 250)
+  const developer = useIsDeveloper()
   const productQuery = { q: debounced, pageSize: PRODUCT_RESULTS }
   const products = useQuery({
     queryKey: QUERY_KEYS.admin.productList(productQuery),
@@ -22,7 +24,7 @@ export function useAdminSearchResults(term: string) {
   })
 
   const groups: AdminSearchGroup[] = [
-    { label: 'Secciones', results: matchSections(term) },
+    { label: 'Secciones', results: matchSections(term, developer) },
     {
       label: 'Productos',
       results: debounced.length >= MIN_PRODUCT_TERM ? (products.data?.items ?? []).map(productResult) : [],
