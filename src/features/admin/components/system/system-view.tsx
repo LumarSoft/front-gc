@@ -9,6 +9,7 @@ import { SystemChecksCard } from '@/src/features/admin/components/system/system-
 import { SystemDatabaseCard } from '@/src/features/admin/components/system/system-database-card'
 import { SystemIntegrationsCard } from '@/src/features/admin/components/system/system-integrations-card'
 import { SystemJobsCard } from '@/src/features/admin/components/system/system-jobs-card'
+import { SystemLogsCard } from '@/src/features/admin/components/system/system-logs-card'
 import { SystemStoreCard } from '@/src/features/admin/components/system/system-store-card'
 import { useSystemStatus } from '@/src/features/admin/hooks/use-system-status'
 import { formatOrderDate } from '@/src/features/admin/lib/relative-date'
@@ -42,6 +43,7 @@ export function SystemView({ front }: { front: FrontVersion }) {
           <SystemChecksCard checks={systemChecks(query.data, new Date(query.data.checkedAt))} />
           <div className="grid items-start gap-4 lg:grid-cols-2">
             <div className="flex min-w-0 flex-col gap-4">
+              <SystemLogsCard logs={query.data.logs} />
               <SystemApiCard status={query.data} front={front} />
               <SystemDatabaseCard database={query.data.database} />
               <SystemJobsCard jobs={query.data.jobs} />

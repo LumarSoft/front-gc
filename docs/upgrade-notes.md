@@ -16,6 +16,12 @@ The store needs the API running: keep `api-gc` up to date too (its own `npm run 
 
 ---
 
+## 2026-10-22 — Errors and admin activity in "Sistema"
+
+"Sistema" gets two pages for developers: "Errores" (the API's errors and warnings of the last 30 days) and "Actividad
+del panel" (who changed what in the admin). Pull `api-gc` (LumarSoft/api-gc#57), apply its migration
+(`add_system_log`) and restart it. Nothing to set in this repo.
+
 ## 2026-10-22 — "Sistema" page for developers
 
 New page under "Desarrollo" (developers only) with the state of the API, database, integrations and scheduled tasks.
